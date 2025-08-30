@@ -180,7 +180,6 @@ class Database
             $statement->execute();
             return $statement;
         } catch (PDOException $e) {
-            if (APP_DEBUG) Helpers::dd($this->mergeQueryAndParams($query, $params));
             throw new Exception("Error executing the query: " . $e->getMessage());
         }
     }
