@@ -1,5 +1,6 @@
 - [x] Add Html::openHtlm script in conf
-- [ ] Add . env support
+- [x] Add . env support
+- [ ] Faire en que les variable APP_ROOT, APP_URL se set toutes seules en fonction du serveur
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] Replacer Exception par des erreurs custom (404, 500, 403, 401, ...) sutout dans routing
 - [ ] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
