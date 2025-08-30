@@ -4,13 +4,13 @@
  * App settings
  */
 
-define('APP_NAME_LONG', 'My Website');
-define('APP_NAME_SHORT', 'MW');
-define('APP_NAME_URL', 'mywebsite.com');
-define('APP_DESCRIPTION', 'This is my website description.');
-define('APP_AUTHOR', 'Anthony Lalba');
-define('APP_VERSION', '3.0.1');
-define('APP_LANG', 'fr');
+define('APP_NAME_LONG', $envs['APP_NAME_LONG']);
+define('APP_NAME_SHORT', $envs['APP_NAME_SHORT']);
+define('APP_NAME_URL', $envs['APP_NAME_URL']);
+define('APP_DESCRIPTION', $envs['APP_DESCRIPTION']);
+define('APP_AUTHOR', $envs['APP_AUTHOR']);
+define('APP_VERSION', $envs['APP_VERSION']);
+define('APP_LANG', $envs['APP_LANG']);
 
 /**
  * App configuration
@@ -18,5 +18,5 @@ define('APP_LANG', 'fr');
 
 define('APP_ROOT', '/projects/framework-php');
 define('APP_URL', 'http://localhost/projects/framework-php');
-define('APP_ENV', 'development'); // 'development' or 'production'
+define('APP_ENV', $envs['APP_ENV']);
 define('APP_DEBUG', (defined('APP_ENV') && APP_ENV === 'development') ? true : false);
