@@ -7,7 +7,7 @@ It isnt mean to be used in production (at least for now), since it might be bugg
 
 ## 📦 Config
 
-- Fill the `config.php` file.
+- Fill the `config/` folder.
 - Config the `RewriteBase` in the `.htaccess` file.
 
 ## ⌨️ Code

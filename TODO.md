@@ -1,3 +1,4 @@
+- [ ] Add Html::openHtlm script in conf
 - [ ] Replacer Exception par des erreurs custom (404, 500, 403, 401, ...) sutout dans routing
 - [ ] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
 - [ ] Faire dossier public avec les images + index.php
