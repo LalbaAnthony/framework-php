@@ -11,6 +11,8 @@ require_once __DIR__ . '/config/app.php';
 require_once __DIR__ . '/config/php.php';
 require_once __DIR__ . '/config/database.php';
 
+require_once __DIR__ . '/autoloader.php';
+
 if (APP_DEBUG) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
