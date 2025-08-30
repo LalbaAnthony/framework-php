@@ -1,8 +1,8 @@
 <?php
 
-
 namespace App\Http;
 
+use Exception;
 use App\Component;
 
 class Router
@@ -37,19 +37,19 @@ class Router
         $method = $this->request->method;
 
         if (!isset($this->routes[$uri])) {
-            $this::redirect('/404');
+            throw new Exception('Route not found');
         }
 
         $route = $this->routes[$uri];
 
         if (!isset($route[$method])) {
-            $this->response(405, ['error' => 'Method not allowed. Allowed methods: ' . implode(', ', array_keys($route))]);
+            throw new Exception('Method not allowed. Allowed methods: ' . implode(', ', array_keys($route)));
         }
 
         $this->route = $route[$method];
 
         if (!isset($this->route['type']) && !in_array($this->route['type'], ['view', 'api'])) {
-            $this->response(500, ['error' => 'Invalid route type']);
+            throw new Exception('Invalid route type');
         }
     }
 
@@ -61,29 +61,29 @@ class Router
     public function execute(): void
     {
         if (!$this->route || empty($this->route)) {
-            $this->response(500, ['error' => 'No route found']);
+            throw new Exception('No route found');
         }
 
         if (!isset($this->route['path']) || !$this->route['path']) {
-            $this->response(500, ['error' => 'No route path found']);
+            throw new Exception('No route path found');
         }
 
         list($controllerPath, $controllerMethod) = explode('@', $this->route['path']);
 
         if (!$controllerPath || !$controllerMethod) {
-            $this->response(500, ['error' => 'Invalid route path']);
+            throw new Exception('Invalid route path');
         }
 
         $controllerClass = 'App\\Controller\\' . $controllerPath;
 
         if (!class_exists($controllerClass)) {
-            $this->response(500, ['error' => "{$controllerClass} does not exist. Check namespaces."]);
+            throw new Exception("$controllerClass does not exist. Check namespaces.");
         }
 
         $controller = new $controllerClass();
 
         if (!method_exists($controller, $controllerMethod)) {
-            $this->response(500, ['error' => "{$controllerMethod} method does not exist"]);
+            throw new Exception("$controllerMethod does not exist in $controllerClass.");
         }
 
         call_user_func([$controller, $controllerMethod], $this->request);

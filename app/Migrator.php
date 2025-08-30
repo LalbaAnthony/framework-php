@@ -68,7 +68,7 @@ class Migrator
             
             static::$db->query($sql);
 
-            Logger::info("Migrating the table $table.");
+            Logger::info("Migrated the database with file $path");
         } catch (Exception $e) {
             throw new Exception("Error migrating the database with file $path: " . $e->getMessage());
         }

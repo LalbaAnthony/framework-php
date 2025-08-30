@@ -17,8 +17,8 @@ define('APP_LANG', 'fr');
  */
 define('APP_ROOT', '/projects/framework-php');
 define('APP_URL', 'http://localhost/projects/framework-php');
-define('APP_DEBUG', true);
 define('APP_ENV', 'development'); // 'development' or 'production'
+define('APP_DEBUG', (defined('APP_ENV') && APP_ENV === 'development') ? true : false);
 
 /**
  * Database settings

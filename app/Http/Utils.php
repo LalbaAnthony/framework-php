@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use Exception;
+
 trait Utils
 {
     const VIEWS_PATH = __DIR__ . '/../../ressources/views/';
@@ -20,19 +22,6 @@ trait Utils
     }
 
     /**
-     * Send a 404 response
-     * 
-     * @return void
-     */
-    public static function error(): void
-    {
-        if (headers_sent()) return;
-
-        header('HTTP/1.1 404 Not Found');
-        exit;
-    }
-
-    /**
      * Send a JSON response
      * 
      * @param int $status
@@ -40,7 +29,7 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    public function response(int $status, mixed $data = null, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
+    public function json(int $status, mixed $data = null, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
     {
         if (headers_sent()) return;
 
@@ -79,13 +68,8 @@ trait Utils
     {
         $path = self::VIEWS_PATH . $name . '.php';
 
-        if (!file_exists($path)) {
-            $this->response(500, ['error' => "{$name} has not been found"]);
-        }
-
-        if (!is_readable($path)) {
-            $this->response(500, ['error' => "{$name} is not readable. Ensure that the file has the correct permissions."]);
-        }
+        if (!file_exists($path)) throw new Exception("The file $path does not exist.");
+        if (!is_readable($path)) throw new Exception("The file $path is not readable.");
 
         if ($data) extract($data);
         require_once $path;

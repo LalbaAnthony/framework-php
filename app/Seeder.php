@@ -48,8 +48,6 @@ class Seeder
     {
         try {
             static::$db->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
-
-            Logger::success("Reset the auto increment value of the table $table.");
         } catch (Exception $e) {
             throw new Exception("Error resetting the auto increment value of the table $table: " . $e->getMessage());
         }
