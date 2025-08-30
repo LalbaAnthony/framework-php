@@ -15,6 +15,8 @@ abstract class Model
      * Default values for properties that are common to all models.
      */
     const DEFAULT_PRIMARY_KEY = 'id';
+    const DEFAULT_CREATED_AT = 'created_at';
+    const DEFAULT_UPDATED_AT = 'updated_at';
 
     /**
      * Default values for methods that accept optional parameters.
@@ -81,8 +83,8 @@ abstract class Model
         $attributes = $this->toArray();
 
         foreach ($attributes as $column => &$value) {
-            if ($column === 'updated_at') $value = Helpers::currentDateTime();
-            if ($column === 'created_at' && !$isUpdate) $value = Helpers::currentDateTime();
+            if ($column === static::DEFAULT_UPDATED_AT) $value = Helpers::currentDateTime();
+            if ($column === static::DEFAULT_CREATED_AT && !$isUpdate) $value = Helpers::currentDateTime();
         }
 
         if ($isUpdate) {
@@ -109,9 +111,7 @@ abstract class Model
             if ($result) $this->$primaryKey = static::$db->lastInsertId();
         }
 
-        if ($result) {
-            return true;
-        }
+        if ($result)  return true;
 
         return false;
     }

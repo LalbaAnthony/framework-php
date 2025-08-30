@@ -64,6 +64,8 @@ class Migrator
             $table = explode(self::MIGRATIONS_FILE_SEPARATOR, $basename)[1] ?? $basename;
 
             $sql = file_get_contents($path);
+            if ($sql === false) throw new Exception("Error reading the file $path.");
+            
             static::$db->query($sql);
 
             Logger::info("Migrating the table $table.");
