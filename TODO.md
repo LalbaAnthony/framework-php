@@ -1,7 +1,8 @@
-- [ ] Add Html::openHtlm script in conf
+- [x] Add Html::openHtlm script in conf
+- [ ] Add . env support
+- [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] Replacer Exception par des erreurs custom (404, 500, 403, 401, ...) sutout dans routing
 - [ ] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
-- [ ] Faire dossier public avec les images + index.php
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Faire proto de list pour admin

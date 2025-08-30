@@ -20,11 +20,13 @@ trait Html
         echo '<meta name="author" content="' . APP_AUTHOR . '" />';
         echo '<title>' . APP_NAME_LONG . '</title>';
         echo '<link rel="icon" type="image/x-icon" href="public/favicon.ico" />';
-        echo '<link href="' . APP_URL . '/ressources/css/main.css" rel="stylesheet" />';
-        echo '<script src="' . APP_URL . '/ressources/js/main.js"></script>';
-        echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
-        echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-        echo '<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">';
+
+        foreach (HTML_STYLES as $style) echo '<link rel="stylesheet" href="' . $style['href'] . '" ' . ($style['rel'] ? 'rel="' . $style['rel'] . '"' : '') . '>';
+
+        foreach (HTML_SCRIPTS as $script) echo '<script src="' . $script['src'] . '" ' . ($script['defer'] ?? 'defer') . ' ' . ($script['async'] ?? 'async') . '></script>';
+
+        if (HTML_NOJS) echo '<noscript><h1>JavaScript is disabled</h1><p>Please enable JavaScript to use this website.</p></noscript>';
+
         echo '</head>';
         echo '<body>';
     }
