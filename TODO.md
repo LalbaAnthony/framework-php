@@ -7,7 +7,6 @@
 - [x] Custom affichae erreur de set_exception_handler
 
 - [ ] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
-- [ ] Switch envs loader in $_ENV ?
 - [ ] Make all route objects
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
