@@ -8,12 +8,12 @@
 - [x] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 
 - [ ] Make all route objects
+- [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Faire proto de list pour admin
-- [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Implement rollbacks for migrations, seeders, models save, ...
 - [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll
 - [ ] Controllers
