@@ -6,6 +6,7 @@
 - [x] Wrap wiew et json dans resposne + ajouter les code dans le controller d'erreur
 - [x] Custom affichae erreur de set_exception_handler
 
+- [ ] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 - [ ] Switch envs loader in $_ENV ?
 - [ ] Make all route objects
 - [ ] Group routes (ex: /admin, /api, ...)
