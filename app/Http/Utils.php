@@ -66,6 +66,8 @@ trait Utils
      */
     public function view(string $name, mixed $data = null): void
     {
+        if (headers_sent()) return;
+
         $path = self::VIEWS_PATH . $name . '.php';
 
         if (!file_exists($path)) throw new Exception("The file $path does not exist.");
