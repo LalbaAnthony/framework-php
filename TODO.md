@@ -6,11 +6,13 @@
 - [x] Wrap wiew et json dans resposne + ajouter les code dans le controller d'erreur
 - [x] Custom affichae erreur de set_exception_handler
 - [x] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
+- [x] Error handling: make it more user friendly, create exeptions for each type of error
 
 - [ ] Make all route objects
-- [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Group routes (ex: /admin, /api, ...)
+- [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
+- [ ] htaccess apache pour redirection fichier static etc
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Faire proto de list pour admin
@@ -20,9 +22,7 @@
 - [ ] Authentification
 - [ ] API
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
-- [ ] Error handling: make it more user friendly, create exeptions for each type of error
 - [ ] Pas Interface admin mais boutons en plus pour les admins
 - [ ] Faire liste des dernieres post associé à l'utilisateur actuelement connecté
-- [ ] htaccess apache pour redirection fichier static etc
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code
