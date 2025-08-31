@@ -4,7 +4,9 @@
 - [x] Replacer Exception par des erreurs custom (404, 500, 403, 401, ...) sutout dans routing
 - [x] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
 
+- [ ] Make all route objects
 - [ ] Custom affichae erreur de set_exception_handler
+- [ ] Group routes (ex: /admin, /api, ...)
 - [ ] Switch envs loader in $_ENV ?
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] Trouver une solution pour les relations
@@ -22,4 +24,4 @@
 - [ ] Faire liste des dernieres post associé à l'utilisateur actuelement connecté
 - [ ] htaccess apache pour redirection fichier static etc
 - [ ] Faire PHP doc sur classes et méthodes
-- [ ] Traiter todo du code
+- [ ] Traiter TODO et WIP du code

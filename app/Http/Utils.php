@@ -26,16 +26,16 @@ trait Utils
     /**
      * Send a JSON response
      * 
-     * @param int $status
+     * @param int $code
      * @param mixed $data
      * @param array $headers
      * @return void
      */
-    public function json(int $status, mixed $data = null, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
+    public function json(int $code, mixed $data = null, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
     {
         if (headers_sent()) return;
 
-        http_response_code($status);
+        http_response_code($code);
         header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
         header("Content-type: application/json; charset=utf-8");
 
@@ -56,6 +56,7 @@ trait Utils
         }
 
         echo json_encode($data);
+
         exit;
     }
 
@@ -78,5 +79,7 @@ trait Utils
         if ($data) extract($data);
         require_once $path;
         if ($data) unset($data);
+
+        exit;
     }
 }

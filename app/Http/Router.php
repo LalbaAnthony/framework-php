@@ -26,6 +26,11 @@ class Router
         $this->routes = $routes;
     }
 
+    public function setRoute(array $route): void
+    {
+        $this->route = $route;
+    }
+
     /**
      * Find the route based of URI and method
      * 
@@ -37,7 +42,7 @@ class Router
         $method = $this->request->method;
 
         if (!isset($this->routes[$uri])) {
-            throw new RoutingException('Route not found', 404);
+            throw new RoutingException('Route not found: ' . $uri, 404);
         }
 
         $route = $this->routes[$uri];
@@ -46,7 +51,7 @@ class Router
             throw new RoutingException('Method not allowed. Allowed methods: ' . implode(', ', array_keys($route)), 405);
         }
 
-        $this->route = $route[$method];
+        $this->setRoute($route[$method]);
 
         if (!isset($this->route['type']) && !in_array($this->route['type'], ['view', 'api'])) {
             throw new RoutingException('Invalid route type', 400);
@@ -58,7 +63,7 @@ class Router
      * 
      * @return void
      */
-    public function execute(): void
+    public function call(): void
     {
         if (!$this->route || empty($this->route)) {
             throw new RoutingException('No route found', 500);
@@ -106,15 +111,15 @@ class Router
     }
 
     /**
-     * Render the full page with hooks and HTML structure
+     * Execute the route: open html if view, call hooks, call controller, close html if view
      * 
      * @return void
      */
-    public function render(): void
+    public function execute(): void
     {
         if ($this->route['type'] === 'view') self::openHtml();
         $this->hook('before');
-        $this->execute();
+        $this->call();
         $this->hook('after');
         if ($this->route['type'] === 'view') self::closeHtml();
     }
@@ -127,6 +132,6 @@ class Router
     public function dispatch(): void
     {
         $this->find();
-        $this->render();
+        $this->execute();
     }
 }
