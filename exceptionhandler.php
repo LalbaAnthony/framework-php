@@ -13,6 +13,8 @@ set_exception_handler(function ($e) {
     Logger::error($message . ' in ' . $file . ' on line ' . $line);
 
     try {
+        if ($code === 401) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error401'];
+        if ($code === 403) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error403'];
         if ($code === 404) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error404'];
         if ($code === 500) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error500'];
 

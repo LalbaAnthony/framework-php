@@ -5,8 +5,8 @@
 - [x] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
 - [x] Wrap wiew et json dans resposne + ajouter les code dans le controller d'erreur
 - [x] Custom affichae erreur de set_exception_handler
+- [x] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 
-- [ ] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 - [ ] Make all route objects
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
