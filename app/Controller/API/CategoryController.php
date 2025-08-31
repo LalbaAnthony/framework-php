@@ -10,10 +10,10 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $search = (string) $request->params['search'] ?: '';
-        $perPage = (int) $request->params['perPage'] ?: parent::DEFAULT_PER_PAGE;
-        $page = (int) $request->params['page'] ?: parent::DEFAULT_PAGE;
-        $sort = (array) $request->params['sort'] ?: parent::DEFAULT_SORT;
+        $search = (string) ($request->params['search'] ?? '');
+        $perPage = (int) ($request->params['perPage'] ?? parent::DEFAULT_PER_PAGE);
+        $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
+        $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
         $return = Category::findAllBy([
             'search' => $search,

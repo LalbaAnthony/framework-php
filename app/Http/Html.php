@@ -19,7 +19,7 @@ trait Html
         echo '<meta name="description" content="' . APP_DESCRIPTION . '" />';
         echo '<meta name="author" content="' . APP_AUTHOR . '" />';
         echo '<title>' . APP_NAME_LONG . '</title>';
-        echo '<link rel="icon" type="image/x-icon" href="public/favicon.ico" />';
+        echo '<link rel="icon" type="image/x-icon" href="' . APP_URL . '/public/favicon.ico" />';
 
         foreach (HTML_STYLES as $style) echo '<link rel="stylesheet" href="' . $style['href'] . '" ' . ($style['rel'] ? 'rel="' . $style['rel'] . '"' : '') . '>';
 
