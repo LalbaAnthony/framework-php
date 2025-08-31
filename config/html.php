@@ -4,7 +4,7 @@
  * HTML settings
  */
 
-define('HTML_NOJS', true);
+define('HTML_NOJS', false);
 
 define('HTML_SCRIPTS', [
     [

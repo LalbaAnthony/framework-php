@@ -4,10 +4,10 @@ namespace App\Http;
 
 class Request
 {
-    public $method;
-    public $uri;
-    public $body;
-    public $params;
+    public string $method;
+    public string $uri;
+    public string $body;
+    public array $params;
 
     /**
      * Request constructor.

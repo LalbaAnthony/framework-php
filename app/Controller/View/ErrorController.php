@@ -9,11 +9,11 @@ class ErrorController  extends Controller
 {
     public function error404(Request $request)
     {
-        $this->view('404');
+        $this->view('404', ['uri' => $request->uri], 404);
     }
 
     public function error500(Request $request)
     {
-        $this->view('500');
+        $this->view('500', ['uri' => $request->uri], 500);
     }
 }

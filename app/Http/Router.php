@@ -10,9 +10,9 @@ class Router
     use Utils;
     use Html;
 
-    private $request;
-    private $routes;
-    private $route;
+    private Request $request;
+    private array $routes = [];
+    private array $route = [];
 
     /**
      * Router constructor.
@@ -20,7 +20,7 @@ class Router
      * @param Request $request
      * @param array $routes
      */
-    public function __construct(Request $request, array $routes)
+    public function __construct(Request $request, array $routes = [])
     {
         $this->request = $request;
         $this->routes = $routes;
@@ -122,6 +122,17 @@ class Router
         $this->call();
         $this->hook('after');
         if ($this->route['type'] === 'view') self::closeHtml();
+    }
+
+    /**
+     * Force execute a specific route
+     * 
+     * @return void
+     */
+    public function force(array $route): void
+    {
+        $this->setRoute($route);
+        $this->execute();
     }
 
     /**

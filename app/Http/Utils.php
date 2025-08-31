@@ -24,23 +24,22 @@ trait Utils
     }
 
     /**
-     * Send a JSON response
+     * Prepare response headers
      * 
      * @param int $code
-     * @param mixed $data
      * @param array $headers
      * @return void
      */
-    public function json(int $code, mixed $data = null, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
+    private function prepare(int $code, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
     {
         if (headers_sent()) return;
 
         http_response_code($code);
-        header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
-        header("Content-type: application/json; charset=utf-8");
 
-        if (is_array($headers) && !empty($headers)) {
-            if (isset($headers['method'])) {
+        header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+
+        if (!empty($headers)) {
+            if (isset($headers['methods'])) {
                 header('Access-Control-Allow-Methods: ' . implode(', ', $headers['methods']));
             }
             if (isset($headers['origin'])) {
@@ -54,6 +53,21 @@ trait Utils
                 header("Cache-Control: max-age=$seconds");
             }
         }
+    }
+
+    /**
+     * Send a JSON response
+     * 
+     * @param int $code
+     * @param mixed $data
+     * @param array $headers
+     * @return void
+     */
+    public function json(mixed $data = null, int $code = 200, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
+    {
+        $this->prepare($code, $headers);
+
+        header("Content-type: application/json; charset=utf-8");
 
         echo json_encode($data);
 
@@ -67,9 +81,9 @@ trait Utils
      * @param mixed $data
      * @return void
      */
-    public function view(string $name, mixed $data = null): void
+    public function view(string $name, mixed $data = null, int $code = 200): void
     {
-        if (headers_sent()) return;
+        $this->prepare($code);
 
         $path = self::VIEWS_PATH . $name . '.php';
 
