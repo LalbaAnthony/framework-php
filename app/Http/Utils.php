@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use Exception;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\FileException;
 
 trait Utils
 {
@@ -70,8 +72,8 @@ trait Utils
 
         $path = self::VIEWS_PATH . $name . '.php';
 
-        if (!file_exists($path)) throw new Exception("The file $path does not exist.");
-        if (!is_readable($path)) throw new Exception("The file $path is not readable.");
+        if (!file_exists($path)) throw new NotFoundException("The view $name does not exist.");
+        if (!is_readable($path)) throw new FileException("The file $path is not readable.");
 
         if ($data) extract($data);
         require_once $path;

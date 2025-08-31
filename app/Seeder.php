@@ -3,6 +3,11 @@
 namespace App;
 
 use Exception;
+use App\Database;
+use App\Logger;
+use App\Exceptions\DatabaseException;
+use App\Exceptions\FileException;
+use App\Exceptions\NotFoundException;
 
 /**
  * Class Seeder
@@ -49,7 +54,7 @@ class Seeder
         try {
             static::$db->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
         } catch (Exception $e) {
-            throw new Exception("Error resetting the auto increment value of the table $table: " . $e->getMessage());
+            throw new DatabaseException("Error resetting the auto increment of the table $table: " . $e->getMessage());
         }
     }
 
@@ -70,7 +75,7 @@ class Seeder
 
             Logger::success("Truncated the table $table.");
         } catch (Exception $e) {
-            throw new Exception("Error truncating the table $table: " . $e->getMessage());
+            throw new DatabaseException("Error truncating the table $table: " . $e->getMessage());
         }
     }
 
@@ -81,7 +86,7 @@ class Seeder
      */
     public function crawl(): void
     {
-        if (!is_dir(self::SEEDS_PATH)) throw new Exception("The seeds directory does not exist.");
+        if (!is_dir(self::SEEDS_PATH)) throw new NotFoundException("The seeds directory does not exist.");
 
         $files = glob(self::SEEDS_PATH . '/*.json');
 
@@ -92,8 +97,8 @@ class Seeder
 
     public function seed(string $path): void
     {
-        if (!file_exists($path)) throw new Exception("The file $path does not exist.");
-        if (!is_readable($path)) throw new Exception("The file $path is not readable.");
+        if (!file_exists($path)) throw new NotFoundException("The file $path does not exist.");
+        if (!is_readable($path)) throw new FileException("The file $path is not readable.");
 
         try {
             $basename = basename($path, '.json'); // basename as 0-user
@@ -117,7 +122,7 @@ class Seeder
 
             Logger::success("Seeded the database with file $path.");
         } catch (Exception $e) {
-            throw new Exception("Error seeding the database with file $path: " . $e->getMessage());
+            throw new DatabaseException("Error seeding the database with file $path: " . $e->getMessage());
         }
     }
 }

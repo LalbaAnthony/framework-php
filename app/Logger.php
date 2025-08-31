@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\FileException;
 use Exception;
 
 /**
@@ -81,7 +82,7 @@ class Logger
         if (!file_exists($logPath)) self::createLogFolder($logPath);
         if (!file_exists($logFile)) self::createLogFile($logFile);
 
-        if (!is_writable($logFile)) throw new Exception("The log file is not writable.");
+        if (!is_writable($logFile)) throw new FileException("The log file is not writable: $logFile", 403);
 
         try {
             $fileopen = (fopen($logFile, 'a'));
@@ -95,7 +96,7 @@ class Logger
             fwrite($fileopen, $line);
             fclose($fileopen);
         } catch (Exception $e) {
-            throw new Exception("Error writing to the log file: " . $e->getMessage());
+            throw new FileException("Error writing to the log file: " . $e->getMessage(), $e->getCode());
         }
     }
 

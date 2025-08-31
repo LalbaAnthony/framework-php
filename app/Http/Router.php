@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use Exception;
+use App\Exceptions\RoutingException;
 use App\Component;
 
 class Router
@@ -37,19 +37,19 @@ class Router
         $method = $this->request->method;
 
         if (!isset($this->routes[$uri])) {
-            throw new Exception('Route not found');
+            throw new RoutingException('Route not found', 404);
         }
 
         $route = $this->routes[$uri];
 
         if (!isset($route[$method])) {
-            throw new Exception('Method not allowed. Allowed methods: ' . implode(', ', array_keys($route)));
+            throw new RoutingException('Method not allowed. Allowed methods: ' . implode(', ', array_keys($route)), 405);
         }
 
         $this->route = $route[$method];
 
         if (!isset($this->route['type']) && !in_array($this->route['type'], ['view', 'api'])) {
-            throw new Exception('Invalid route type');
+            throw new RoutingException('Invalid route type', 400);
         }
     }
 
@@ -61,29 +61,29 @@ class Router
     public function execute(): void
     {
         if (!$this->route || empty($this->route)) {
-            throw new Exception('No route found');
+            throw new RoutingException('No route found', 500);
         }
 
         if (!isset($this->route['path']) || !$this->route['path']) {
-            throw new Exception('No route path found');
+            throw new RoutingException('No route path found', 400);
         }
 
         list($controllerPath, $controllerMethod) = explode('@', $this->route['path']);
 
         if (!$controllerPath || !$controllerMethod) {
-            throw new Exception('Invalid route path');
+            throw new RoutingException('Invalid route path', 400);
         }
 
         $controllerClass = 'App\\Controller\\' . $controllerPath;
 
         if (!class_exists($controllerClass)) {
-            throw new Exception("$controllerClass does not exist. Check namespaces.");
+            throw new RoutingException("$controllerClass does not exist. Check namespaces.", 404);
         }
 
         $controller = new $controllerClass();
 
         if (!method_exists($controller, $controllerMethod)) {
-            throw new Exception("$controllerMethod does not exist in $controllerClass.");
+            throw new RoutingException("$controllerMethod does not exist in $controllerClass.", 404);
         }
 
         call_user_func([$controller, $controllerMethod], $this->request);
@@ -106,6 +106,20 @@ class Router
     }
 
     /**
+     * Render the full page with hooks and HTML structure
+     * 
+     * @return void
+     */
+    public function render(): void
+    {
+        if ($this->route['type'] === 'view') self::openHtml();
+        $this->hook('before');
+        $this->execute();
+        $this->hook('after');
+        if ($this->route['type'] === 'view') self::closeHtml();
+    }
+
+    /**
      * Dispatch the request to the appropriate controller
      * 
      * @return void
@@ -113,10 +127,6 @@ class Router
     public function dispatch(): void
     {
         $this->find();
-        if ($this->route['type'] === 'view') self::openHtml();
-        $this->hook('before');
-        $this->execute();
-        $this->hook('after');
-        if ($this->route['type'] === 'view') self::closeHtml();
+        $this->render();
     }
 }

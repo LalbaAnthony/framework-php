@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Exception;
+use App\Exceptions\ModelException;
 
 /**
  * The Post model represents a record in the "post" table.
@@ -48,14 +49,14 @@ class Post extends Model
      * If not loaded yet, it lazy-loads them from the database.
      *
      * @return Category[]
-     * @throws Exception
+     * @throws ModelException
      */
     public function getCategories(): array
     {
         // Return already loaded categories.
         if (!empty($this->categories)) return $this->categories;
 
-        if ($this->id === null) throw new Exception("Post must be saved before loading categories.");
+        if ($this->id === null) throw new ModelException("Post must be saved before loading categories.");
 
         $sql = "SELECT c.* FROM category c 
                 INNER JOIN post_category qc ON c.id = qc.category_id
@@ -71,12 +72,12 @@ class Post extends Model
      *
      * @param Category $category
      * @return bool True if successful.
-     * @throws Exception
+     * @throws ModelException
      */
     public function attachCategory(Category $category): bool
     {
-        if ($this->id === null) throw new Exception("Post must be saved before attaching categories.");
-        if ($category->id === null) throw new Exception("Category must be saved before attaching.");
+        if ($this->id === null) throw new ModelException("Post must be saved before attaching categories.");
+        if ($category->id === null) throw new ModelException("Category must be saved before attaching.");
 
         // Optional: Check if the association already exists.
         $sqlCheck = "SELECT * FROM post_category WHERE post_id = ? AND category_id = ?";
@@ -100,12 +101,12 @@ class Post extends Model
      *
      * @param Category $category
      * @return bool True if successful.
-     * @throws Exception
+     * @throws ModelException
      */
     public function detachCategory(Category $category): bool
     {
-        if ($this->id === null) throw new Exception("Post must be saved before detaching categories.");
-        if ($category->id === null) throw new Exception("Category must be saved before detaching.");
+        if ($this->id === null) throw new ModelException("Post must be saved before detaching categories.");
+        if ($category->id === null) throw new ModelException("Category must be saved before detaching.");
 
         $sql = "DELETE FROM post_category WHERE post_id = ? AND category_id = ?";
         $result = static::$db->execute($sql, [$this->id, $category->id]);
@@ -121,12 +122,12 @@ class Post extends Model
      *
      * @param Category[] $categories
      * @return bool True if successful.
-     * @throws Exception
+     * @throws ModelException
      */
     public function syncCategories(array $categories): bool
     {
         if ($this->id === null) {
-            throw new Exception("Post must be saved before syncing categories.");
+            throw new ModelException("Post must be saved before syncing categories.");
         }
 
         // Remove all existing associations.

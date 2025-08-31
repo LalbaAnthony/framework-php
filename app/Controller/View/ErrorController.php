@@ -7,12 +7,12 @@ use App\Controller\Controller;
 
 class ErrorController  extends Controller
 {
-    public function notFound(Request $request)
+    public function error404(Request $request)
     {
         $this->view('404');
     }
 
-    public function serverError(Request $request)
+    public function error500(Request $request)
     {
         $this->view('500');
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Database;
 use App\Helpers;
 use Exception;
+use App\Exceptions\DatabaseException;
 
 /**
  * Abstract base model class to provide Active Record style functionality.
@@ -72,11 +73,11 @@ abstract class Model
      * Performs an UPDATE if the primary key exists, or an INSERT otherwise.
      *
      * @return bool
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function save(): bool
     {
-        if (!static::$db) throw new Exception("Database connection not set in " . static::class);
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $primaryKey = static::getPrimaryKey();
         $isUpdate = isset($this->$primaryKey) && !empty($this->$primaryKey);
@@ -120,11 +121,11 @@ abstract class Model
      * Delete the current model from the database.
      *
      * @return bool
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function delete(): bool
     {
-        if (!static::$db) throw new Exception("Database connection not set in " . static::class);
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $primaryKey = static::getPrimaryKey();
         if (!isset($this->$primaryKey)) {
@@ -138,7 +139,7 @@ abstract class Model
      * Refresh the current model's data from the database.
      *
      * @return bool
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function refresh(): bool
     {
@@ -208,11 +209,11 @@ abstract class Model
      * Retrieve all records from the table.
      *
      * @return static[]
-     * @throws Exception
+     * @throws DatabaseException
      */
     public static function findAll(): array
     {
-        if (!static::$db) throw new Exception("Database connection not set in " . static::class);
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $sql = "SELECT * FROM " . static::getTableName();
         $results = static::$db->query($sql);
@@ -231,11 +232,11 @@ abstract class Model
      *
      * @param int $id
      * @return static|null
-     * @throws Exception
+     * @throws DatabaseException
      */
     public static function findOne(int $id): ?static
     {
-        if (!static::$db) throw new Exception("Database connection not set in " . static::class);
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE " . static::getPrimaryKey() . " = ?";
         $result = static::$db->query($sql, [$id]);
@@ -251,11 +252,11 @@ abstract class Model
      * Retrieve a record by its primary key.
      *
      * @return static|null
-     * @throws Exception
+     * @throws DatabaseException
      */
     public static function findOneRandom(): ?static
     {
-        if (!static::$db) throw new Exception("Database connection not set in " . static::class);
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $sql = "SELECT * FROM " . static::getTableName() . " ORDER BY RAND() LIMIT 1";
         $result = static::$db->query($sql);
@@ -272,11 +273,11 @@ abstract class Model
      *
      * @param array $params
      * @return static[]
-     * @throws Exception
+     * @throws DatabaseException
      */
     public static function findAllBy(array $params = []): array
     {
-        if (!static::$db) throw new Exception("Database connection not set in " . static::class);
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
         if (empty($params)) return static::findAll();
 
         // Set default values for optional parameters.
@@ -366,7 +367,7 @@ abstract class Model
      *
      * @param array $params
      * @return array
-     * @throws Exception
+     * @throws DatabaseException
      */
     public static function findOneBy(array $params): array
     {

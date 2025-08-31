@@ -3,6 +3,10 @@
 namespace App;
 
 use Exception;
+use App\Database;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\FileException;
+use App\Exceptions\DatabaseException;
 
 /**
  * Class Migrator
@@ -45,7 +49,7 @@ class Migrator
      */
     public function crawl(): void
     {
-        if (!is_dir(self::MIGRATIONS_PATH)) throw new Exception("The migrations directory does not exist.");
+        if (!is_dir(self::MIGRATIONS_PATH)) throw new NotFoundException("The migrations path does not exist: " . self::MIGRATIONS_PATH);
 
         $files = glob(self::MIGRATIONS_PATH . '/*.sql');
 
@@ -56,21 +60,21 @@ class Migrator
 
     public function migrate(string $path): void
     {
-        if (!file_exists($path)) throw new Exception("The file $path does not exist.");
-        if (!is_readable($path)) throw new Exception("The file $path is not readable.");
+        if (!file_exists($path)) throw new NotFoundException("The file $path does not exist.");
+        if (!is_readable($path)) throw new FileException("The file $path is not readable.");
 
-        try { 
+        try {
             $basename = basename($path, '.sql'); // basename as 0-main
             $table = explode(self::MIGRATIONS_FILE_SEPARATOR, $basename)[1] ?? $basename;
 
             $sql = file_get_contents($path);
-            if ($sql === false) throw new Exception("Error reading the file $path.");
+            if ($sql === false) throw new FileException("The file $path could not be read.");
             
             static::$db->query($sql);
 
             Logger::info("Migrated the database with file $path");
         } catch (Exception $e) {
-            throw new Exception("Error migrating the database with file $path: " . $e->getMessage());
+            throw new DatabaseException("Error migrating the database with file $path: " . $e->getMessage());
         }
     }
 }

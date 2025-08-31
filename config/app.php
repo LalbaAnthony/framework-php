@@ -16,7 +16,7 @@ define('APP_LANG', $envs['APP_LANG']);
  * App configuration
  */
 
-define('APP_ROOT', '/projects/framework-php'); // /var/www/html
+define('APP_ROOT', '/projects/framework-php'); // /var/www/html/framework-php
 define('APP_URL', 'http://localhost/projects/framework-php');
 define('APP_ENV', $envs['APP_ENV']);
 define('APP_DEBUG', (defined('APP_ENV') && APP_ENV === 'development') ? true : false);

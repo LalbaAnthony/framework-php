@@ -1,9 +1,12 @@
 - [x] Add Html::openHtlm script in conf
 - [x] Add . env support
-- [ ] Faire en que les variable APP_ROOT, APP_URL se set toutes seules en fonction du serveur
+- [x] Faire en que les variable APP_ROOT, APP_URL se set toutes seules en fonction du serveur
+- [x] Replacer Exception par des erreurs custom (404, 500, 403, 401, ...) sutout dans routing
+- [x] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
+
+- [ ] Custom affichae erreur de set_exception_handler
+- [ ] Switch envs loader in $_ENV ?
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
-- [ ] Replacer Exception par des erreurs custom (404, 500, 403, 401, ...) sutout dans routing
-- [ ] Faire héritage de la class Exception pour les erreurs, en faire un dossier et les utiliser partout
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Faire proto de list pour admin

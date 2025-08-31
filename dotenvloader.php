@@ -1,11 +1,14 @@
 <?php
 
+use App\Exceptions\NotFoundException;
+use App\Exceptions\FileException;
+
 $filename = __DIR__ . '/.env';
 
 $envs = [];
 
-if (!file_exists($filename)) throw new Exception("The file $filename does not exist.");
-if (!is_readable($filename)) throw new Exception("The file $filename is not readable.");
+if (!file_exists($filename)) throw new NotFoundException("The file $filename does not exist.", 404);
+if (!is_readable($filename)) throw new FileException("The file $filename is not readable.", 403);
 
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 

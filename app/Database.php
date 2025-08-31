@@ -5,7 +5,7 @@ namespace App;
 use PDO;
 use PDOException;
 use PDOStatement;
-use Exception;
+use App\Exceptions\DatabaseException;
 
 /**
  * Class Database
@@ -63,7 +63,7 @@ class Database
      * Establishes a connection to the database.
      * 
      * @return void
-     * @throws Exception
+     * @throws DatabaseException If the connection fails.
      */
     private function connect(): void
     {
@@ -75,7 +75,7 @@ class Database
             );
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            throw new Exception("Error connecting to the database: " . $e->getMessage());
+            throw new DatabaseException("Error connecting to the database: " . $e->getMessage());
         }
     }
 
@@ -108,20 +108,20 @@ class Database
      * @param string $query SQL request with placeholders.
      * @param array $params Parameters to inject into the request.
      * @return string
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function mergeQueryAndParams(string $query, array $params = []): string
     {
         // ! This method is unsecure and should be used for nothing but debugging.
 
         if (!is_string($query)) {
-            throw new Exception("Query must be a string.");
+            throw new DatabaseException("Query must be a string.");
         }
         if (empty($params)) {
             return $query;
         }
         if (count($params) !== substr_count($query, '?')) {
-            throw new Exception("The number of parameters does not match the number of placeholders in the query.");
+            throw new DatabaseException("The number of parameters does not match the number of placeholders in the query.");
         }
 
         foreach ($params as $key => $value) {
@@ -137,12 +137,12 @@ class Database
      * @param PDOStatement $statement The PDO statement.
      * @param array $params Parameters to bind.
      * @return void
-     * @throws Exception
+     * @throws DatabaseException
      */
     private static function bindValues(PDOStatement &$statement, array $params): void
     {
         if (!is_array($params)) {
-            throw new Exception("Params must be an array.");
+            throw new DatabaseException("Params must be an array.");
         }
         if (empty($params)) {
             return;
@@ -168,7 +168,7 @@ class Database
      * @param string $query The SQL query.
      * @param array $params Parameters to inject into the query.
      * @return PDOStatement
-     * @throws Exception
+     * @throws DatabaseException
      */
     private function executeQuery(string $query, array $params = []): PDOStatement
     {
@@ -180,7 +180,7 @@ class Database
             $statement->execute();
             return $statement;
         } catch (PDOException $e) {
-            throw new Exception("Error executing the query: " . $e->getMessage());
+            throw new DatabaseException("Error executing the query: " . $e->getMessage());
         }
     }
 
@@ -190,7 +190,7 @@ class Database
      * @param string $query The SQL query.
      * @param array $params Parameters to inject into the query.
      * @return bool True on success, false on failure.
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function execute(string $query, array $params = []): bool
     {
@@ -205,7 +205,7 @@ class Database
      * @param string $query The SQL query.
      * @param array $params Parameters to inject into the query.
      * @return array The resulting rows.
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function query(string $query, array $params = []): array
     {
@@ -219,7 +219,7 @@ class Database
      * @param string $query The SQL query.
      * @param array $params Parameters to inject into the query.
      * @return array|false The first row of the result set, or false if none.
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function fetchFirst(string $query, array $params = [])
     {
@@ -231,7 +231,7 @@ class Database
      * Retrieves the last inserted ID.
      * 
      * @return int
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function lastInsertId(): int
     {
@@ -239,7 +239,7 @@ class Database
         try {
             return (int) $this->connection->lastInsertId();
         } catch (PDOException $e) {
-            throw new Exception("Error getting the last inserted id: " . $e->getMessage());
+            throw new DatabaseException("Error getting the last inserted id: " . $e->getMessage());
         }
     }
 
@@ -247,7 +247,7 @@ class Database
      * Begins a transaction.
      * 
      * @return void
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function startTransaction(): void
     {
@@ -255,7 +255,7 @@ class Database
         try {
             $this->connection->beginTransaction();
         } catch (PDOException $e) {
-            throw new Exception("Error starting the transaction: " . $e->getMessage());
+            throw new DatabaseException("Error starting the transaction: " . $e->getMessage());
         }
     }
 
@@ -263,7 +263,7 @@ class Database
      * Commits a transaction.
      * 
      * @return void
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function commit(): void
     {
@@ -271,7 +271,7 @@ class Database
         try {
             $this->connection->commit();
         } catch (PDOException $e) {
-            throw new Exception("Error committing the transaction: " . $e->getMessage());
+            throw new DatabaseException("Error committing the transaction: " . $e->getMessage());
         }
     }
 
@@ -279,7 +279,7 @@ class Database
      * Rolls back a transaction.
      * 
      * @return void
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function rollback(): void
     {
@@ -287,7 +287,7 @@ class Database
         try {
             $this->connection->rollBack();
         } catch (PDOException $e) {
-            throw new Exception("Error rolling back the transaction: " . $e->getMessage());
+            throw new DatabaseException("Error rolling back the transaction: " . $e->getMessage());
         }
     }
 }

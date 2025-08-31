@@ -23,19 +23,4 @@ return [
             'path' => 'API\\CategoryController@index',
         ],
     ],
-    // =================================================
-    // Error
-    // =================================================
-    '/404' => [
-        'GET'  => [
-            'type' => 'view',
-            'path' => 'View\\ErrorController@notFound',
-        ],
-    ],
-    '/500' => [
-        'GET'  => [
-            'type' => 'view',
-            'path' => 'View\\ErrorController@serverError',
-        ],
-    ],
 ];

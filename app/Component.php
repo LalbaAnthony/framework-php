@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Exceptions\FileException;
 use Exception;
+use App\Exceptions\NotFoundException;
 
 /**
  * A simple component rendering system.
@@ -88,12 +90,12 @@ class Component
      *
      * @return string The rendered component output.
      *
-     * @throws Exception If the component file is not found or is not readable.
+     * @throws NotFoundException If the component file is not found or is not readable.
      */
     public function render(): string
     {
-        if (!file_exists($this->phpPath)) throw new Exception("Component not found: " . $this->name);
-        if (!is_readable($this->phpPath)) throw new Exception("Component not readable: " . $this->name);
+        if (!file_exists($this->phpPath)) throw new NotFoundException("Component not found: " . $this->name, 404);
+        if (!is_readable($this->phpPath)) throw new FileException("Component not readable: " . $this->name, 403);
 
         // Extract data to local variables.
         extract($this->props, EXTR_SKIP);
@@ -145,7 +147,7 @@ class Component
      * @param array  $props Associative array of properties.
      * @param array  $params Associative array of component parameters.
      *
-     * @throws Exception If the component file is not found or is not readable.
+     * @throws NotFoundException If the component file is not found or is not readable.
      */
     public static function display(string $name, array $props = [], array $params = []): void
     {
