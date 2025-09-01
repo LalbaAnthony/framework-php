@@ -8,6 +8,7 @@
 - [x] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 - [x] Error handling: make it more user friendly, create exeptions for each type of error
 
+- [ ] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 - [ ] Make all route objects
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
