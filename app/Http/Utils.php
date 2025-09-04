@@ -9,6 +9,7 @@ use App\Exceptions\FileException;
 trait Utils
 {
     const VIEWS_PATH = __DIR__ . '/../../ressources/views/';
+    const ROUTE_TYPES = ['view', 'api'];
 
     /**
      * Redirect to a different page

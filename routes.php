@@ -5,22 +5,15 @@ return [
     // Views
     // =================================================
     '/' => [
-        'GET'  => [
-            'type' => 'view',
-            'path' => 'View\\HomeController@index',
-            'hooks' => [
-                'before' => ['components' => ['header']],
-                'after' => ['components' => ['footer']],
-            ]
-        ],
+        'GET'  => new App\Http\Route('View\\HomeController@index', 'view', [
+            'before' => ['components' => ['header']],
+            'after' => ['components' => ['footer']],
+        ]),
     ],
     // =================================================
     // API
     // =================================================
     '/api/categories' => [
-        'GET'  => [
-            'type' => 'api',
-            'path' => 'API\\CategoryController@index',
-        ],
+        'GET'  => new App\Http\Route('API\\CategoryController@index', 'api'),
     ],
 ];

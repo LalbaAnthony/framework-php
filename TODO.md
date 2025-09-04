@@ -7,8 +7,8 @@
 - [x] Custom affichae erreur de set_exception_handler
 - [x] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 - [x] Error handling: make it more user friendly, create exeptions for each type of error
+- [x] Make all route objects
 
-- [ ] Make all route objects
 - [ ] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Group routes (ex: /admin, /api, ...)

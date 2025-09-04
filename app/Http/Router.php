@@ -11,8 +11,10 @@ class Router
     use Html;
 
     private Request $request;
+    private Route $route;
+
+    /** @var Route[] */
     private array $routes = [];
-    private array $route = [];
 
     /**
      * Router constructor.
@@ -26,7 +28,7 @@ class Router
         $this->routes = $routes;
     }
 
-    public function setRoute(array $route): void
+    public function setRoute(Route $route): void
     {
         $this->route = $route;
     }
@@ -48,12 +50,12 @@ class Router
         $route = $this->routes[$uri];
 
         if (!isset($route[$method])) {
-            throw new RoutingException('Method not allowed. Allowed methods: ' . implode(', ', array_keys($route)), 405);
+            throw new RoutingException('Method not allowed', 405);
         }
 
         $this->setRoute($route[$method]);
 
-        if (!isset($this->route['type']) && !in_array($this->route['type'], ['view', 'api'])) {
+        if (!isset($this->route->type) && !in_array($this->route->type, self::ROUTE_TYPES)) {
             throw new RoutingException('Invalid route type', 400);
         }
     }
@@ -69,11 +71,11 @@ class Router
             throw new RoutingException('No route found', 500);
         }
 
-        if (!isset($this->route['path']) || !$this->route['path']) {
+        if (!isset($this->route->path) || !$this->route->path) {
             throw new RoutingException('No route path found', 400);
         }
 
-        list($controllerPath, $controllerMethod) = explode('@', $this->route['path']);
+        list($controllerPath, $controllerMethod) = explode('@', $this->route->path);
 
         if (!$controllerPath || !$controllerMethod) {
             throw new RoutingException('Invalid route path', 400);
@@ -101,10 +103,10 @@ class Router
      */
     public function hook(string $timing = 'before'): void
     {
-        if (!isset($this->route['hooks'][$timing]) || !$this->route['hooks'][$timing]) return;
+        if (!isset($this->route->hooks[$timing]) || !$this->route->hooks[$timing]) return;
 
-        if (isset($this->route['hooks'][$timing]['components'])) {
-            foreach ($this->route['hooks'][$timing]['components'] as $component) {
+        if (isset($this->route->hooks[$timing]['components'])) {
+            foreach ($this->route->hooks[$timing]['components'] as $component) {
                 Component::display($component, [], ['css' => true]);
             }
         }
@@ -117,11 +119,11 @@ class Router
      */
     public function execute(): void
     {
-        if ($this->route['type'] === 'view') self::openHtml();
+        if ($this->route->type === 'view') self::openHtml();
         $this->hook('before');
         $this->call();
         $this->hook('after');
-        if ($this->route['type'] === 'view') self::closeHtml();
+        if ($this->route->type === 'view') self::closeHtml();
     }
 
     /**
@@ -129,7 +131,7 @@ class Router
      * 
      * @return void
      */
-    public function force(array $route): void
+    public function force(Route $route): void
     {
         $this->setRoute($route);
         $this->execute();

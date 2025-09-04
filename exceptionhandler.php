@@ -2,6 +2,7 @@
 
 use App\Logger;
 use App\Http\Router;
+use App\Http\Route;
 use App\Http\Request;
 
 set_exception_handler(function ($e) {
@@ -13,14 +14,9 @@ set_exception_handler(function ($e) {
     Logger::error($message . ' in ' . $file . ' on line ' . $line);
 
     try {
-        if ($code === 401) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error401'];
-        if ($code === 403) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error403'];
-        if ($code === 404) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error404'];
-        if ($code === 500) $route = ['type' => 'view', 'path' => 'View\\ErrorController@error500'];
-
         $request = new Request();
         $router = new Router($request, []);
-        $router->force($route);
+        $router->force(new Route('View\\ErrorController@error' . (string) $code, 'view'));
     } catch (Exception $e) {
         // If an error occurs while handling the exception, display a simple message.
         // Cannot throw another exception since we are already in an exception handler.
