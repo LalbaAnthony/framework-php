@@ -8,10 +8,12 @@
 - [x] Merge toute les pages appelé par Error controller ? Car trop d'erreurs différent ?
 - [x] Error handling: make it more user friendly, create exeptions for each type of error
 - [x] Make all route objects
+- [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 
-- [ ] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
-- [ ] Error 500 isnt displayed on full page but in the none working part of the page only
+- [ ] Utiliser destroy de obecjt pour toutes les classes dan sleur contexte
+- [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)
+- [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] htaccess apache pour redirection fichier static etc

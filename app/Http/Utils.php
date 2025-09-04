@@ -8,8 +8,11 @@ use App\Exceptions\FileException;
 
 trait Utils
 {
+    use Html;
+
     const VIEWS_PATH = __DIR__ . '/../../ressources/views/';
     const ROUTE_TYPES = ['view', 'api'];
+    const ROUTING_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
 
     /**
      * Redirect to a different page
@@ -31,7 +34,7 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    private function prepare(int $code, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
+    private function prepare(int $code, array $headers = ['methods' => self::ROUTING_METHODS, 'origin' => '*', 'cache' => 0]): void
     {
         if (headers_sent()) return;
 
@@ -64,7 +67,7 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    public function json(mixed $data = null, int $code = 200, array $headers = ['methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 'origin' => '*', 'cache' => 0]): void
+    public function json(mixed $data = null, int $code = 200, array $headers = ['methods' => self::ROUTING_METHODS, 'origin' => '*', 'cache' => 0]): void
     {
         $this->prepare($code, $headers);
 
@@ -82,7 +85,7 @@ trait Utils
      * @param mixed $data
      * @return void
      */
-    public function view(string $name, mixed $data = null, int $code = 200): void
+    public function view(string $name, mixed $data = [], int $code = 200): void
     {
         $this->prepare($code);
 
@@ -91,9 +94,13 @@ trait Utils
         if (!file_exists($path)) throw new NotFoundException("The view $name does not exist.");
         if (!is_readable($path)) throw new FileException("The file $path is not readable.");
 
-        if ($data) extract($data);
+        if ($data) extract($data, EXTR_OVERWRITE);
+
+        self::openHtml();
+
         require_once $path;
-        if ($data) unset($data);
+
+        self::closeHtml();
 
         exit;
     }

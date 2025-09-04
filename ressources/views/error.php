@@ -8,7 +8,7 @@ use App\Component;
     <div class="error-container">
         <h1 class="error-title"><?= $code ?></h1>
         <p class="error-description"><?= $message ?></p>
-        <?= Component::display('button', ['href' => APP_URL, 'label' => 'Accueil', 'color' => 'light', 'outline' => true], ['css' => true]) ?>
+        <?= Component::display('button', ['href' => APP_URL, 'label' => 'Accueil', 'color' => 'light', 'outline' => true]) ?>
     </div>
 </main>
 

@@ -98,14 +98,15 @@ class Component
         if (!is_readable($this->phpPath)) throw new FileException("Component not readable: " . $this->name, 403);
 
         // Extract data to local variables.
-        extract($this->props, EXTR_SKIP);
+        if ($this->props) extract($this->props, EXTR_OVERWRITE);
 
         ob_start();
 
         // Include CSS only if it hasn't been printed before
         if (
-            $this->cssUrl && !in_array($this->cssUrl, self::$loadedCss) &&
-            ((isset($this->params['css']) && $this->params['css']))
+            $this->cssUrl &&
+            !in_array($this->cssUrl, self::$loadedCss) &&
+            !(isset($this->params['css']) && $this->params['css'] === false)
         ) {
             echo PHP_EOL . '<link rel="stylesheet" href="' . $this->cssUrl . '">' . PHP_EOL;
             self::$loadedCss[] = $this->cssUrl;
@@ -113,14 +114,16 @@ class Component
 
         // Include JS only if it hasn't been printed before
         if (
-            $this->jsUrl && !in_array($this->jsUrl, self::$loadedJs) &&
-            ((isset($this->params['js']) && $this->params['js']))
+            $this->jsUrl &&
+            !in_array($this->jsUrl, self::$loadedJs) &&
+            !(isset($this->params['js']) && $this->params['js'] === false)
         ) {
             echo PHP_EOL . '<script src="' . $this->jsUrl . '"></script>' . PHP_EOL;
             self::$loadedJs[] = $this->jsUrl;
         }
 
         include $this->phpPath;
+                
         return ob_get_clean();
     }
 

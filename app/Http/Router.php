@@ -36,9 +36,9 @@ class Router
     /**
      * Find the route based of URI and method
      * 
-     * @return void
+     * @return Route
      */
-    public function find(): void
+    public function find(): Route
     {
         $uri = $this->request->uri;
         $method = $this->request->method;
@@ -53,11 +53,7 @@ class Router
             throw new RoutingException('Method not allowed', 405);
         }
 
-        $this->setRoute($route[$method]);
-
-        if (!isset($this->route->type) && !in_array($this->route->type, self::ROUTE_TYPES)) {
-            throw new RoutingException('Invalid route type', 400);
-        }
+        return $route[$method];
     }
 
     /**
@@ -65,7 +61,7 @@ class Router
      * 
      * @return void
      */
-    public function call(): void
+    public function execute(): void
     {
         if (!$this->route || empty($this->route)) {
             throw new RoutingException('No route found', 500);
@@ -73,6 +69,14 @@ class Router
 
         if (!isset($this->route->path) || !$this->route->path) {
             throw new RoutingException('No route path found', 400);
+        }
+
+        if (!isset($this->route->type) || !$this->route->type) {
+            throw new RoutingException('No route type found', 400);
+        }
+
+        if (!in_array($this->route->type, self::ROUTE_TYPES)) {
+            throw new RoutingException('Invalid route type', 400);
         }
 
         list($controllerPath, $controllerMethod) = explode('@', $this->route->path);
@@ -97,36 +101,6 @@ class Router
     }
 
     /**
-     * Check if the current route has a hook and trigger it
-     * 
-     * @return void
-     */
-    public function hook(string $timing = 'before'): void
-    {
-        if (!isset($this->route->hooks[$timing]) || !$this->route->hooks[$timing]) return;
-
-        if (isset($this->route->hooks[$timing]['components'])) {
-            foreach ($this->route->hooks[$timing]['components'] as $component) {
-                Component::display($component, [], ['css' => true]);
-            }
-        }
-    }
-
-    /**
-     * Execute the route: open html if view, call hooks, call controller, close html if view
-     * 
-     * @return void
-     */
-    public function execute(): void
-    {
-        if ($this->route->type === 'view') self::openHtml();
-        $this->hook('before');
-        $this->call();
-        $this->hook('after');
-        if ($this->route->type === 'view') self::closeHtml();
-    }
-
-    /**
      * Force execute a specific route
      * 
      * @return void
@@ -144,7 +118,8 @@ class Router
      */
     public function dispatch(): void
     {
-        $this->find();
+        $route = $this->find();
+        $this->setRoute($route);
         $this->execute();
     }
 }

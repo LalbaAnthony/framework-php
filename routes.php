@@ -1,19 +1,18 @@
 <?php
 
+use App\Http\Route;
+
 return [
     // =================================================
     // Views
     // =================================================
     '/' => [
-        'GET'  => new App\Http\Route('View\\HomeController@index', 'view', [
-            'before' => ['components' => ['header']],
-            'after' => ['components' => ['footer']],
-        ]),
+        'GET'  => new Route('View\\HomeController@index', 'view'),
     ],
     // =================================================
     // API
     // =================================================
     '/api/categories' => [
-        'GET'  => new App\Http\Route('API\\CategoryController@index', 'api'),
+        'GET'  => new Route('API\\CategoryController@index', 'api'),
     ],
 ];
