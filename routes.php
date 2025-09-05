@@ -12,6 +12,9 @@ return [
     // =================================================
     // API
     // =================================================
+    '/api/posts' => [
+        'GET'  => new Route('API\\PostController@index'),
+    ],
     '/api/categories' => [
         'GET'  => new Route('API\\CategoryController@index'),
     ],
