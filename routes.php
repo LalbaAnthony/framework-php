@@ -7,7 +7,7 @@ return [
     // Views
     // =================================================
     '/' => [
-        'GET'  => new Route('View\\HomeControllerindex'),
+        'GET'  => new Route('View\\HomeController@index'),
     ],
     // =================================================
     // API
