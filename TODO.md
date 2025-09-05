@@ -14,6 +14,7 @@
 - [ ] Utiliser destroy de obecjt pour toutes les classes dan sleur contexte
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)
+- [ ] Units tests
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Hide Reset behind somekind of verification (authentification ?)
