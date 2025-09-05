@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Exceptions\RoutingException;
-use App\Component;
 
 class Router
 {
@@ -28,9 +27,26 @@ class Router
         $this->routes = $routes;
     }
 
+    /**
+     * Set the current route
+     * 
+     * @param Route $route
+     * @return void
+     */
     public function setRoute(Route $route): void
     {
         $this->route = $route;
+    }
+
+    /**
+     * Add a new route
+     * 
+     * @param Route $route
+     * @return void
+     */
+    public function addRoute(Route $route): void
+    {
+        $this->routes[] = $route;
     }
 
     /**
@@ -57,58 +73,14 @@ class Router
     }
 
     /**
-     * Run the current route
-     * 
-     * @return void
-     */
-    public function execute(): void
-    {
-        if (!$this->route || empty($this->route)) {
-            throw new RoutingException('No route found', 500);
-        }
-
-        if (!isset($this->route->path) || !$this->route->path) {
-            throw new RoutingException('No route path found', 400);
-        }
-
-        if (!isset($this->route->type) || !$this->route->type) {
-            throw new RoutingException('No route type found', 400);
-        }
-
-        if (!in_array($this->route->type, self::ROUTE_TYPES)) {
-            throw new RoutingException('Invalid route type', 400);
-        }
-
-        list($controllerPath, $controllerMethod) = explode('@', $this->route->path);
-
-        if (!$controllerPath || !$controllerMethod) {
-            throw new RoutingException('Invalid route path', 400);
-        }
-
-        $controllerClass = 'App\\Controller\\' . $controllerPath;
-
-        if (!class_exists($controllerClass)) {
-            throw new RoutingException("$controllerClass does not exist. Check namespaces.", 404);
-        }
-
-        $controller = new $controllerClass();
-
-        if (!method_exists($controller, $controllerMethod)) {
-            throw new RoutingException("$controllerMethod does not exist in $controllerClass.", 404);
-        }
-
-        call_user_func([$controller, $controllerMethod], $this->request);
-    }
-
-    /**
      * Force execute a specific route
      * 
      * @return void
      */
-    public function force(Route $route): void
+    public function force(Route $route, mixed $data = null): void
     {
         $this->setRoute($route);
-        $this->execute();
+        $this->route->execute($this->request, $data);
     }
 
     /**
@@ -118,8 +90,7 @@ class Router
      */
     public function dispatch(): void
     {
-        $route = $this->find();
-        $this->setRoute($route);
-        $this->execute();
+        $this->setRoute($this->find());
+        $this->route->execute($this->request);
     }
 }

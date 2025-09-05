@@ -9,8 +9,8 @@
 - [x] Error handling: make it more user friendly, create exeptions for each type of error
 - [x] Make all route objects
 - [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
+- [x] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
 
-- [ ] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
 - [ ] Utiliser destroy de obecjt pour toutes les classes dan sleur contexte
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)
@@ -28,6 +28,5 @@
 - [ ] API
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Pas Interface admin mais boutons en plus pour les admins
-- [ ] Faire liste des dernieres post associé à l'utilisateur actuelement connecté
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code

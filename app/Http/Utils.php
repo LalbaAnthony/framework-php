@@ -11,7 +11,6 @@ trait Utils
     use Html;
 
     const VIEWS_PATH = __DIR__ . '/../../ressources/views/';
-    const ROUTE_TYPES = ['view', 'api'];
     const ROUTING_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
 
     /**
