@@ -10,6 +10,7 @@
 - [x] Make all route objects
 - [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 
+- [ ] Bouger responsabilité de `list($controllerPath, $controllerMethod) = explode('@', $this->route->path);` à la class Route
 - [ ] Utiliser destroy de obecjt pour toutes les classes dan sleur contexte
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)

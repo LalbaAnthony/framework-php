@@ -97,9 +97,7 @@ trait Utils
         if ($data) extract($data, EXTR_OVERWRITE);
 
         self::openHtml();
-
         require_once $path;
-
         self::closeHtml();
 
         exit;
