@@ -16,6 +16,7 @@
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
+- [ ] Hide Reset behind somekind of verification (authentification ?)
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] htaccess apache pour redirection fichier static etc
 - [ ] Trouver une solution pour les relations
