@@ -9,6 +9,7 @@
 - [x] Error handling: make it more user friendly, create exeptions for each type of error
 - [x] Make all route objects
 - [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
+- [x] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
 
 - [ ] Refaire htaccess en s'inspirant de Laravel
 - [ ] htaccess apache pour redirection fichier static etc
@@ -16,8 +17,10 @@
 - [ ] Utiliser destroy de object pour toutes les classes dans leur contexte
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)
+- [ ] Units tests
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
+- [ ] Hide Reset behind somekind of verification (authentification ?)
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Faire proto de list pour admin
@@ -28,6 +31,5 @@
 - [ ] API
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Pas Interface admin mais boutons en plus pour les admins
-- [ ] Faire liste des dernieres post associé à l'utilisateur actuelement connecté
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code
