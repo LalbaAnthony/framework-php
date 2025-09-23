@@ -79,8 +79,18 @@ abstract class Model
                     $this->$key = (float) $value;
                     continue;
                 }
-                if (gettype($this->$key) === 'array' && is_array($value)) {
-                    $this->$key = $value;
+                if (gettype($this->$key) === 'float') {
+                    $this->$key = (float) $value;
+                    continue;
+                }
+                if (gettype($this->$key) === 'array') {
+                    if (is_string($value)) {
+                        $decoded = json_decode($value, true);
+                        if (json_last_error() === JSON_ERROR_NONE) {
+                            $this->$key = $decoded;
+                            continue;
+                        }
+                    }
                     continue;
                 }
                 if (is_null($value)) {
