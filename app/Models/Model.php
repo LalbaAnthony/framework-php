@@ -6,6 +6,7 @@ use App\Database;
 use App\Helpers;
 use Exception;
 use App\Exceptions\DatabaseException;
+use App\Exceptions\ModelException;
 
 /**
  * Abstract base model class to provide Active Record style functionality.
@@ -62,7 +63,32 @@ abstract class Model
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
-                $this->$key = $value;
+                if (gettype($this->$key) === 'boolean') {
+                    $this->$key = ($value == '1' or $value === true) ? true : false;
+                    continue;
+                }
+                if (gettype($this->$key) === 'string') {
+                    $this->$key = (string) $value;
+                    continue;
+                }
+                if (gettype($this->$key) === 'integer') {
+                    $this->$key = (int) $value;
+                    continue;
+                }
+                if (gettype($this->$key) === 'double') {
+                    $this->$key = (float) $value;
+                    continue;
+                }
+                if (gettype($this->$key) === 'array' && is_array($value)) {
+                    $this->$key = $value;
+                    continue;
+                }
+                if (is_null($value)) {
+                    $this->$key = NULL;
+                    continue;
+                }
+
+                throw new ModelException("Unsupported property type for '$key' in " . static::class);
             }
         }
     }
