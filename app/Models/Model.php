@@ -148,7 +148,7 @@ abstract class Model
             if ($result) $this->$primaryKey = static::$db->lastInsertId();
         }
 
-        if ($result)  return true;
+        if ($result) return true;
 
         return false;
     }
