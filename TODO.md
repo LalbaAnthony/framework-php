@@ -11,8 +11,9 @@
 - [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 - [x] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
 
+- [ ] Use Docker for apache + mysql + phpmyadmin
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
-- [ ] Refaire htaccess en s'inspirant de Laravel
+- [ ] Refaire htaccess en s'inspirant de Laravel + bouger index.php dans dossier public
 - [ ] htaccess apache pour redirection fichier static etc
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] Utiliser destroy de object pour toutes les classes dans leur contexte
