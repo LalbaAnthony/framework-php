@@ -11,7 +11,7 @@
 - [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 - [x] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
 
-- [ ] Ajouter LICENSE + Tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
+- [ ] Ajouter tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
 - [ ] Check et calcer arbo Laravel
 - [ ] Limit "reset.php" to non-production env only
 - [ ] Use Docker for apache + mysql + phpmyadmin
