@@ -14,6 +14,8 @@ set_exception_handler(function ($e) {
 
     Logger::error($full);
 
+    $message = (APP_DEBUG) ? $message : 'An error occurred. Turn on APP_DEBUG to see more details.';
+
     try {
         $request = new Request();
         $router = new Router($request, []);
