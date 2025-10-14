@@ -7,8 +7,9 @@ $filename = __DIR__ . '/.env';
 
 $envs = [];
 
-if (!file_exists($filename)) throw new NotFoundException("The file $filename does not exist.", 404);
-if (!is_readable($filename)) throw new FileException("The file $filename is not readable.", 403);
+// Basic checks cuz autoload isn't loaded yet at this point
+if (!file_exists($filename)) die("Warning: .env file not found. Using default environment variables from config files.\n");
+if (!is_readable($filename)) die("Warning: .env file is not readable. Using default environment variables from config files.\n");
 
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 

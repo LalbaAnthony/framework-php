@@ -5,17 +5,15 @@ use App\Models\Model;
 use App\Migrator;
 use App\Seeder;
 
+require_once __DIR__ . '/autoloader.php';
 require_once __DIR__ . '/dotenvloader.php';
+require_once __DIR__ . '/exceptionhandler.php';
 
 require_once __DIR__ . '/config/app.php';
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/html.php';
 
 unset($envs); // Clean up $envs variable once we're done with it
-
-require_once __DIR__ . '/exceptionhandler.php';
-
-require_once __DIR__ . '/autoloader.php';
 
 if (APP_DEBUG) {
     ini_set('display_errors', 1);
