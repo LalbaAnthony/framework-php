@@ -63,27 +63,27 @@ abstract class Model
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
-                if (gettype($this->$key) === 'boolean') {
+                if (gettype($value) === 'boolean') {
                     $this->$key = ($value == '1' or $value === true) ? true : false;
                     continue;
                 }
-                if (gettype($this->$key) === 'string') {
+                if (gettype($value) === 'string') {
                     $this->$key = (string) $value;
                     continue;
                 }
-                if (gettype($this->$key) === 'integer') {
+                if (gettype($value) === 'integer') {
                     $this->$key = (int) $value;
                     continue;
                 }
-                if (gettype($this->$key) === 'double') {
+                if (gettype($value) === 'double') {
                     $this->$key = (float) $value;
                     continue;
                 }
-                if (gettype($this->$key) === 'float') {
+                if (gettype($value) === 'float') {
                     $this->$key = (float) $value;
                     continue;
                 }
-                if (gettype($this->$key) === 'array') {
+                if (gettype($value) === 'array') {
                     if (is_string($value)) {
                         $decoded = json_decode($value, true);
                         if (json_last_error() === JSON_ERROR_NONE) {
@@ -99,6 +99,8 @@ abstract class Model
                 }
 
                 throw new ModelException("Unsupported property type for '$key' in " . static::class);
+            } else {
+                throw new ModelException("Property '$key' does not exist in " . static::class);
             }
         }
     }

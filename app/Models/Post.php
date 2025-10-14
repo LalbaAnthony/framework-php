@@ -10,6 +10,7 @@ use App\Exceptions\ModelException;
 class Post extends Model
 {
     public ?int $id = null;
+    public ?int $user_id = null;
     public ?string $date = null;
     public string $title = '';
     public string $slug = '';
