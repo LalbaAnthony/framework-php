@@ -120,8 +120,8 @@ abstract class Model
         $attributes = $this->toArray();
 
         foreach ($attributes as $column => &$value) {
-            if ($column === static::DEFAULT_UPDATED_AT) $value = Helpers::currentDateTime();
-            if ($column === static::DEFAULT_CREATED_AT && !$isUpdate) $value = Helpers::currentDateTime();
+            if ($column === static::getUpdatedAtColumn()) $value = Helpers::currentDateTime();
+            if ($column === static::getCreatedAtColumn() && !$isUpdate) $value = Helpers::currentDateTime();
         }
 
         if ($isUpdate) {
@@ -239,6 +239,30 @@ abstract class Model
     protected static function getPrimaryKey(): string
     {
         return static::DEFAULT_PRIMARY_KEY;
+    }
+
+    /**
+     * Get the created_at column name.
+     *
+     * Override this in child classes if your created_at column differs.
+     *
+     * @return string
+     */
+    protected static function getUpdatedAtColumn(): string
+    {
+        return static::DEFAULT_UPDATED_AT;
+    }
+
+    /**
+     * Get the updated_at column name.
+     *
+     * Override this in child classes if your updated_at column differs.
+     *
+     * @return string
+     */
+    protected static function getCreatedAtColumn(): string
+    {
+        return static::DEFAULT_CREATED_AT;
     }
 
     /**
