@@ -13,8 +13,8 @@
 - [-] Use Docker for apache + mysql + phpmyadmin
 - [-] Ajouter tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
 - [x] Limit "reset.php" to non-production env only
+- [x] Utiliser destroy de object pour toutes les classes dans leur contexte
 
-- [ ] Utiliser destroy de object pour toutes les classes dans leur contexte
 - [ ] Refaire htaccess en s'inspirant de Laravel + bouger index.php dans dossier public
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] htaccess apache pour redirection fichier static etc
@@ -22,7 +22,7 @@
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)
-- [ ] Units tests
+- [ ] Unit tests
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Hide Reset behind somekind of verification (authentification ?)

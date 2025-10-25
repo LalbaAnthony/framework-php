@@ -34,6 +34,14 @@ class Seeder
     private const SEEDS_PATH = __DIR__ . '/../seeds';
 
     /**
+     * Destructor to clean up the model.
+     */
+    public function __destruct()
+    {
+        static::$db = null;
+    }
+
+    /**
      * Set the database connection.
      *
      * @param Database $db
