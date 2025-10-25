@@ -20,6 +20,7 @@
 - [ ] Faire proto de list pour admin
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
 - [ ] Check et calcer arbo Laravel using https://github.com/laravel-workflow/sample-app
+- [ ] Use `gc_enable()` and `gc_collect_cycles()` to manage memory better
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)

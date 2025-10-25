@@ -92,21 +92,13 @@ class Component
     }
 
     /**
-     * Renders the component and returns its output as a string.
+     * Render the HTML tags required by the component (CSS and JS).
      *
-     * @return string The rendered component output.
-     *
-     * @throws NotFoundException If the component file is not found or is not readable.
+     * @return string The HTML tags for the component's CSS and JS.
      */
-    public function render(): string
+    public function renderIncludeds(): string
     {
-        if (!file_exists($this->phpPath)) throw new NotFoundException("Component not found: " . $this->name, 404);
-        if (!is_readable($this->phpPath)) throw new FileException("Component not readable: " . $this->name, 403);
-
-        // Extract data to local variables.
-        if ($this->props) extract($this->props, EXTR_OVERWRITE);
-
-        ob_start();
+        $output = '';
 
         // Include CSS only if it hasn't been printed before
         if (
@@ -114,7 +106,7 @@ class Component
             !in_array($this->cssUrl, self::$loadedCssFiles) &&
             !(isset($this->params['css']) && $this->params['css'] === false)
         ) {
-            echo PHP_EOL . '<link rel="stylesheet" href="' . $this->cssUrl . '">' . PHP_EOL;
+            $output .= PHP_EOL . '<link rel="stylesheet" href="' . $this->cssUrl . '">' . PHP_EOL;
             self::$loadedCssFiles[] = $this->cssUrl;
         }
 
@@ -124,11 +116,40 @@ class Component
             !in_array($this->jsUrl, self::$loadedJsFiles) &&
             !(isset($this->params['js']) && $this->params['js'] === false)
         ) {
-            echo PHP_EOL . '<script src="' . $this->jsUrl . '"></script>' . PHP_EOL;
+            $output .= PHP_EOL . '<script src="' . $this->jsUrl . '"></script>' . PHP_EOL;
             self::$loadedJsFiles[] = $this->jsUrl;
         }
 
+        return $output;
+    }
+
+    /**
+     * Renders the component and returns its output as a string.
+     *
+     * @return string The rendered component output.
+     *
+     * @throws NotFoundException If the component file is not found or is not readable.
+     */
+    public function renderPhp(): string
+    {
+        if (!file_exists($this->phpPath)) throw new NotFoundException("Component not found: " . $this->name, 404);
+        if (!is_readable($this->phpPath)) throw new FileException("Component not readable: " . $this->name, 403);
+
+        ob_start();
+
+        // Extract data to local variables.
+        if ($this->props) {
+            extract($this->props, EXTR_OVERWRITE);
+        }
+
         include $this->phpPath;
+
+        // Unset extracted variables to avoid polluting the scope.
+        if ($this->props) {
+            foreach (array_keys($this->props) as $key) {
+                unset($$key);
+            }
+        }
 
         return ob_get_clean();
     }
@@ -147,7 +168,8 @@ class Component
         $component = new self($name, $props, $params);
 
         try {
-            echo  $component->render();
+            echo $component->renderIncludeds();
+            echo $component->renderPhp();
         } catch (Exception $e) {
             throw new ComponentException("Error rendering component '" . $name . "': " . $e->getMessage(), $e->getCode(), $e);
         }
