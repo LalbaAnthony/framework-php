@@ -21,6 +21,7 @@
 - [ ] Check et calcer arbo Laravel using https://github.com/alexeymezenin/laravel-realworld-example-app
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
+- [ ] Faire proto de list pour admin
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] Unit tests
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
@@ -28,7 +29,6 @@
 - [ ] Hide Reset behind somekind of verification (authentification ?)
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
-- [ ] Faire proto de list pour admin
 - [ ] Implement rollbacks for migrations, seeders, models save, ...
 - [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll
 - [ ] Controllers
