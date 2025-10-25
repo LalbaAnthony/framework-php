@@ -92,6 +92,24 @@ class Component
     }
 
     /**
+     * Deduplicates CSS styles.
+     */
+    public function deduplicateCss(string &$content): void
+    {
+        if (preg_match('/<style\b[^>]*>(.*?)<\/style>/is', $content, $matches)) {
+            $css = trim($matches[1]);
+            $md5 = md5($css);
+
+            if ($css && !in_array($md5, self::$loadedCssTags)) {
+                self::$loadedCssTags[] = $md5;
+            } else {
+                // Remove the style tag from content if already loaded
+                $content = str_replace($matches[0], '', $content);
+            }
+        }
+    }
+
+    /**
      * Renders the component and returns its output as a string.
      *
      * @return string The rendered component output.
@@ -119,7 +137,10 @@ class Component
             }
         }
 
-        return ob_get_clean();
+        $content = ob_get_clean();
+        $this->deduplicateCss($content);
+
+        return $content;
     }
 
     /**

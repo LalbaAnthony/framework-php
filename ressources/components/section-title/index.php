@@ -10,3 +10,9 @@ use App\Helpers;
     </h4>
     <span class="section-title-hastage text-<?= $color ?? '' ?>">#</span>
 </a>
+
+<style>
+    .test-class {
+        color: red;
+    }
+</style>
