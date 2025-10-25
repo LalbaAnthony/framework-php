@@ -16,6 +16,7 @@
 - [x] Utiliser destroy de object pour toutes les classes dans leur contexte
 
 - [ ] Suppr style RLM
+- [ ] Faire en sorte de ne print que une fois les balises style des composants (meme si appelés plusieurs fois)
 - [ ] Faire proto de list pour admin
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
 - [ ] Check et calcer arbo Laravel using https://github.com/laravel-workflow/sample-app
