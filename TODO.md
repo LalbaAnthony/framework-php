@@ -10,11 +10,11 @@
 - [x] Make all route objects
 - [x] Faire en sorte que les composants chargent leur css et js automatiquement, sans avoir à le demander à leur appel, mais possibilité de le désactiver (en gros inverser ce qui se passe actuellement)
 - [x] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
+- [-] Use Docker for apache + mysql + phpmyadmin
+- [-] Ajouter tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
+- [x] Limit "reset.php" to non-production env only
 
-- [ ] Ajouter tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
 - [ ] Check et calcer arbo Laravel using https://github.com/alexeymezenin/laravel-realworld-example-app
-- [ ] Limit "reset.php" to non-production env only
-- [ ] Use Docker for apache + mysql + phpmyadmin
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
 - [ ] Refaire htaccess en s'inspirant de Laravel + bouger index.php dans dossier public
 - [ ] htaccess apache pour redirection fichier static etc
