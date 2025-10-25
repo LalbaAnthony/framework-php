@@ -92,6 +92,37 @@ class Component
     }
 
     /**
+     * Renders the component and returns its output as a string.
+     *
+     * @return string The rendered component output.
+     *
+     * @throws NotFoundException If the component file is not found or is not readable.
+     */
+    public function renderPhp(): string
+    {
+        if (!file_exists($this->phpPath)) throw new NotFoundException("Component not found: " . $this->name, 404);
+        if (!is_readable($this->phpPath)) throw new FileException("Component not readable: " . $this->name, 403);
+
+        ob_start();
+
+        // Extract data to local variables.
+        if ($this->props) {
+            extract($this->props, EXTR_OVERWRITE);
+        }
+
+        include $this->phpPath;
+
+        // Unset extracted variables to avoid polluting the scope.
+        if ($this->props) {
+            foreach (array_keys($this->props) as $key) {
+                unset($$key);
+            }
+        }
+
+        return ob_get_clean();
+    }
+
+    /**
      * Render the HTML tags required by the component (CSS and JS).
      *
      * @return string The HTML tags for the component's CSS and JS.
@@ -124,37 +155,6 @@ class Component
     }
 
     /**
-     * Renders the component and returns its output as a string.
-     *
-     * @return string The rendered component output.
-     *
-     * @throws NotFoundException If the component file is not found or is not readable.
-     */
-    public function renderPhp(): string
-    {
-        if (!file_exists($this->phpPath)) throw new NotFoundException("Component not found: " . $this->name, 404);
-        if (!is_readable($this->phpPath)) throw new FileException("Component not readable: " . $this->name, 403);
-
-        ob_start();
-
-        // Extract data to local variables.
-        if ($this->props) {
-            extract($this->props, EXTR_OVERWRITE);
-        }
-
-        include $this->phpPath;
-
-        // Unset extracted variables to avoid polluting the scope.
-        if ($this->props) {
-            foreach (array_keys($this->props) as $key) {
-                unset($$key);
-            }
-        }
-
-        return ob_get_clean();
-    }
-
-    /**
      * Static helper method to quickly render a component.
      *
      * @param string $name  The component name.
@@ -168,8 +168,8 @@ class Component
         $component = new self($name, $props, $params);
 
         try {
-            echo $component->renderIncludeds();
             echo $component->renderPhp();
+            echo $component->renderIncludeds();
         } catch (Exception $e) {
             throw new ComponentException("Error rendering component '" . $name . "': " . $e->getMessage(), $e->getCode(), $e);
         }

@@ -18,6 +18,7 @@
 - [ ] Faire en sorte de ne print que une fois les balises style des composants (meme si appelés plusieurs fois)
 - [ ] Suppr style RLM
 - [ ] Faire proto de list pour admin
+- [ ] Faire réecriture htaccess pour les fichiers static des composants
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
 - [ ] Check et calcer arbo Laravel using https://github.com/laravel-workflow/sample-app
 - [ ] Use `gc_enable()` and `gc_collect_cycles()` to manage memory better
