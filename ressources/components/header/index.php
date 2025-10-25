@@ -17,11 +17,3 @@ use App\Component;
         <?= Component::display('button', ['href' => APP_URL . '/login', 'label' => 'Connexion', 'color' => 'dark', 'outline' => true]) ?>
     </div>
 </header>
-
-<nav class="nav">
-    <ul>
-        <li><a class="nav-link" href="<?= APP_URL ?>/posts">Liste</a></li>
-        <li><a class="nav-link" href="<?= APP_URL ?>/post/random">Aléatoire</a></li>
-        <li><a class="nav-link" href="<?= APP_URL ?>/add">Ajouter</a></li>
-    </ul>
-</nav>

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Exceptions\FileException;
+use App\Exceptions\ComponentException;
 use Exception;
 use App\Exceptions\NotFoundException;
 
@@ -29,14 +30,19 @@ class Component
     private const COMPONENTS_URL = APP_URL . '/ressources/components';
 
     /**
+     * Associative array of loaded CSS tags.
+     */
+    private static array $loadedCssTags = [];
+
+    /**
      * Associative array of loaded CSS files.
      */
-    private static array $loadedCss = [];
+    private static array $loadedCssFiles = [];
 
     /**
      * Associative array of loaded JS files.
      */
-    private static array $loadedJs = [];
+    private static array $loadedJsFiles = [];
 
     /**
      * The component name (which corresponds to the file name without extension).
@@ -105,42 +111,26 @@ class Component
         // Include CSS only if it hasn't been printed before
         if (
             $this->cssUrl &&
-            !in_array($this->cssUrl, self::$loadedCss) &&
+            !in_array($this->cssUrl, self::$loadedCssFiles) &&
             !(isset($this->params['css']) && $this->params['css'] === false)
         ) {
             echo PHP_EOL . '<link rel="stylesheet" href="' . $this->cssUrl . '">' . PHP_EOL;
-            self::$loadedCss[] = $this->cssUrl;
+            self::$loadedCssFiles[] = $this->cssUrl;
         }
 
         // Include JS only if it hasn't been printed before
         if (
             $this->jsUrl &&
-            !in_array($this->jsUrl, self::$loadedJs) &&
+            !in_array($this->jsUrl, self::$loadedJsFiles) &&
             !(isset($this->params['js']) && $this->params['js'] === false)
         ) {
             echo PHP_EOL . '<script src="' . $this->jsUrl . '"></script>' . PHP_EOL;
-            self::$loadedJs[] = $this->jsUrl;
+            self::$loadedJsFiles[] = $this->jsUrl;
         }
 
         include $this->phpPath;
-                
-        return ob_get_clean();
-    }
 
-    /**
-     * Magic method to convert the component to a string.
-     *
-     * This allows the component to be used in string contexts, e.g., with echo.
-     *
-     * @return string The rendered component.
-     */
-    public function __toString(): string
-    {
-        try {
-            return $this->render();
-        } catch (Exception $e) {
-            return '';
-        }
+        return ob_get_clean();
     }
 
     /**
@@ -155,6 +145,11 @@ class Component
     public static function display(string $name, array $props = [], array $params = []): void
     {
         $component = new self($name, $props, $params);
-        echo $component; // Uses the __toString() magic method.
+
+        try {
+            echo  $component->render();
+        } catch (Exception $e) {
+            throw new ComponentException("Error rendering component '" . $name . "': " . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
