@@ -28,3 +28,7 @@ $post->save();  // Inserts a new record and sets $post->id
 $post = Post::findOne($post->id);
 var_dump($post);
 ```
+
+### Icons
+
+All icons are from [Lucide Icons](https://lucide.dev/).

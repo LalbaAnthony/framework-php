@@ -1,0 +1,39 @@
+table.table {
+    width: 100%;
+    border-radius: 1.5rem;
+    border-collapse: collapse;
+    font-family: system-ui, sans-serif;
+    font-size: 15px;
+    background: var(--gray-light);
+}
+
+table.table thead {
+    background: var(--false-white);
+    border-bottom: 1px solid var(--gray);
+    color: var(--dark);
+}
+
+table.table thead th {
+    text-align: left;
+    padding: 12px 10px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+table.table tbody tr:nth-child(even) {
+    background: var(--false-white);
+}
+
+table.table tbody tr:nth-child(odd) {
+    background: var(--gray-light);
+}
+
+table.table tbody tr:hover {
+    filter: brightness(98%);
+}
+
+table.table tbody td {
+    text-align: left;
+    padding: 12px 10px;
+    color: var(--dark);
+}

@@ -1,6 +1,7 @@
 :root {
     --light: #fdfdfd;
     --false-white: #F7F9FC;
+    --gray-light: #F3F3F3;
     --gray: #cccccc;
     --dark: #120b14;
     --success: #3caf57;
@@ -30,7 +31,7 @@ body {
 }
 
 main {
-    min-height: 50vh;
+    min-height: 75vh;
 }
 
 /* DESKTOP */

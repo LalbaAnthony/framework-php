@@ -5,5 +5,47 @@
         "slug": "mon-premier-post",
         "title": "Mon premier post",
         "content": "Ceci est mon premier post"
+    },
+    {
+        "id": 2,
+        "date": "2025-02-10",
+        "slug": "mon-deuxieme-post",
+        "title": "Mon deuxième post",
+        "content": "Ceci est mon deuxième post"
+    },
+    {
+        "id": 3,
+        "date": "2025-02-15",
+        "slug": "mon-troisieme-post",
+        "title": "Mon troisième post",
+        "content": "Ceci est mon troisième post"
+    },
+    {
+        "id": 4,
+        "date": "2025-02-20",
+        "slug": "mon-quatrieme-post",
+        "title": "Mon quatrième post",
+        "content": "Ceci est mon quatrième post"
+    },
+    {
+        "id": 5,
+        "date": "2025-02-25",
+        "slug": "mon-cinquieme-post",
+        "title": "Mon cinquième post",
+        "content": "Ceci est mon cinquième post"
+    },
+    {
+        "id": 6,
+        "date": "2025-03-01",
+        "slug": "mon-sixieme-post",
+        "title": "Mon sixième post",
+        "content": "Ceci est mon sixième post"
+    },
+    {
+        "id": 7,
+        "date": "2025-03-05",
+        "slug": "mon-septieme-post",
+        "title": "Mon septième post",
+        "content": "Ceci est mon septième post"
     }
 ]

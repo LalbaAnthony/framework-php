@@ -79,7 +79,7 @@ class Helpers
      * @param string $suffix
      * @return string
      */
-    public static function stringLimit(string $text, int $limit = 100, string $suffix = '...'): string
+    public static function stringLimit(string $text, int $limit = 100, string $suffix = ' ...'): string
     {
         if (!$text || empty($text)) return '';
         if ($limit < 0) return $text;
@@ -100,5 +100,80 @@ class Helpers
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    }
+
+    /**
+     * Helper method to extract a single key segment from array or object.
+     */
+    private static function getSegment(array|object $target, string $segment, mixed $default): mixed
+    {
+        if (is_array($target) && array_key_exists($segment, $target)) {
+            return $target[$segment];
+        }
+
+        if (is_object($target) && isset($target->{$segment})) {
+            return $target->{$segment};
+        }
+
+        return $default;
+    }
+
+    /**
+     * Recursively get a value from an array or object using dot notation.
+     *
+     * @param array|object $target
+     * @param string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public static function dataGet(array|object $target, ?string $key, mixed $default = null): mixed
+    {
+        if (!$key || $key === '') return $target;
+
+        // If no dot notation, return the single segment
+        if (!str_contains($key, '.')) return self::getSegment($target, $key, $default);
+
+        // Split and process each segment
+        [$segment, $remaining] = explode('.', $key, 2);
+
+        $next = self::getSegment($target, $segment, null);
+
+        if (!$next) return $default;
+
+        return self::dataGet($next, $remaining, $default);
+    }
+
+    /**
+     * Generate lorem ipsum text of a given length.
+     * @param int $length
+     * @return string
+     */
+    public static function lorem(int $length = 2048): string
+    {
+        $lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
+        $repeated = str_repeat($lorem . ' ', ceil($length / strlen($lorem)));
+        return substr($repeated, 0, $length);
+    }
+
+    /**
+     * Take a date as 2025-09-04 23:00:17 and format it
+     * @param string $date
+     * @return string
+     */
+    public static function formatDate(string $date, bool $hours = false): string
+    {
+        return date('d/m/Y' . ($hours ? ' H:i' : ''), strtotime($date));
+    }
+
+    /**
+     * Escape HTML special characters in a string.
+     * @param string $string
+     * @return string
+     */
+    public static function e(string|null $string): string
+    {
+        if (!$string || empty($string)) return '';
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 }
