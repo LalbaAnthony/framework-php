@@ -151,8 +151,11 @@ class Component
         }
 
         $content = ob_get_clean();
-        $this->deduplicateTags($content, 'style');
-        $this->deduplicateTags($content, 'script');
+        
+        if (!(isset($this->params['deduplicate']) && $this->params['deduplicate'] === false)) {
+            $this->deduplicateTags($content, 'style');
+            $this->deduplicateTags($content, 'script');
+        }
 
         return $content;
     }
