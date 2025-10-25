@@ -8,7 +8,7 @@ use App\Helpers;
     <h4 id="<?= Helpers::slugify($title) ?>" class="section-title-text">
         <?= $title ?? '' ?>
     </h4>
-    <span class="section-title-hastage text-<?= $color ?? '' ?>">#</span>
+    <span class="section-title-hastage" style="color: <?= $color ?? '#000' ?>;">#</span>
 </a>
 
 <style>

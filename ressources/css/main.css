@@ -1,9 +1,4 @@
 :root {
-    --red: #f6170b;
-    --orange: #fe7f18;
-    --yellow: #ffb31f;
-    --green: #7fc44d;
-    --blue: #488ad4;
     --light: #fdfdfd;
     --false-white: #F7F9FC;
     --gray: #cccccc;
@@ -11,13 +6,6 @@
     --success: #3caf57;
     --warning: #cf4a02;
     --danger: #cf0d0d;
-
-    --gradient-full: linear-gradient(to right,
-            var(--red) 20%,
-            var(--orange) 20%, var(--orange) 40%,
-            var(--yellow) 40%, var(--yellow) 60%,
-            var(--green) 60%, var(--green) 80%,
-            var(--blue) 80%);
 }
 
 *,
@@ -39,94 +27,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
     color: var(--dark);
     background: var(--false-white);
-}
-
-.text-red {
-    color: var(--red);
-}
-
-.text-orange {
-    color: var(--orange);
-}
-
-.text-yellow {
-    color: var(--yellow);
-}
-
-.text-green {
-    color: var(--green);
-}
-
-.text-blue {
-    color: var(--blue);
-}
-
-.text-light {
-    color: var(--light);
-}
-
-.text-dark {
-    color: var(--dark);
-}
-
-.text-gray {
-    color: var(--gray);
-}
-
-.text-success {
-    color: var(--success);
-}
-
-.text-warning {
-    color: var(--warning);
-}
-
-.text-danger {
-    color: var(--danger);
-}
-
-.bg-red {
-    background: var(--red);
-}
-
-.bg-orange {
-    background: var(--orange);
-}
-
-.bg-yellow {
-    background: var(--yellow);
-}
-
-.bg-green {
-    background: var(--green);
-}
-
-.bg-blue {
-    background: var(--blue);
-}
-
-.bg-light {
-    background: var(--light);
-}
-
-.bg-dark {
-    background: var(--dark);
-}
-
-.bg-gray {
-    background: var(--gray);
-}
-
-.bg-success {
-    background: var(--success);
-}
-
-.bg-warning {
-    background: var(--warning);
-}
-
-.bg-danger {
-    background: var(--danger);
 }
 
 main {
@@ -195,11 +95,6 @@ textarea[disabled] {
 ::placeholder {
     color: var(--dark);
     opacity: 0.7;
-}
-
-input[type="checkbox"] {
-    accent-color: var(--primary);
-    width: 1rem;
 }
 
 section {
