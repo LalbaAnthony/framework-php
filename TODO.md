@@ -25,6 +25,7 @@
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters
+- [ ] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 - [ ] Voler style bento de stoa
 - [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
