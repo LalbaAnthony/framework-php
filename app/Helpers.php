@@ -42,12 +42,14 @@ class Helpers
         $bt = debug_backtrace();
         $caller = array_shift($bt);
 
-        echo "<pre style='background-color: #ccc; padding: 10px; border-radius: 5px; border: 1px solid #ccc;'>";
+        echo "<div style='background-color: #eee; padding: 10px; border-radius: 1rem; border: 1px solid #bbb;'>";
         echo "<p><strong>" . $caller['file'] . ":" . $caller['line'] . "</strong></p>";
+        echo "<pre>";
         foreach ($args as $arg) {
             var_dump($arg);
         }
         echo "</pre>";
+        echo "</div>";
     }
 
     /**
@@ -96,10 +98,32 @@ class Helpers
      *
      * @return string
      */
-    public static function currentUrl(): string
+    public static function currentUrl(bool $query = true): string
     {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
-        return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = $_SERVER['REQUEST_URI'];
+
+        $url = $protocol . $host . $uri;
+
+        if (!$query) $url = explode('?', $url)[0];
+
+        return $url;
+    }
+
+    /**
+     * Build a URL with query parameters.
+     * @param string $url
+     * @param array $params
+     * @return string
+     */
+    public static function buildUrl(?string $url, array $params = []): string
+    {
+        if (!$url || empty($url)) $url = self::currentUrl(false);
+        if (empty($params)) return $url;
+
+        $query = http_build_query($params);
+        return $url . '?' . $query;
     }
 
     /**
@@ -171,7 +195,7 @@ class Helpers
      * @param string $string
      * @return string
      */
-    public static function e(string|null $string): string
+    public static function e(?string $string): string
     {
         if (!$string || empty($string)) return '';
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');

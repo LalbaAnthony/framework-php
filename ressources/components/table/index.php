@@ -13,31 +13,33 @@ use App\Icon;
                     <?php
                     $params = [
                         'sort' => [
-                            'column' => (isset($column['sortable']) && $column['sortable']) ? $column['sortable'] : ($column['value'] ?? null),
-                            'order' => (isset($order) && $order === 'DESC') ? 'ASC' : 'DESC',
+                            [
+                                'column' => (isset($column['sortable']) && $column['sortable']) ? $column['sortable'] : '',
+                                'order' => (isset($sort['order']) && $sort['order'] === 'DESC') ? 'ASC' : 'DESC',
+                            ],
                         ],
                     ];
 
-                    // $href = route($route, $params);
-                    $href = '#';
-
-                    $isSorted = isset($order) && (
-                        (isset($column['value']) && $sort === $column['value'])
+                    $isSorted = (
+                        isset($sort['column']) &&
+                        $sort['column'] === (
+                            (isset($column['sortable']) && $column['sortable']) ? $column['sortable'] : null
+                        )
                     );
+
+                    $url = Helpers::buildUrl(null, $params);
                     ?>
-                    <a href="<?= Helpers::e($href) ?>">
+                    <a href="<?= $url ?>">
                         <span>
                             <?= Helpers::e($column['name']) ?>
                         </span>
                         <span>
                             <?php if ($isSorted): ?>
-                                <?php if (isset($order) && $order === 'asc'): ?>
-                                    <?php Icon::display('chevron-down') ?>
-                                <?php else: ?>
+                                <?php if (isset($sort['order']) && $sort['order'] === 'DESC'): ?>
                                     <?php Icon::display('chevron-up') ?>
+                                <?php else: ?>
+                                    <?php Icon::display('chevron-down') ?>
                                 <?php endif; ?>
-                            <?php else: ?>
-                                <?php Icon::display('chevron-down') ?>
                             <?php endif; ?>
                         </span>
                     </a>
@@ -75,19 +77,8 @@ use App\Icon;
                     <td>
                         <?php foreach ($actions as $key => $action): ?>
                             <?php if (isset($action['route'])): ?>
-                                <?php
-                                $actionRouteParams = array_merge(
-                                    ['id' => $id],
-                                    $action['routeParams'] ?? [],
-                                    $routeParams ?? []
-                                );
-
-                                // $actionRoute = route($action['route'], $actionRouteParams);
-                                $actionRoute = '#';
-                                ?>
-
                                 <form
-                                    action="<?= Helpers::e($actionRoute) ?>"
+                                    action="#"
                                     method="POST"
                                     data-action-type="single">
                                     <button type="button">

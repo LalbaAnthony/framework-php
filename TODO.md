@@ -16,14 +16,14 @@
 - [x] Utiliser destroy de object pour toutes les classes dans leur contexte
 - [x] Faire en sorte de ne print que une fois les balises style des composants (meme si appelés plusieurs fois)
 - [x] Suppr style RLM
+- [x] Icons
 
 - [ ] Faire proto de list pour admin
-  - [ ] Icons
-  - [ ] Sort
-  - [ ] Actions
-  - [ ] Sorting
-  - [ ] Pagination
+  - [ ] Debuger sort
+  - [ ] Style (icones, ...)
   - [ ] Search
+  - [ ] Actions
+  - [ ] Pagination
   - [ ] Filters
 - [ ] Voler style bento de stoa
 - [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page

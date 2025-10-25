@@ -55,11 +55,11 @@ use App\Helpers;
             'actions' => [
                 [
                     'name' => 'Éditer',
-                    'route' => 'post.edit',
+                    'route' => '#',
                 ],
                 [
                     'name' => 'Supprimer',
-                    'route' => 'post.delete',
+                    'route' => '#',
                 ]
             ],
         ]) ?>

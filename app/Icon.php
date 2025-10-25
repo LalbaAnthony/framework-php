@@ -18,6 +18,11 @@ class Icon
      * Base directory for icons.
      */
     private const ICONS_PATH = __DIR__ . '/../ressources/icons';
+    
+    /**
+     * The name of the icon.
+     */
+    private string $name;
 
     /**
      * The full path to the icon file.
@@ -31,11 +36,12 @@ class Icon
      */
     public function __construct(string $name)
     {
+        $this->name = $name;
         $this->iconPath = self::ICONS_PATH . '/' . $name . '.svg';
     }
 
     /**
-     * Static helper method to quickly render a icon.
+     * Static helper method to quickly display an icon.
      *
      * @param string $name  The icon name.
      */
