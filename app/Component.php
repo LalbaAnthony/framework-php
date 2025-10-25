@@ -30,19 +30,22 @@ class Component
     private const COMPONENTS_URL = APP_URL . '/ressources/components';
 
     /**
-     * Associative array of loaded CSS tags.
+     * Associative array to track printed HTML tags for deduplication.
      */
-    private static array $loadedCssTags = [];
+    private static array $printedTags = [
+        'style' => [],
+        'script' => []
+    ];
 
     /**
      * Associative array of loaded CSS files.
      */
-    private static array $loadedCssFiles = [];
+    private static array $loadedCss = [];
 
     /**
      * Associative array of loaded JS files.
      */
-    private static array $loadedJsFiles = [];
+    private static array $loadedJs = [];
 
     /**
      * The component name (which corresponds to the file name without extension).
@@ -92,19 +95,29 @@ class Component
     }
 
     /**
-     * Deduplicates CSS styles.
+     * Deduplicates HTML tags (like style or script).
      */
-    public function deduplicateCss(string &$content): void
+    public function deduplicateTags(string &$content, string $tag): void
     {
-        if (preg_match('/<style\b[^>]*>(.*?)<\/style>/is', $content, $matches)) {
-            $css = trim($matches[1]);
-            $md5 = md5($css);
+        if (!$content) return;
+        if (!$tag) return;
 
-            if ($css && !in_array($md5, self::$loadedCssTags)) {
-                self::$loadedCssTags[] = $md5;
-            } else {
-                // Remove the style tag from content if already loaded
-                $content = str_replace($matches[0], '', $content);
+        if (!isset(self::$printedTags[$tag])) {
+            self::$printedTags[$tag] = [];
+        }
+
+        if (preg_match_all('/<' . $tag . '\b[^>]*>(.*?)<\/' . $tag . '>/is', $content, $matches)) {
+            foreach ($matches[0] as $key => $match) {
+                $md5 = md5($matches[1][$key]);
+
+                if (!$md5) continue;
+
+                if (!in_array($md5, self::$printedTags[$tag])) {
+                    self::$printedTags[$tag][] = $md5;
+                } else {
+                    // Remove the tag from content if already loaded
+                    $content = str_replace($match, '', $content);
+                }
             }
         }
     }
@@ -138,7 +151,8 @@ class Component
         }
 
         $content = ob_get_clean();
-        $this->deduplicateCss($content);
+        $this->deduplicateTags($content, 'style');
+        $this->deduplicateTags($content, 'script');
 
         return $content;
     }
@@ -155,21 +169,21 @@ class Component
         // Include CSS only if it hasn't been printed before
         if (
             $this->cssUrl &&
-            !in_array($this->cssUrl, self::$loadedCssFiles) &&
+            !in_array($this->cssUrl, self::$loadedCss) &&
             !(isset($this->params['css']) && $this->params['css'] === false)
         ) {
             $output .= PHP_EOL . '<link rel="stylesheet" href="' . $this->cssUrl . '">' . PHP_EOL;
-            self::$loadedCssFiles[] = $this->cssUrl;
+            self::$loadedCss[] = $this->cssUrl;
         }
 
         // Include JS only if it hasn't been printed before
         if (
             $this->jsUrl &&
-            !in_array($this->jsUrl, self::$loadedJsFiles) &&
+            !in_array($this->jsUrl, self::$loadedJs) &&
             !(isset($this->params['js']) && $this->params['js'] === false)
         ) {
             $output .= PHP_EOL . '<script src="' . $this->jsUrl . '"></script>' . PHP_EOL;
-            self::$loadedJsFiles[] = $this->jsUrl;
+            self::$loadedJs[] = $this->jsUrl;
         }
 
         return $output;
