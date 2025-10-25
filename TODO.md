@@ -15,7 +15,6 @@
 - [x] Limit "reset.php" to non-production env only
 - [x] Utiliser destroy de object pour toutes les classes dans leur contexte
 
-- [ ] Refaire htaccess en s'inspirant de Laravel + bouger index.php dans dossier public
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. 
 - [ ] htaccess apache pour redirection fichier static etc
 - [ ] Check et calcer arbo Laravel using https://github.com/alexeymezenin/laravel-realworld-example-app
