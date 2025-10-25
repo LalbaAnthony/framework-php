@@ -12,7 +12,7 @@
 - [x] Bouger responsabilité de `(new Route)->execute()` à la class `Route` (les verif, throws, explode on `@`)
 
 - [ ] Ajouter tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
-- [ ] Check et calcer arbo Laravel
+- [ ] Check et calcer arbo Laravel using https://github.com/alexeymezenin/laravel-realworld-example-app
 - [ ] Limit "reset.php" to non-production env only
 - [ ] Use Docker for apache + mysql + phpmyadmin
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
