@@ -14,8 +14,8 @@
 - [-] Ajouter tout les autres fichiers du style CONTRIBUTING.md, CODE_OF_CONDUCT.md, ...
 - [x] Limit "reset.php" to non-production env only
 - [x] Utiliser destroy de object pour toutes les classes dans leur contexte
+- [x] Faire en sorte de ne print que une fois les balises style des composants (meme si appelés plusieurs fois)
 
-- [ ] Faire en sorte de ne print que une fois les balises style des composants (meme si appelés plusieurs fois)
 - [ ] Suppr style RLM
 - [ ] Faire proto de list pour admin
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
