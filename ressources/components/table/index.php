@@ -22,9 +22,7 @@ use App\Icon;
 
                     $isSorted = (
                         isset($sort[0]['column']) &&
-                        $sort[0]['column'] === (
-                            (isset($column['sortable']) && $column['sortable']) ? $column['sortable'] : null
-                        )
+                        $sort[0]['column'] === ($column['sortable'] ?? null)
                     );
 
                     $url = Helpers::buildUrl(null, $params);

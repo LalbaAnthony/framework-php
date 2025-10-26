@@ -98,7 +98,7 @@ class Helpers
      *
      * @return string
      */
-    public static function currentUrl(bool $query = true): string
+    public static function currentUrl(bool $queries = true): string
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $host = $_SERVER['HTTP_HOST'];
@@ -106,9 +106,24 @@ class Helpers
 
         $url = $protocol . $host . $uri;
 
-        if (!$query) $url = explode('?', $url)[0];
+        if (!$queries) $url = explode('?', $url)[0];
 
         return $url;
+    }
+
+    /**
+     * Get the current URL queries.
+     *
+     * @return array
+     */
+    public static function currentQueries(): array
+    {
+        $queries = [];
+        if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+            parse_str($_SERVER['QUERY_STRING'], $queries);
+        }
+
+        return $queries;
     }
 
     /**
