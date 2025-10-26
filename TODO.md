@@ -19,7 +19,7 @@
 - [x] Icons
 
 - [ ] Faire proto de list pour admin
-  - [ ] Debuger sort
+  - [ ] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
   - [ ] Style (icones, ...)
   - [ ] Search
   - [ ] Actions
