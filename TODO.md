@@ -17,6 +17,7 @@
 - [x] Faire en sorte de ne print que une fois les balises style des composants (meme si appelés plusieurs fois)
 - [x] Suppr style RLM
 - [x] Icons
+- [-] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 
 - [ ] Faire proto de list pour admin
   - [ ] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
@@ -25,7 +26,6 @@
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters
-- [ ] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 - [ ] Voler style bento de stoa
 - [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
