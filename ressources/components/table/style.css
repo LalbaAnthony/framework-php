@@ -21,6 +21,12 @@ table.table thead th {
     color: var(--dark);
 }
 
+table.table thead th a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 table.table tbody tr:nth-child(even) {
     background: var(--false-white);
 }

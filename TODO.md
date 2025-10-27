@@ -19,8 +19,6 @@
 - [x] Icons
 - [-] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 
-- [ ] Regrouper les helpers par logique ?
-- [ ] Depl les helpers de route/queries/URLs dans Router ?
 - [ ] Faire proto de list pour admin
   - [ ] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
   - [ ] Style (icones, buttons, ...)
@@ -28,6 +26,8 @@
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters
+- [ ] Regrouper les helpers par logique ?
+- [ ] Depl les helpers de route/queries/URLs dans Router ?
 - [ ] Voler style bento de stoa
 - [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire réecriture htaccess pour les fichiers static des composants

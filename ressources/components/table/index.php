@@ -31,15 +31,13 @@ use App\Icon;
                         <span>
                             <?= Helpers::e($column['name']) ?>
                         </span>
-                        <span>
-                            <?php if ($isSorted): ?>
-                                <?php if (isset($sort[0]['order']) && $sort[0]['order'] === 'DESC'): ?>
-                                    <?php Icon::display('chevron-up') ?>
-                                <?php else: ?>
-                                    <?php Icon::display('chevron-down') ?>
-                                <?php endif; ?>
+                        <?php if ($isSorted): ?>
+                            <?php if (isset($sort[0]['order']) && $sort[0]['order'] === 'DESC'): ?>
+                                <?php Icon::display('chevron-up', '#aaa') ?>
+                            <?php else: ?>
+                                <?php Icon::display('chevron-down', '#aaa') ?>
                             <?php endif; ?>
-                        </span>
+                        <?php endif; ?>
                     </a>
                 </th>
             <?php endforeach; ?>
@@ -52,7 +50,7 @@ use App\Icon;
     <tbody>
         <?php if (!empty($rows)): ?>
             <?php foreach ($rows as $row): ?>
-                <?php $id = dataGet($row, 'id'); ?>
+                <?php $id = Helpers::dataGet($row, 'id'); ?>
                 <tr>
                     <?php foreach ($columns as $key => $column): ?>
                         <td scope="row">
@@ -60,7 +58,7 @@ use App\Icon;
                                 <?= $column['fn']($row) ?>
                             <?php elseif (isset($column['value'])): ?>
                                 <?php
-                                $value = dataGet($row, $column['value']);
+                                $value = Helpers::dataGet($row, $column['value']);
                                 if ($value) {
                                     echo Helpers::e($value);
                                 } else  if (isset($column['default'])) {
