@@ -11,8 +11,8 @@ use App\Icon;
             <?php foreach ($columns as $column): ?>
                 <th scope="col">
                     <?php
-                    $col = isset($sort[0]) && isset($sort[0]['column']) && $sort[0]['column'] ? $sort[0]['column'] : '';
-                    $order = isset($sort[0]) && isset($sort[0]['order']) && $sort[0]['order'] ? $sort[0]['order'] : 'ASC';
+                    $col = isset($sort[0]['column']) ? $sort[0]['column'] : '';
+                    $order = isset($sort[0]['order']) ? $sort[0]['order'] : 'ASC';
 
                     $params = [
                         'sort' => [
