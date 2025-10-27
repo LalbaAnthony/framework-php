@@ -20,8 +20,8 @@
 - [-] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 
 - [ ] Faire proto de list pour admin
-  - [ ] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
-  - [ ] Style (icones, buttons, ...)
+  - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
+  - [ ] Style (actions buttons, ...)
   - [ ] Search
   - [ ] Actions
   - [ ] Pagination

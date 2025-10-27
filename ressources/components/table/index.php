@@ -11,28 +11,25 @@ use App\Icon;
             <?php foreach ($columns as $column): ?>
                 <th scope="col">
                     <?php
+                    $col = isset($sort[0]) && isset($sort[0]['column']) && $sort[0]['column'] ? $sort[0]['column'] : '';
+                    $order = isset($sort[0]) && isset($sort[0]['order']) && $sort[0]['order'] ? $sort[0]['order'] : 'ASC';
+
                     $params = [
                         'sort' => [
                             [
                                 'column' => $column['sortable'] ?? '',
-                                'order' => (isset($sort[0]['order']) && $sort[0]['order'] === 'DESC') ? 'ASC' : 'DESC',
+                                'order' => $order === 'DESC' ? 'ASC' : 'DESC',
                             ],
                         ],
                     ];
 
-                    $isSorted = (
-                        isset($sort[0]['column']) &&
-                        $sort[0]['column'] === ($column['sortable'] ?? null)
-                    );
-
-                    $url = Helpers::buildUrl(null, $params);
                     ?>
-                    <a href="<?= $url ?>">
+                    <a href="<?= Helpers::buildUrl(null, $params) ?>">
                         <span>
-                            <?= Helpers::e($column['name']) ?>
+                            <?= Helpers::e($column['name'] ?? '') ?>
                         </span>
-                        <?php if ($isSorted): ?>
-                            <?php if (isset($sort[0]['order']) && $sort[0]['order'] === 'DESC'): ?>
+                        <?php if ($col === ($column['sortable'] ?? null)): ?>
+                            <?php if ($order === 'DESC'): ?>
                                 <?php Icon::display('chevron-up', '#aaa') ?>
                             <?php else: ?>
                                 <?php Icon::display('chevron-down', '#aaa') ?>
