@@ -21,7 +21,7 @@
 
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
-  - [ ] Style (actions buttons, ...)
+  - [x] Style (actions buttons, ...)
   - [ ] Search
   - [ ] Actions
   - [ ] Pagination

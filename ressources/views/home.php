@@ -58,12 +58,14 @@ use App\Helpers;
                     'route' => '#',
                     'icon' => 'pen',
                     'color' => 'dark',
+                    'method' => 'GET',
                 ],
                 [
                     'name' => 'Supprimer',
                     'route' => '#',
                     'icon' => 'trash',
                     'color' => 'light',
+                    'method' => 'DELETE',
                 ]
             ],
         ]) ?>

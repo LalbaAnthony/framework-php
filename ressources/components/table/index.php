@@ -48,7 +48,7 @@ use App\Icon;
     <tbody>
         <?php if (!empty($rows)): ?>
             <?php foreach ($rows as $row): ?>
-                <?php $id = Helpers::dataGet($row, 'id'); ?>
+                <?php $id = dataGet($row, 'id'); ?>
                 <tr>
                     <?php foreach ($columns as $key => $column): ?>
                         <td scope="row">
@@ -56,7 +56,7 @@ use App\Icon;
                                 <?= $column['fn']($row) ?>
                             <?php elseif (isset($column['value'])): ?>
                                 <?php
-                                $value = Helpers::dataGet($row, $column['value']);
+                                $value = dataGet($row, $column['value']);
                                 if ($value) {
                                     echo e($value);
                                 } else  if (isset($column['default'])) {
@@ -71,7 +71,7 @@ use App\Icon;
                     <td>
                         <?php foreach ($actions as $key => $action): ?>
                             <?php if (isset($action['route'])): ?>
-                                <form action="#" method="POST" class="actions">
+                                <form action="#" method="<?= $action['method'] ?? 'POST' ?>" class="actions">
                                     <?php Component::display('button', [
                                         'type' => 'submit',
                                         'label' => $action['name'] ?? '',
