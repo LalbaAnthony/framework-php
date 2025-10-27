@@ -14,17 +14,15 @@ use App\Icon;
                     $params = [
                         'sort' => [
                             [
-                                'column' => (isset($column['sortable']) && $column['sortable']) ? $column['sortable'] : '',
-                                'order' => (isset($sort['order']) && $sort['order'] === 'DESC') ? 'ASC' : 'DESC',
+                                'column' => $column['sortable'] ?? '',
+                                'order' => (isset($sort[0]['order']) && $sort[0]['order'] === 'DESC') ? 'ASC' : 'DESC',
                             ],
                         ],
                     ];
 
                     $isSorted = (
-                        isset($sort['column']) &&
-                        $sort['column'] === (
-                            (isset($column['sortable']) && $column['sortable']) ? $column['sortable'] : null
-                        )
+                        isset($sort[0]['column']) &&
+                        $sort[0]['column'] === ($column['sortable'] ?? null)
                     );
 
                     $url = Helpers::buildUrl(null, $params);
@@ -35,7 +33,7 @@ use App\Icon;
                         </span>
                         <span>
                             <?php if ($isSorted): ?>
-                                <?php if (isset($sort['order']) && $sort['order'] === 'DESC'): ?>
+                                <?php if (isset($sort[0]['order']) && $sort[0]['order'] === 'DESC'): ?>
                                     <?php Icon::display('chevron-up') ?>
                                 <?php else: ?>
                                     <?php Icon::display('chevron-down') ?>
