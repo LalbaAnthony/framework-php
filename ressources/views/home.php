@@ -56,10 +56,14 @@ use App\Helpers;
                 [
                     'name' => 'Éditer',
                     'route' => '#',
+                    'icon' => 'pen',
+                    'color' => 'dark',
                 ],
                 [
                     'name' => 'Supprimer',
                     'route' => '#',
+                    'icon' => 'trash',
+                    'color' => 'light',
                 ]
             ],
         ]) ?>

@@ -33,6 +33,11 @@ class Icon
     private string $color;
 
     /**
+     * The size of the icon.
+     */
+    private string $size;
+
+    /**
      * The full path to the icon file.
      */
     private string $path;
@@ -42,10 +47,11 @@ class Icon
      *
      * @param string $name  The name of the icon.
      */
-    public function __construct(string $name, string $color = 'currentColor')
+    public function __construct(string $name, string $color = 'currentColor', string $size = '24px')
     {
         $this->name = $name;
         $this->color = $color;
+        $this->size = $size;
         $this->path = self::ICONS_PATH . '/' . $name . '.svg';
     }
 
@@ -57,8 +63,23 @@ class Icon
         if (!$content) return;
         if (!$color) return;
 
-        // Find 'stroke'  attributes and replace their values with the specified color
+        // Find 'stroke' attributes and replace their values with the specified color
         $content = preg_replace('/(\sstroke=["\'])([^"\']*)(["\'])/i', '${1}' . $color . '${3}', $content);
+    }
+
+    /**
+     * Replace the size attributes in the SVG content.
+     */
+    public function replaceSizeAttribute(string &$content, string $size): void
+    {
+        if (!$content) return;
+        if (!$size) return;
+
+        // Find 'width' attributes and replace their values with the specified size
+        $content = preg_replace('/(\swidth=["\'])([^"\']*)(["\'])/i', '${1}' . $size . '${3}', $content);
+
+        // Find 'height' attributes and replace their values with the specified size
+        $content = preg_replace('/(\sheight=["\'])([^"\']*)(["\'])/i', '${1}' . $size . '${3}', $content);
     }
 
     /**
@@ -75,9 +96,8 @@ class Icon
 
         $content = ob_get_clean();
 
-        if (isset($this->color) && !empty($this->color)) {
-            $this->replaceColorAttribute($content, $this->color);
-        }
+        if (isset($this->color) && !empty($this->color)) $this->replaceColorAttribute($content, $this->color);
+        if (isset($this->size) && !empty($this->size)) $this->replaceSizeAttribute($content, $this->size);
 
         return $content;
     }
@@ -85,9 +105,11 @@ class Icon
     /**
      * Static helper method to quickly display an icon.
      */
-    public static function display(string $name, string $color = 'currentColor'): void
+    public static function display(string $name, string $color = 'currentColor', string $size = '24px'): void
     {
-        $icon = new self($name, $color);
+        if (!$name || empty($name)) return;
+
+        $icon = new self($name, $color, $size);
 
         try {
             echo $icon->render();

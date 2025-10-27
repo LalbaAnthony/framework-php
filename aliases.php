@@ -15,3 +15,10 @@ if (!function_exists('dataGet')) {
         return Helpers::dataGet(...$vars);
     }
 }
+
+if (!function_exists('e')) {
+    function e(...$vars): string
+    {
+        return Helpers::e(...$vars);
+    }
+}

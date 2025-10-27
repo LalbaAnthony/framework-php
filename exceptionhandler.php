@@ -10,11 +10,11 @@ set_exception_handler(function ($e) {
     $file = $e->getFile() ?: 'unknown file';
     $line = $e->getLine() ?: 0;
     $message = $e->getMessage() ?: 'An error occurred';
-    $full = $message . ' in ' . $file . ' on line ' . $line;
+    $full = $message . ': ' . $file . ' on line ' . $line;
 
     Logger::error($full);
 
-    $message = (APP_DEBUG) ? $message : 'An error occurred. Turn on APP_DEBUG to see more details.';
+    $full = (APP_DEBUG) ? $full : 'An error occurred. Turn on APP_DEBUG to see more details.';
 
     try {
         $request = new Request();

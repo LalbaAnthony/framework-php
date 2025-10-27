@@ -151,7 +151,7 @@ class Component
         }
 
         $content = ob_get_clean();
-        
+
         if (!(isset($this->params['deduplicate']) && $this->params['deduplicate'] === false)) {
             $this->deduplicateTags($content, 'style');
             $this->deduplicateTags($content, 'script');
@@ -203,6 +203,10 @@ class Component
      */
     public static function display(string $name, array $props = [], array $params = []): void
     {
+        if (!$name || empty($name)) {
+            throw new ComponentException("Component name is required for display.", 400);
+        }
+
         $component = new self($name, $props, $params);
 
         try {

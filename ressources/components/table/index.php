@@ -1,5 +1,6 @@
 <?php
 
+use App\Component;
 use App\Helpers;
 use App\Icon;
 
@@ -26,7 +27,7 @@ use App\Icon;
                     ?>
                     <a href="<?= Helpers::buildUrl(null, $params) ?>">
                         <span>
-                            <?= Helpers::e($column['name'] ?? '') ?>
+                            <?= e($column['name'] ?? '') ?>
                         </span>
                         <?php if ($col === ($column['sortable'] ?? null)): ?>
                             <?php if ($order === 'DESC'): ?>
@@ -57,33 +58,26 @@ use App\Icon;
                                 <?php
                                 $value = Helpers::dataGet($row, $column['value']);
                                 if ($value) {
-                                    echo Helpers::e($value);
+                                    echo e($value);
                                 } else  if (isset($column['default'])) {
-                                    echo Helpers::e($column['default']);
+                                    echo e($column['default']);
                                 }
                                 ?>
                             <?php elseif (isset($column['default'])): ?>
-                                <?= Helpers::e($column['default']) ?>
+                                <?= e($column['default']) ?>
                             <?php endif; ?>
                         </td>
                     <?php endforeach; ?>
                     <td>
                         <?php foreach ($actions as $key => $action): ?>
                             <?php if (isset($action['route'])): ?>
-                                <form
-                                    action="#"
-                                    method="POST"
-                                    data-action-type="single">
-                                    <button type="button">
-                                        <?php if (isset($action['icon']) && $action['icon']): ?>
-                                            <?php Icon::display($action['icon']) ?>
-                                        <?php endif; ?>
-                                        <?php if (isset($action['name']) && $action['name']): ?>
-                                            <span>
-                                                <?= Helpers::e($action['name']) ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </button>
+                                <form action="#" method="POST" class="actions">
+                                    <?php Component::display('button', [
+                                        'type' => 'submit',
+                                        'label' => $action['name'] ?? '',
+                                        'icon' => $action['icon'] ?? null,
+                                        'color' => $action['color'] ?? '',
+                                    ]); ?>
                                 </form>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -93,7 +87,8 @@ use App\Icon;
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="<?= count($columns) + 2 ?>">
+                <!-- +1 column for actions -->
+                <td colspan="<?= count($columns) + 1 ?>">
                     <p>
                         Nothing to display.
                     </p>
