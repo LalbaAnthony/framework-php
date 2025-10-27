@@ -19,7 +19,7 @@ set_exception_handler(function ($e) {
     try {
         $request = new Request();
         $router = new Router($request, []);
-        $router->force(new Route('View\\ErrorController@error'), ['code' => $code, 'message' => $message]);
+        $router->force(new Route('View\\ErrorController@error'), ['code' => $code, 'message' => $full]);
     } catch (Exception $e) {
         // If an error occurs while handling the exception, display a simple message.
         // Cannot throw another exception since we are already in an exception handler
