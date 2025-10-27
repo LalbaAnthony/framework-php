@@ -31,4 +31,4 @@ var_dump($post);
 
 ### Icons
 
-All icons are from [Lucide Icons](https://lucide.dev/).
+All icons are stored in `ressources/icons` and come from [Lucide Icons](https://lucide.dev/).
