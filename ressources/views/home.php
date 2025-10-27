@@ -21,7 +21,7 @@ use App\Helpers;
                     'value' => 'id',
                     'sortable' => 'id',
                     'fn' => function ($row) {
-                        return '#' . Helpers::dataGet($row, 'id');
+                        return '#' . dataGet($row, 'id');
                     }
                 ],
                 [
@@ -39,7 +39,7 @@ use App\Helpers;
                     'value' => 'content',
                     'sortable' => 'content',
                     'fn' => function ($row) {
-                        return Helpers::stringLimit(Helpers::dataGet($row, 'content'), 15);
+                        return Helpers::stringLimit(dataGet($row, 'content'), 15);
                     }
                 ],
                 [
@@ -47,7 +47,7 @@ use App\Helpers;
                     'value' => 'date',
                     'sortable' => 'date',
                     'fn' => function ($row) {
-                        return 'On ' . Helpers::formatDate(Helpers::dataGet($row, 'date'));
+                        return 'On ' . Helpers::formatDate(dataGet($row, 'date'));
                     }
                 ],
             ],

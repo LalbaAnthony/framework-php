@@ -8,3 +8,10 @@ if (!function_exists('dd')) {
         Helpers::dd(...$vars);
     }
 }
+
+if (!function_exists('dataGet')) {
+    function dataGet(...$vars)
+    {
+        Helpers::dataGet(...$vars);
+    }
+}
