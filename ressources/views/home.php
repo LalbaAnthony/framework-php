@@ -55,14 +55,14 @@ use App\Helpers;
             'actions' => [
                 [
                     'name' => 'Éditer',
-                    'route' => '#',
+                    'url' => '#',
                     'icon' => 'pen',
                     'color' => 'dark',
                     'method' => 'GET',
                 ],
                 [
                     'name' => 'Supprimer',
-                    'route' => '#',
+                    'url' => '#',
                     'icon' => 'trash',
                     'color' => 'light',
                     'method' => 'DELETE',

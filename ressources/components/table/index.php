@@ -70,16 +70,14 @@ use App\Icon;
                     <?php endforeach; ?>
                     <td>
                         <?php foreach ($actions as $key => $action): ?>
-                            <?php if (isset($action['route'])): ?>
-                                <form action="#" method="<?= $action['method'] ?? 'POST' ?>" class="actions">
-                                    <?php Component::display('button', [
-                                        'type' => 'submit',
-                                        'label' => $action['name'] ?? '',
-                                        'icon' => $action['icon'] ?? null,
-                                        'color' => $action['color'] ?? '',
-                                    ]); ?>
-                                </form>
-                            <?php endif; ?>
+                            <form action="<?= $action['url'] ?? Helpers::currentUrl(false) ?>" method="<?= $action['method'] ?? 'POST' ?>" class="actions">
+                                <?php Component::display('button', [
+                                    'type' => 'submit',
+                                    'label' => $action['name'] ?? '',
+                                    'icon' => $action['icon'] ?? null,
+                                    'color' => $action['color'] ?? '',
+                                ]); ?>
+                            </form>
                         <?php endforeach; ?>
                     </td>
                 </tr>
