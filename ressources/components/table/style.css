@@ -45,6 +45,9 @@ table.table tbody td {
     color: var(--dark);
 }
 
-form.actions {
-    display: inline;
+/* Side by side and aligned to the right */
+td.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
 }

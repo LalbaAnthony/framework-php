@@ -68,9 +68,9 @@ use App\Icon;
                             <?php endif; ?>
                         </td>
                     <?php endforeach; ?>
-                    <td>
+                    <td class="actions">
                         <?php foreach ($actions as $key => $action): ?>
-                            <form action="<?= $action['url'] ?? Helpers::currentUrl(false) ?>" method="<?= $action['method'] ?? 'POST' ?>" class="actions">
+                            <form action="<?= $action['url'] ?? Helpers::currentUrl(false) ?>" method="<?= $action['method'] ?? 'POST' ?>">
                                 <?php Component::display('button', [
                                     'type' => 'submit',
                                     'label' => $action['name'] ?? '',
