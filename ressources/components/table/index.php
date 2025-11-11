@@ -25,7 +25,7 @@ use App\Icon;
                     ];
 
                     ?>
-                    <a href="<?= Helpers::buildUrl(null, $params) ?>">
+                    <a href="<?= Helpers::buildUrl(null, $params, true) ?>">
                         <span>
                             <?= e($column['name'] ?? '') ?>
                         </span>

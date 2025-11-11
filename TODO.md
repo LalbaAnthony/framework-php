@@ -28,6 +28,7 @@
     - [x] Submit ne garde pas le texte dans l'input
     - [x] Ajouter JS pour submit quand appuie sur entrer
     - [ ] Submit ne garde pas le tri
+    - [x] Tri ne garde pas le search
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters

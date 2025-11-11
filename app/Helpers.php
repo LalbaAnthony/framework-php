@@ -132,10 +132,15 @@ class Helpers
      * @param array $params
      * @return string
      */
-    public static function buildUrl(?string $url, array $params = []): string
+    public static function buildUrl(?string $url, array $params = [], bool $keep = false): string
     {
         if (!$url || empty($url)) $url = self::currentUrl(false);
         if (empty($params)) return $url;
+
+        if ($keep) {
+            $currentQueries = self::currentQueries();
+            $params = array_merge($currentQueries, $params);
+        }
 
         $query = http_build_query($params);
         return $url . '?' . $query;
