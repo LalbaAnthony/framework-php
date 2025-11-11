@@ -32,11 +32,11 @@
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters
+- [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Regrouper les helpers par logique ?
 - [ ] Depl les helpers de route/queries/URLs dans Router ?
 - [ ] Voler style bento de stoa
-- [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
 - [ ] Check et calcer arbo Laravel using https://github.com/laravel-workflow/sample-app

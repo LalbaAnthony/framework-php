@@ -1,9 +1,10 @@
 <?php
 
 use App\Component;
+use App\Helpers;
 
 $action = isset($action) ? $action : APP_URL;
-$method = isset($method) ? $method : 'get';
+$method = isset($method) ? $method : 'GET';
 
 ?>
 
