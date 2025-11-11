@@ -1,0 +1,18 @@
+.search-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="search"] {
+    max-width: 100%;
+    padding: 0.5rem 1rem;
+    color: var(--dark);
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+    width: 100%;
+}

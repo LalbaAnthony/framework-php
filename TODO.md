@@ -19,13 +19,19 @@
 - [x] Icons
 - [-] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 
+- [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
   - [x] Style (actions buttons, ...)
+  - [ ] Faire en sorte que "Nothing to display." ne soit pas hoverable
   - [ ] Search
+    - [ ] Submit ne garde pas le texte dans l'input
+    - [ ] Submit ne garde pas le tri
+    - [ ] Ajouter JS pour submit quand appuie sur entrer
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters
+- [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Regrouper les helpers par logique ?
 - [ ] Depl les helpers de route/queries/URLs dans Router ?
 - [ ] Voler style bento de stoa
@@ -49,7 +55,6 @@
 - [ ] Controllers
 - [ ] Authentification
 - [ ] API
-- [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Pas Interface admin mais boutons en plus pour les admins
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code

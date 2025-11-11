@@ -10,6 +10,12 @@ use App\Helpers;
 <main>
     <section>
         <?php Component::display('section-title', ['title' => 'List', 'color' => '#eb4034']) ?>
+        <?php Component::display('search-bar', [
+            'action' => APP_URL,
+            'method' => 'get',
+            'placeholder' => 'Search posts...',
+            'search' => $search,
+        ]) ?>
         <?php Component::display('table', [
             'search' => $search,
             'perPage' => $perPage,

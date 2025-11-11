@@ -28,11 +28,11 @@ table.table thead th a {
 }
 
 table.table tbody tr:nth-child(even) {
-    background: var(--false-white);
+    background: var(--gray-light);
 }
 
 table.table tbody tr:nth-child(odd) {
-    background: var(--gray-light);
+    background: var(--false-white);
 }
 
 table.table tbody tr:hover {
@@ -45,9 +45,15 @@ table.table tbody td {
     color: var(--dark);
 }
 
-/* Side by side and aligned to the right */
 td.actions {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
+}
+
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray);
+    font-size: 1.2rem;
 }

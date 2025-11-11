@@ -367,12 +367,6 @@ abstract class Model
                     $bindings[] = "%$search%";
                 }
             }
-            foreach (static::getSearchableColumns() as $column) {
-                if (preg_match('/^[a-zA-Z0-9_]+$/', $column)) {
-                    $searchClauseParts[] = "levenshtein($column, ?) < 3";
-                    $bindings[] = $search;
-                }
-            }
             if (!empty($searchClauseParts)) {
                 $and .= " AND (" . implode(" OR ", $searchClauseParts) . ")";
             }

@@ -87,9 +87,9 @@ use App\Icon;
             <tr>
                 <!-- +1 column for actions -->
                 <td colspan="<?= count($columns) + 1 ?>">
-                    <p>
+                    <div class="no-data">
                         Nothing to display.
-                    </p>
+                    </div>
                 </td>
             </tr>
         <?php endif; ?>
