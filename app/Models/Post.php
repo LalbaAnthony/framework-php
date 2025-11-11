@@ -13,6 +13,7 @@ class Post extends Model
     public ?int $user_id = null;
     public ?string $date = null;
     public string $title = '';
+    public bool $published = false;
     public string $slug = '';
     public string $content = '';
     public ?string $updated_at = null;

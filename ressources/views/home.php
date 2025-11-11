@@ -25,7 +25,8 @@ use App\Helpers;
                     'value' => 'id',
                     'sortable' => 'id',
                     'fn' => function ($row) {
-                        return '<strong>' . '#' . dataGet($row, 'id') . '</strong>';
+                        $text = '#' . dataGet($row, 'id');
+                        return '<strong>' . $text . '</strong>';
                     }
                 ],
                 [
@@ -47,11 +48,22 @@ use App\Helpers;
                     }
                 ],
                 [
+                    'name' => 'Published',
+                    'value' => 'published',
+                    'sortable' => 'published',
+                    'fn' => function ($row) {
+                        $text = dataGet($row, 'published') ? 'Yes' : 'No';
+                        $style = dataGet($row, 'published') ? 'color: black;' : 'font-weight: bold; color: orange;';
+                        return "<span style='$style'>$text</span>";
+                    }
+                ],
+                [
                     'name' => 'Date',
                     'value' => 'date',
                     'sortable' => 'date',
                     'fn' => function ($row) {
-                        return 'On ' . Helpers::formatDate(dataGet($row, 'date'));
+                        $text = 'On ' . Helpers::formatDate(dataGet($row, 'date'));
+                        return $text;
                     }
                 ],
             ],
