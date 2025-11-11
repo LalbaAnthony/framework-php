@@ -8,7 +8,10 @@ use App\Component;
     <div class="error-container">
         <h1 class="error-title"><?= $code ?? '500' ?></h1>
         <p class="error-description"><?= $message ?? '' ?></p>
-        <?= Component::display('button', ['href' => APP_URL, 'label' => 'Accueil', 'color' => 'light', 'outline' => true]) ?>
+        <div class="error-actions">
+            <?= Component::display('button', ['href' => APP_URL, 'label' => 'Home', 'color' => 'light', 'outline' => true]) ?>
+            <?= Component::display('button', ['id' => 'go-back', 'label' => 'Go back', 'color' => 'dark']) ?>
+        </div>
     </div>
 </main>
 
@@ -33,4 +36,15 @@ use App\Component;
         text-align: center;
         font-size: 20px;
     }
+
+    .error-actions {
+        display: flex;
+        gap: 1rem;
+    }
 </style>
+
+<script>
+    document.getElementById('go-back').addEventListener('click', function() {
+        goBackSafe();
+    });
+</script>

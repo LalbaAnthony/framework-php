@@ -21,21 +21,11 @@ class Logger
      * Types of log messages.
      */
     public const TYPES = [
-        'info' => [
-            'label' => 'INFO',
-        ],
-        'debug' => [
-            'label' => 'DEBUG',
-        ],
-        'success' => [
-            'label' => 'SUCCESS',
-        ],
-        'warn' => [
-            'label' => 'WARNING',
-        ],
-        'error' => [
-            'label' => 'ERROR',
-        ],
+        'info' => ['label' => 'INFO'],
+        'debug' => ['label' => 'DEBUG'],
+        'success' => ['label' => 'SUCCESS'],
+        'warn' => ['label' => 'WARNING'],
+        'error' => ['label' => 'ERROR'],
     ];
 
     /**

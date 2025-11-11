@@ -19,6 +19,8 @@
 - [x] Icons
 - [-] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 
+- [ ] Fix goBackSafe
+- [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 - [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
@@ -39,13 +41,12 @@
 - [ ] Voler style bento de stoa
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
-- [ ] Check et calcer arbo Laravel using https://github.com/laravel-workflow/sample-app
+- [ ] Check et calquer arbo Laravel using https://github.com/laravel-workflow/sample-app
 - [ ] Use `gc_enable()` and `gc_collect_cycles()` to manage memory better
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] Unit tests
-- [ ] Rate limiter on API
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Hide Reset behind somekind of verification (authentification ?)
