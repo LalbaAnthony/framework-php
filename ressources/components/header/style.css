@@ -5,6 +5,9 @@ header.header {
     grid-template-columns: 1fr auto;
     align-items: center;
     padding: 1rem;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .header-title h1 {

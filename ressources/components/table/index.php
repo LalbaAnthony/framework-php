@@ -49,7 +49,7 @@ use App\Icon;
         <?php if (!empty($rows)): ?>
             <?php foreach ($rows as $row): ?>
                 <?php $id = dataGet($row, 'id'); ?>
-                <tr class="hoverable">
+                <tr>
                     <?php foreach ($columns as $key => $column): ?>
                         <td scope="row">
                             <?php if (isset($column['fn'])): ?>
@@ -59,7 +59,7 @@ use App\Icon;
                                 $value = dataGet($row, $column['value']);
                                 if ($value) {
                                     echo e($value);
-                                } else  if (isset($column['default'])) {
+                                } else if (isset($column['default'])) {
                                     echo e($column['default']);
                                 }
                                 ?>
@@ -76,6 +76,7 @@ use App\Icon;
                                     'label' => $action['name'] ?? '',
                                     'icon' => $action['icon'] ?? null,
                                     'color' => $action['color'] ?? '',
+                                    'outline' => $action['outline'] ?? '',
                                 ]); ?>
                             </form>
                         <?php endforeach; ?>
@@ -88,7 +89,7 @@ use App\Icon;
                 <!-- +1 column for actions -->
                 <td colspan="<?= count($columns) + 1 ?>">
                     <div class="no-data">
-                        No itemes found
+                        No items found
                     </div>
                 </td>
             </tr>

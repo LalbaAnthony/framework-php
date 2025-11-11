@@ -30,7 +30,7 @@
     - [ ] Submit ne garde pas le tri
     - [x] Tri ne garde pas le search
   - [ ] Actions
-  - [ ] Pagination
+  - [x] Pagination
   - [ ] Filters
 - [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable

@@ -9,18 +9,15 @@ use App\Helpers;
 
 <main>
     <section>
-        <?php Component::display('section-title', ['title' => 'List', 'color' => '#eb4034']) ?>
+        <?php Component::display('section-title', ['title' => 'All posts', 'color' => '#eb4034']) ?>
         <?php Component::display('search-bar', [
             'action' => APP_URL,
-            'method' => 'get',
+            'method' => 'GET',
             'placeholder' => 'Search posts...',
             'search' => $search,
-        ]); 
+        ]);
         ?>
         <?php Component::display('table', [
-            'search' => $search,
-            'perPage' => $perPage,
-            'page' => $page,
             'sort' => $sort,
             'columns' => [
                 [
@@ -28,7 +25,7 @@ use App\Helpers;
                     'value' => 'id',
                     'sortable' => 'id',
                     'fn' => function ($row) {
-                        return '#' . dataGet($row, 'id');
+                        return '<strong>' . '#' . dataGet($row, 'id') . '</strong>';
                     }
                 ],
                 [
@@ -76,6 +73,11 @@ use App\Helpers;
                 ]
             ],
         ]) ?>
+        <?php Component::display('pagination', [
+            'page' => $posts["page"],
+            'lastPage' => $posts["lastPage"],
+        ]);
+        ?>
     </section>
 </main>
 

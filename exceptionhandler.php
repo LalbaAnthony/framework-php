@@ -11,15 +11,13 @@ set_exception_handler(function ($e) {
     $line = $e->getLine() ?: 0;
     $message = $e->getMessage() ?: 'An error occurred';
     $full = $message . ': ' . $file . ' on line ' . $line;
-
-    Logger::error($full);
-
-    $full = (APP_DEBUG) ? $full : 'An error occurred. Turn on APP_DEBUG to see more details.';
+    $hidden = "An error occurred. Turn on APP_DEBUG to see more details.";
 
     try {
+        Logger::error($full);
         $request = new Request();
         $router = new Router($request, []);
-        $router->force(new Route('View\\ErrorController@error'), ['code' => $code, 'message' => $full]);
+        $router->force(new Route('View\\ErrorController@error'), ['code' => $code, 'message' => (APP_DEBUG ? $full : $hidden)]);
     } catch (Exception $e) {
         // If an error occurs while handling the exception, display a simple message.
         // Cannot throw another exception since we are already in an exception handler

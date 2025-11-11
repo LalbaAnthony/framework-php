@@ -1,0 +1,25 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.pagination .dots {
+    color: var(--gray);
+}
+
+.pagination .number {
+    cursor: pointer;
+    transition: color 0.3s;
+    color: var(--gray);
+}
+
+.pagination .number:hover {
+    color: var(--dark);
+}
+
+.pagination .number.active {
+    color: var(--dark);
+}
