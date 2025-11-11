@@ -49,7 +49,7 @@ use App\Icon;
         <?php if (!empty($rows)): ?>
             <?php foreach ($rows as $row): ?>
                 <?php $id = dataGet($row, 'id'); ?>
-                <tr>
+                <tr class="hoverable">
                     <?php foreach ($columns as $key => $column): ?>
                         <td scope="row">
                             <?php if (isset($column['fn'])): ?>
@@ -88,7 +88,7 @@ use App\Icon;
                 <!-- +1 column for actions -->
                 <td colspan="<?= count($columns) + 1 ?>">
                     <div class="no-data">
-                        Nothing to display.
+                        No itemes found
                     </div>
                 </td>
             </tr>

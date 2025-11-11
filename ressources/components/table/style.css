@@ -35,7 +35,7 @@ table.table tbody tr:nth-child(odd) {
     background: var(--false-white);
 }
 
-table.table tbody tr:hover {
+table.table tbody tr.hoverable:hover {
     filter: brightness(98%);
 }
 
@@ -52,8 +52,11 @@ td.actions {
 }
 
 .no-data {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
     padding: 2rem;
+    height: 400px;
     color: var(--gray);
     font-size: 1.2rem;
 }

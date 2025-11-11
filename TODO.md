@@ -23,7 +23,7 @@
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
   - [x] Style (actions buttons, ...)
-  - [ ] Faire en sorte que "Nothing to display." ne soit pas hoverable
+  - [x] Faire en sorte que "Nothing to display." ne soit pas hoverable
   - [ ] Search
     - [x] Submit ne garde pas le texte dans l'input
     - [x] Ajouter JS pour submit quand appuie sur entrer
