@@ -282,8 +282,8 @@ abstract class Model
 
         return [
             'page' => 1,
-            'perPage' => count($results),
-            'lastPage' => 1,
+            'per' => count($results),
+            'last' => 1,
             'total' => count($results),
             'data' => array_map(fn($row) => new static($row), $results)
         ];
@@ -344,13 +344,13 @@ abstract class Model
 
         // Set default values for optional parameters.
         if (!isset($params['sort']) || !$params['sort']) $params['sort'] = static::DEFAULT_SORT;
-        if (!isset($params['perPage']) || !$params['perPage']) $params['perPage'] = static::DEFAULT_PER_PAGE;
+        if (!isset($params['per']) || !$params['per']) $params['per'] = static::DEFAULT_PER_PAGE;
         if (!isset($params['page']) || !$params['page']) $params['page'] = static::DEFAULT_PAGE;
 
         // Calculate pagination values.
-        if (isset($params['page']) && isset($params['perPage'])) {
-            $params['limit'] = (int)$params['perPage'];
-            $params['offset'] = ((int)$params['page'] - 1) * (int)$params['perPage'];
+        if (isset($params['page']) && isset($params['per'])) {
+            $params['limit'] = (int)$params['per'];
+            $params['offset'] = ((int)$params['page'] - 1) * (int)$params['per'];
         }
 
         $bindings = [];
@@ -406,14 +406,14 @@ abstract class Model
 
         $results = static::$db->query($sqlData, $bindings);
         $countResult = static::$db->query($sqlCount, $bindings);
-        $totalCount = isset($countResult[0]['count']) ? (int)$countResult[0]['count'] : 0;
-        $lastPage = $params['perPage'] > 0 ? (int)ceil($totalCount / $params['perPage']) : 1;
+        $count = isset($countResult[0]['count']) ? (int)$countResult[0]['count'] : 0;
+        $last = $params['per'] > 0 ? (int)ceil($count / $params['per']) : 1;
 
         return [
             'page' => (int)$params['page'],
-            'perPage' => (int)$params['perPage'],
-            'lastPage' => $lastPage,
-            'total' => $totalCount,
+            'per' => (int)$params['per'],
+            'last' => $last,
+            'total' => $count,
             'data' => array_map(fn($row) => new static($row), $results)
         ];
     }

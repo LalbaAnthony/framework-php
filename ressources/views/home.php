@@ -75,7 +75,7 @@ use App\Helpers;
         ]) ?>
         <?php Component::display('pagination', [
             'page' => $posts["page"],
-            'lastPage' => $posts["lastPage"],
+            'last' => $posts["last"],
         ]);
         ?>
     </section>

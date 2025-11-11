@@ -13,17 +13,17 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $search = (string) ($request->params['search'] ?? '');
-        $perPage = (int) ($request->params['perPage'] ?? self::DEFAULT_PER_PAGE);
+        $per = (int) ($request->params['per'] ?? self::DEFAULT_PER_PAGE);
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
         $posts = Post::findAllBy([
             'search' => $search,
-            'perPage' => $perPage,
+            'per' => $per,
             'page' => $page,
             'sort' => $sort,
         ]);
 
-        $this->view('home', compact('posts', 'search', 'perPage', 'page', 'sort'));
+        $this->view('home', compact('posts', 'search', 'sort'));
     }
 }
