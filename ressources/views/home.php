@@ -15,7 +15,8 @@ use App\Helpers;
             'method' => 'get',
             'placeholder' => 'Search posts...',
             'search' => $search,
-        ]) ?>
+        ]); 
+        ?>
         <?php Component::display('table', [
             'search' => $search,
             'perPage' => $perPage,

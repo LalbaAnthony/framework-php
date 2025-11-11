@@ -25,9 +25,9 @@
   - [x] Style (actions buttons, ...)
   - [ ] Faire en sorte que "Nothing to display." ne soit pas hoverable
   - [ ] Search
-    - [ ] Submit ne garde pas le texte dans l'input
+    - [x] Submit ne garde pas le texte dans l'input
+    - [x] Ajouter JS pour submit quand appuie sur entrer
     - [ ] Submit ne garde pas le tri
-    - [ ] Ajouter JS pour submit quand appuie sur entrer
   - [ ] Actions
   - [ ] Pagination
   - [ ] Filters

@@ -73,10 +73,10 @@ class Migrator
 
         try {
             $basename = basename($path, '.sql'); // basename as 0-main
-            $table = explode(self::MIGRATIONS_FILE_SEPARATOR, $basename)[1] ?? $basename;
 
             $sql = file_get_contents($path);
             if ($sql === false) throw new FileException("The file $path could not be read.");
+            if (empty($sql)) return; // Nothing to execute
             
             static::$db->query($sql);
 
