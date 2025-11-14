@@ -9,8 +9,6 @@ namespace App;
  */
 class Helpers
 {
-    public const ACCENTS_TO_LETTERS = ['à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ç' => 'c', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ÿ' => 'y', 'ñ' => 'n', 'ñ' => 'n'];
-
     /**
      * Get current date in Y-m-d format.
      *
@@ -63,7 +61,7 @@ class Helpers
         if (!$text || empty($text)) return $default;
 
         $text = strtolower($text); // convert to lowercase
-        $text = strtr($text, self::ACCENTS_TO_LETTERS); // replace accents
+        $text = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
         $text = preg_replace('/[^a-z0-9]/', $divider, $text); // replace non letter or digits by divider
         $text = preg_replace('~-+~', $divider, $text); // remove duplicate divider
         $text = trim($text, $divider); // trim divider from start and end of string

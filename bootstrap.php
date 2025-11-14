@@ -22,6 +22,10 @@ if (APP_DEBUG) {
     error_reporting(E_ALL);
 }
 
+if (!gc_enabled()) {
+    gc_enable();
+}
+
 $database = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASSWORD);
 Model::setDatabase($database);
 Migrator::setDatabase($database);
