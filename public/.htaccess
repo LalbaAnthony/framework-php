@@ -12,9 +12,6 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
-    # Rewrite the request to index.php without breaking query parameters
+    # Rewrite the request to index.php
     RewriteRule ^ index.php [L]
-
-    # Serve static resources from the ressources directory # TODO: need refacto
-    RewriteRule
 </IfModule>
