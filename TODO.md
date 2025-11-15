@@ -21,6 +21,7 @@
 - [x] Fix goBackSafe
 - [-] Use `gc_enable()` and `gc_collect_cycles()` to manage memory better
 
+- [ ] Faire regex a la mano dans les routes pour supporter les ressources `ressources/*/styles/*` + trouver moyen de récup les data de l'URL
 - [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
 - [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire proto de list pour admin
