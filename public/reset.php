@@ -3,7 +3,7 @@
 use App\Migrator;
 use App\Seeder;
 
-require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__ . '/../bootstrap.php';
 
 if (APP_ENV !== 'development') {
     print "This script can only be run in development mode.\n";
