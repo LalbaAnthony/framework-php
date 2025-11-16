@@ -71,7 +71,7 @@ use App\Icon;
                     <td class="actions">
                         <?php foreach ($actions as $key => $action): ?>
                             <form action="<?= $action['url'] ?? Helpers::currentUrl(false) ?>" method="<?= $action['method'] ?? 'POST' ?>">
-                                <?php comp('button', [
+                                <?php component('button', [
                                     'type' => 'submit',
                                     'label' => $action['name'] ?? '',
                                     'icon' => $action['icon'] ?? null,

@@ -26,7 +26,7 @@ if (!function_exists('e')) {
 }
 
 if (!function_exists('comp')) {
-    function comp(...$vars): void
+    function component(...$vars): void
     {
         Component::display(...$vars);
     }

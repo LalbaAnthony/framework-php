@@ -11,6 +11,6 @@ use App\Component;
         </a>
     </div>
     <div class="header-login">
-        <?= comp('button', ['href' => APP_URL . '/login', 'label' => 'Connexion', 'color' => 'dark', 'outline' => true]) ?>
+        <?= component('button', ['href' => APP_URL . '/login', 'label' => 'Connexion', 'color' => 'dark', 'outline' => true]) ?>
     </div>
 </header>

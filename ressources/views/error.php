@@ -9,8 +9,8 @@ use App\Component;
         <h1 class="error-title"><?= $code ?? '500' ?></h1>
         <p class="error-description"><?= $message ?? '' ?></p>
         <div class="error-actions">
-            <?= comp('button', ['href' => APP_URL, 'label' => 'Home', 'color' => 'light', 'outline' => true]) ?>
-            <?= comp('button', ['id' => 'go-back', 'label' => 'Go back', 'color' => 'dark']) ?>
+            <?= component('button', ['href' => APP_URL, 'label' => 'Home', 'color' => 'light', 'outline' => true]) ?>
+            <?= component('button', ['id' => 'go-back', 'label' => 'Go back', 'color' => 'dark']) ?>
         </div>
     </div>
 </main>
