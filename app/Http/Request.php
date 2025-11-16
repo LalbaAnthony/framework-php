@@ -8,6 +8,7 @@ class Request
     public string $uri;
     public string $body;
     public array $params;
+    public array $patterns;
 
     /**
      * Request constructor.

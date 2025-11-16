@@ -26,4 +26,23 @@ class PostController extends Controller
 
         $this->json($return, $status);
     }
+
+    public function show(Request $request, mixed $data = null)
+    {
+        $id = (int) ($request->patterns['id'] ?? 0);
+
+        if ($id <= 0) {
+            $this->json(['error' => 'Invalid post ID'], 400);
+            return;
+        }
+
+        $post = Post::findOne($id);
+
+        if (!$post) {
+            $this->json(['error' => 'Post not found'], 404);
+            return;
+        }
+
+        $this->json(['data' => [$post]], 200);
+    }
 }

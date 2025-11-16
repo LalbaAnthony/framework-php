@@ -26,4 +26,23 @@ class CategoryController extends Controller
 
         $this->json($return, $status);
     }
+
+    public function show(Request $request)
+    {
+        $id = (int) ($request->patterns['id'] ?? 0);
+
+        if ($id <= 0) {
+            $this->json(['error' => 'Invalid category ID'], 400);
+            return;
+        }
+
+        $category = Category::findOne($id);
+
+        if (!$category) {
+            $this->json(['error' => 'Category not found'], 404);
+            return;
+        }
+
+        $this->json(['data' => [$category]], 200);
+    }
 }

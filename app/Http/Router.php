@@ -56,20 +56,31 @@ class Router
      */
     public function find(): Route
     {
-        $uri = $this->request->uri;
+        $uri = trim($this->request->uri, '/');
         $method = $this->request->method;
 
-        if (!isset($this->routes[$uri])) {
-            throw new RoutingException('Route not found: ' . $uri, 404);
+        foreach ($this->routes as $pattern => $methods) {
+
+            // Convert pattern to regex
+            $regex = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '(?P<$1>[^/]+)', $pattern);
+            $regex = '#^' . trim($regex, '/') . '$#';
+
+            if (preg_match($regex, $uri, $matches)) {
+
+                if (!isset($methods[$method])) {
+                    throw new RoutingException("Method not allowed", 405);
+                }
+
+                $route = $methods[$method];
+
+                // Store extracted parameters inside request
+                $this->request->patterns = array_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
+
+                return $route;
+            }
         }
 
-        $route = $this->routes[$uri];
-
-        if (!isset($route[$method])) {
-            throw new RoutingException('Method not allowed', 405);
-        }
-
-        return $route[$method];
+        throw new RoutingException("Route not found: " . $uri, 404);
     }
 
     /**
