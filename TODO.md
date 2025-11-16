@@ -25,7 +25,6 @@
 - [x] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [x] Faire redirection des fichiers static avec https://chatgpt.com/share/6918c402-7b64-8008-b71a-ee5e6e86886c avec AssetsController (aussi pour point suivant)
 
-- [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
   - [x] Style (actions buttons, ...)
@@ -37,7 +36,17 @@
     - [x] Tri ne garde pas le search
   - [ ] Actions
   - [x] Pagination
+  - [x] Faire bouton de liste pour aller vers page edit
+  - [ ] Faire bouton suppr
   - [ ] Filters
+- [ ] Page Edit
+  - [x] Faire tout les champs de post
+  - [ ] Faire validate (class validator ?)
+  - [ ] Faire bouton de retour tout en haut
+  - [ ] Remonté d'erreurs 
+  - [ ] Faire save 
+  - [ ] Faire bouton suppr dans edit
+- [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Regrouper les helpers par logique ?
 - [ ] Depl les helpers de route/queries/URLs dans Router ?

@@ -30,11 +30,9 @@ class Helpers
     }
 
     /**
-     * Get current date and time in Y-m-d H:i:s format.
-     *
-     * @return string
+     * Dump a variable with its file and line information.
      */
-    public static function dd(mixed $var): void
+    public static function dump(mixed $var): void
     {
         $args = func_get_args();
         $bt = debug_backtrace();
@@ -48,6 +46,15 @@ class Helpers
         }
         echo "</pre>";
         echo "</div>";
+    }
+
+    /**
+     * Dump a variable and die with its file and line information.
+     */
+    public static function dd(mixed $var): void
+    {
+        self::dump($var);
+        die;
     }
 
     /**
@@ -217,5 +224,15 @@ class Helpers
     {
         if (!$string || empty($string)) return '';
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Return a random hexadecimal string of given length.
+     * @param int $length
+     * @return string
+     */
+    public static function randomHex(int $length = 10): string
+    {
+        return bin2hex(random_bytes($length));
     }
 }

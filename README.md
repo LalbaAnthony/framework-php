@@ -32,3 +32,4 @@ var_dump($post);
 ### Icons
 
 All icons are stored in `ressources/icons` and come from [Lucide Icons](https://lucide.dev/).
+Can download them at https://github.com/mallardduck/blade-lucide-icons/tree/main/resources/svg.

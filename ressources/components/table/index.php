@@ -1,8 +1,6 @@
 <?php
 
-use App\Component;
 use App\Helpers;
-use App\Icon;
 
 ?>
 
@@ -52,17 +50,19 @@ use App\Icon;
                 <tr>
                     <?php foreach ($columns as $key => $column): ?>
                         <td scope="row">
-                            <?php if (isset($column['fn'])): ?>
-                                <?= $column['fn']($row) ?>
-                            <?php elseif (isset($column['value'])): ?>
-                                <?php
-                                $value = dataGet($row, $column['value']);
-                                if ($value) {
-                                    echo e($value);
-                                } else if (isset($column['default'])) {
-                                    echo e($column['default']);
-                                }
-                                ?>
+                            <?php if (isset($column['value'])): ?>
+                                <?php if (is_callable($column['value'])): ?>
+                                    <?= $column['value']($row) ?>
+                                <?php else: ?>
+                                    <?php
+                                    $value = dataGet($row, $column['value']);
+                                    if ($value) {
+                                        echo e($value);
+                                    } else if (isset($column['default'])) {
+                                        echo e($column['default']);
+                                    }
+                                    ?>
+                                <?php endif; ?>
                             <?php elseif (isset($column['default'])): ?>
                                 <?= e($column['default']) ?>
                             <?php endif; ?>
@@ -70,7 +70,11 @@ use App\Icon;
                     <?php endforeach; ?>
                     <td class="actions">
                         <?php foreach ($actions as $key => $action): ?>
-                            <form action="<?= $action['url'] ?? Helpers::currentUrl(false) ?>" method="<?= $action['method'] ?? 'POST' ?>">
+                            <?php
+                            $url = is_callable($action['url']) ? $action['url']($row) : ($action['url'] ?? Helpers::currentUrl(false));
+                            $method = $action['method'] ?? 'GET';
+                            ?>
+                            <form action="<?= $url ?>" method="<?= $method ?>">
                                 <?php component('button', [
                                     'type' => 'submit',
                                     'label' => $action['name'] ?? '',

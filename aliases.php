@@ -4,6 +4,13 @@ use App\Helpers;
 use App\Component;
 use App\Icon;
 
+if (!function_exists('dump')) {
+    function dump(...$vars): void
+    {
+        Helpers::dump(...$vars);
+    }
+}
+
 if (!function_exists('dd')) {
     function dd(...$vars): void
     {

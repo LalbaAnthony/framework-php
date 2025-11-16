@@ -13,6 +13,13 @@ return [
     '/' => [
         'GET'  => new Route('View\\HomeController@index'),
     ],
+    '/posts' => [
+        'GET'  => new Route('View\\PostController@index'),
+    ],
+    '/posts/{id}' => [
+        'GET'  => new Route('View\\PostController@show'),
+        'POST'  => new Route('View\\PostController@update'),
+    ],
     // API
     '/api/posts' => [
         'GET'  => new Route('API\\PostController@index'),
