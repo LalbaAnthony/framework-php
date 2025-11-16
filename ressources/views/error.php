@@ -38,6 +38,7 @@ use App\Component;
     }
 
     .error-actions {
+        padding-top: 1rem;
         display: flex;
         gap: 1rem;
     }

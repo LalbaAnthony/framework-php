@@ -10,8 +10,13 @@ set_exception_handler(function ($e) {
     $file = $e->getFile() ?: 'unknown file';
     $line = $e->getLine() ?: 0;
     $message = $e->getMessage() ?: 'An error occurred';
+
     $full = $message . ': ' . $file . ' on line ' . $line;
-    $hidden = "An error occurred. Turn on APP_DEBUG to see more details.";
+
+    $hidden = match ($code) {
+        404 => 'Page not found.',
+        default => 'An error occurred. Turn on APP_DEBUG to see more details.',
+    };
 
     try {
         Logger::error($full);
