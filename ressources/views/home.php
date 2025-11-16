@@ -5,19 +5,19 @@ use App\Helpers;
 
 ?>
 
-<?php Component::display('header') ?>
+<?php comp('header') ?>
 
 <main>
     <section>
-        <?php Component::display('section-title', ['title' => 'All posts', 'color' => '#eb4034']) ?>
-        <?php Component::display('search-bar', [
+        <?php comp('section-title', ['title' => 'All posts', 'color' => '#eb4034']) ?>
+        <?php comp('search-bar', [
             'action' => APP_URL,
             'method' => 'GET',
             'placeholder' => 'Search posts...',
             'search' => $search,
         ]);
         ?>
-        <?php Component::display('table', [
+        <?php comp('table', [
             'sort' => $sort,
             'columns' => [
                 [
@@ -85,7 +85,7 @@ use App\Helpers;
                 ]
             ],
         ]) ?>
-        <?php Component::display('pagination', [
+        <?php comp('pagination', [
             'page' => $posts["page"],
             'last' => $posts["last"],
         ]);
@@ -93,4 +93,4 @@ use App\Helpers;
     </section>
 </main>
 
-<?php Component::display('footer') ?>
+<?php comp('footer') ?>

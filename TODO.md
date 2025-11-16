@@ -22,9 +22,9 @@
 - [-] Use `gc_enable()` and `gc_collect_cycles()` to manage memory better
 - [x] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
 - [x] Faire regex a la mano dans les routes pour supporter les ressources `ressources/*/styles/*` + trouver moyen de récup les data de l'URL
+- [x] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 
 - [ ] Faire redirection des fichiers static avec https://chatgpt.com/share/6918c402-7b64-8008-b71a-ee5e6e86886c avec AssetsController (aussi pour point suivant)
-- [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 
 - [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire proto de list pour admin

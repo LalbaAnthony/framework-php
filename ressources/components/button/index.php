@@ -9,6 +9,6 @@ use App\Icon;
     type="<?= $type ?? 'button' ?>"
     class="button <?= $color ?? 'light' ?> <?= (isset($outline) && $outline) ? 'outline' : '' ?>"
     <?= (isset($href) && $href) ? 'onclick="window.location.href=\'' . $href . '\'"' : '' ?>>
-    <?= Icon::display($icon ?? '', 'currentColor', '16px') ?>
+    <?= icon($icon ?? '', 'currentColor', '16px') ?>
     <?= e($label ?? 'Cliquez') ?>
 </button>
