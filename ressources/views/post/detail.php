@@ -88,6 +88,10 @@ use App\Helpers;
         grid-area: date;
     }
 
+    .field-published {
+        grid-area: published;
+    }
+
     .field-slug {
         grid-area: slug;
     }
@@ -101,6 +105,7 @@ use App\Helpers;
             grid-template-areas:
                 "title slug"
                 "date ."
+                "published ."
                 "content content";
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
@@ -113,6 +118,7 @@ use App\Helpers;
                 "title"
                 "slug"
                 "date"
+                "published"
                 "content";
             grid-template-columns: repeat(1, 1fr);
             gap: 1rem;

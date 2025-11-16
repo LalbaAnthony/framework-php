@@ -39,12 +39,15 @@
   - [x] Faire bouton de liste pour aller vers page edit
   - [ ] Faire bouton suppr
   - [ ] Filters
+- [ ] Trouver une solution pour les relations
+ 	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Page Edit
   - [x] Faire tout les champs de post
   - [ ] Faire validate (class validator ?)
   - [ ] Faire bouton de retour tout en haut
   - [ ] Remonté d'erreurs 
   - [ ] Faire save 
+  - [ ] Ajouter liste des categories en multi select
   - [ ] Faire bouton suppr dans edit
 - [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
@@ -61,8 +64,6 @@
 - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Hide Reset behind somekind of verification (authentification ?)
-- [ ] Trouver une solution pour les relations
- 	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Implement rollbacks for migrations, seeders, models save, ...
 - [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll
 - [ ] Controllers
