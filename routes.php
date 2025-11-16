@@ -4,6 +4,12 @@ use App\Http\Route;
 
 return [
     // Views
+    '/hello-world' => [
+        'GET'  => function ($request) {
+            echo "Hello World!";
+            // var_dump($request);
+        },
+    ],
     '/' => [
         'GET'  => new Route('View\\HomeController@index'),
     ],

@@ -52,9 +52,9 @@ class Router
     /**
      * Find the route based of URI and method
      * 
-     * @return Route
+     * @return Route|callable
      */
-    public function find(): Route
+    public function find(): Route|callable
     {
         $uri = trim($this->request->uri, '/');
         $method = $this->request->method;
@@ -71,12 +71,12 @@ class Router
                     throw new RoutingException("Method not allowed", 405);
                 }
 
-                $route = $methods[$method];
+                $route_or_callable = $methods[$method];
 
                 // Store extracted parameters inside request
                 $this->request->patterns = array_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
 
-                return $route;
+                return $route_or_callable;
             }
         }
 
@@ -101,7 +101,13 @@ class Router
      */
     public function dispatch(): void
     {
-        $this->setRoute($this->find());
-        $this->route->execute($this->request);
+        $route_or_callable = $this->find();
+
+        if ($route_or_callable instanceof Route) {
+            $this->setRoute($route_or_callable);
+            $this->route->execute($this->request);
+        } elseif (is_callable($route_or_callable)) {
+            echo call_user_func($route_or_callable, $this->request);
+        }
     }
 }
