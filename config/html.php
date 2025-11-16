@@ -8,18 +8,18 @@ define('HTML_NOJS', false);
 
 define('HTML_SCRIPTS', [
     [
-        'src' => APP_URL . '/ressources/js/main.js',
+        'src' => APP_URL . '/public/js/main.js',
         'defer' => true,
     ],
     [
-        'src' => APP_URL . '/ressources/js/helpers.js',
+        'src' => APP_URL . '/public/js/helpers.js',
         'defer' => true,
     ]
 ]);
 
 define('HTML_STYLES', [
     [
-        'href' => APP_URL . '/ressources/css/main.css',
+        'href' => APP_URL . '/public/css/main.css',
         'rel' => 'stylesheet',
     ],
     [
