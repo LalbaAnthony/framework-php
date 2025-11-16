@@ -20,9 +20,12 @@
 - [-] Ajouter status 418 : https://developer.mozilla.org/fr/docs/Web/HTTP/Reference/Status/418
 - [x] Fix goBackSafe
 - [-] Use `gc_enable()` and `gc_collect_cycles()` to manage memory better
+- [x] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
+- [x] Faire regex a la mano dans les routes pour supporter les ressources `ressources/*/styles/*` + trouver moyen de récup les data de l'URL
+- [x] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 
-- [ ] Faire regex a la mano dans les routes pour supporter les ressources `ressources/*/styles/*` + trouver moyen de récup les data de l'URL
-- [ ] htaccess; Faire dossier public avec les images + index.php. All requests to go through public/index.php. Nothing else should be accessible. Pas possible avec xampp ?
+- [ ] Faire redirection des fichiers static avec https://chatgpt.com/share/6918c402-7b64-8008-b71a-ee5e6e86886c avec AssetsController (aussi pour point suivant)
+
 - [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
@@ -36,7 +39,6 @@
   - [ ] Actions
   - [x] Pagination
   - [ ] Filters
-- [ ] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Regrouper les helpers par logique ?
 - [ ] Depl les helpers de route/queries/URLs dans Router ?

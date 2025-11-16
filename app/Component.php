@@ -4,11 +4,11 @@ namespace App;
 
 use App\Exceptions\FileException;
 use App\Exceptions\ComponentException;
-use Exception;
 use App\Exceptions\NotFoundException;
+use Exception;
 
 /**
- * A simple component rendering system.
+ * The component rendering system.
  *
  * This class loads a PHP component file from a predefined components directory,
  * extracts the provided properties into the local symbol table, and returns the
@@ -25,11 +25,6 @@ class Component
     private const COMPONENTS_PATH = __DIR__ . '/../ressources/components';
 
     /**
-     * Base directory for components.
-     */
-    private const COMPONENTS_URL = APP_URL . '/ressources/components';
-
-    /**
      * Associative array to track printed HTML tags for deduplication.
      */
     private static array $printedTags = [
@@ -38,14 +33,13 @@ class Component
     ];
 
     /**
-     * Associative array of loaded CSS files.
+     * Associative array of loaded files.
      */
-    private static array $loadedCss = [];
-
-    /**
-     * Associative array of loaded JS files.
-     */
-    private static array $loadedJs = [];
+    private static array $includedTags =  [
+        'style' => [],
+        'script' => [],
+        'div' => []
+    ];
 
     /**
      * The component name (which corresponds to the file name without extension).
@@ -70,12 +64,17 @@ class Component
     /**
      * The full path to the component file.
      */
-    private string $cssUrl;
+    private string $cssPath;
 
     /**
      * The full path to the component file.
      */
-    private string $jsUrl;
+    private string $jsPath;
+
+    /**
+     * The full path to the component file.
+     */
+    private string $htmlPath;
 
     /**
      * Component constructor.
@@ -90,8 +89,9 @@ class Component
         $this->props = $props;
         $this->params = $params;
         $this->phpPath = self::COMPONENTS_PATH . '/' . $name . '/index.php';
-        $this->cssUrl = self::COMPONENTS_URL . '/' . $name . '/style.css';
-        $this->jsUrl = self::COMPONENTS_URL . '/' . $name . '/index.js';
+        $this->cssPath = self::COMPONENTS_PATH . '/' . $name . '/style.css';
+        $this->jsPath = self::COMPONENTS_PATH . '/' . $name . '/index.js';
+        $this->htmlPath = self::COMPONENTS_PATH . '/' . $name . '/index.html';
     }
 
     /**
@@ -161,32 +161,35 @@ class Component
     }
 
     /**
-     * Render the HTML tags required by the component (CSS and JS).
+     * Render the HTML tags required by the component.
      *
-     * @return string The HTML tags for the component's CSS and JS.
+     * @return string The HTML tags for the component.
      */
-    public function renderIncludeds(): string
+    public function renderInclud(string $path, string $type): string
     {
         $output = '';
 
-        // Include CSS only if it hasn't been printed before
-        if (
-            $this->cssUrl &&
-            !in_array($this->cssUrl, self::$loadedCss) &&
-            !(isset($this->params['css']) && $this->params['css'] === false)
-        ) {
-            $output .= PHP_EOL . '<link rel="stylesheet" href="' . $this->cssUrl . '">' . PHP_EOL;
-            self::$loadedCss[] = $this->cssUrl;
-        }
+        $tag = match ($type) {
+            'css' => 'style',
+            'js' => 'script',
+            'html' => 'div',
+            default => throw new ComponentException("Invalid type for renderInclud: " . $type),
+        };
 
-        // Include JS only if it hasn't been printed before
-        if (
-            $this->jsUrl &&
-            !in_array($this->jsUrl, self::$loadedJs) &&
-            !(isset($this->params['js']) && $this->params['js'] === false)
-        ) {
-            $output .= PHP_EOL . '<script src="' . $this->jsUrl . '"></script>' . PHP_EOL;
-            self::$loadedJs[] = $this->jsUrl;
+        if ($type === 'css' && (isset($this->params['css']) && $this->params['css'] === false)) $path = null;
+        if ($type === 'js' && (isset($this->params['js']) && $this->params['js'] === false)) $path = null;
+        if ($type === 'html' && (isset($this->params['html']) && $this->params['html'] === false)) $path = null;
+
+        if ($path && !in_array($path, self::$includedTags[$tag])) {
+            if (!file_exists($path)) return '';
+            if (!is_readable($path)) return '';
+
+            $output .= '<' . $tag . '>';
+            $output .= file_get_contents($path);
+            $output .= '</' . $tag . '>';
+
+            // Deduplicate only for css and js, print html every time
+            if ($type !== 'html') self::$includedTags[$tag][] = $path;
         }
 
         return $output;
@@ -210,8 +213,13 @@ class Component
         $component = new self($name, $props, $params);
 
         try {
-            echo $component->renderPhp();
-            echo $component->renderIncludeds();
+            $content = '';
+            $content .= $component->renderPhp();
+            $content .= $component->renderInclud($component->cssPath, 'css');
+            $content .= $component->renderInclud($component->jsPath, 'js');
+            $content .= $component->renderInclud($component->htmlPath, 'html');
+
+            echo $content;
         } catch (Exception $e) {
             throw new ComponentException("Error rendering component '" . $name . "': " . $e->getMessage(), $e->getCode(), $e);
         }

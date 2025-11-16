@@ -31,9 +31,9 @@ use App\Icon;
                         </span>
                         <?php if ($col === ($column['sortable'] ?? null)): ?>
                             <?php if ($order === 'DESC'): ?>
-                                <?php Icon::display('chevron-up', '#aaa') ?>
+                                <?php icon('chevron-up', '#aaa') ?>
                             <?php else: ?>
-                                <?php Icon::display('chevron-down', '#aaa') ?>
+                                <?php icon('chevron-down', '#aaa') ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     </a>
@@ -71,7 +71,7 @@ use App\Icon;
                     <td class="actions">
                         <?php foreach ($actions as $key => $action): ?>
                             <form action="<?= $action['url'] ?? Helpers::currentUrl(false) ?>" method="<?= $action['method'] ?? 'POST' ?>">
-                                <?php Component::display('button', [
+                                <?php component('button', [
                                     'type' => 'submit',
                                     'label' => $action['name'] ?? '',
                                     'icon' => $action['icon'] ?? null,

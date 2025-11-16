@@ -7,8 +7,8 @@ It isnt mean to be used in production (at least for now), since it might be bugg
 
 ## 📦 Config
 
-- Fill the `config/` folder.
-- Config the `RewriteBase` in the `.htaccess` file.
+- Copy the `.env.example` file to `.env` and set your environment variables.
+- Config the `RewriteBase` in the `public/.htaccess` file.
 
 ## ⌨️ Code
 

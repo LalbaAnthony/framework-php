@@ -1,6 +1,8 @@
 <?php
 
 use App\Helpers;
+use App\Component;
+use App\Icon;
 
 if (!function_exists('dd')) {
     function dd(...$vars): void
@@ -20,5 +22,19 @@ if (!function_exists('e')) {
     function e(...$vars): string
     {
         return Helpers::e(...$vars);
+    }
+}
+
+if (!function_exists('comp')) {
+    function component(...$vars): void
+    {
+        Component::display(...$vars);
+    }
+}
+
+if (!function_exists('icon')) {
+    function icon(...$vars): void
+    {
+        Icon::display(...$vars);
     }
 }

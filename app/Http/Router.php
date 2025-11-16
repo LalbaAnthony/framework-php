@@ -52,24 +52,35 @@ class Router
     /**
      * Find the route based of URI and method
      * 
-     * @return Route
+     * @return Route|callable
      */
-    public function find(): Route
+    public function find(): Route|callable
     {
-        $uri = $this->request->uri;
+        $uri = trim($this->request->uri, '/');
         $method = $this->request->method;
 
-        if (!isset($this->routes[$uri])) {
-            throw new RoutingException('Route not found: ' . $uri, 404);
+        foreach ($this->routes as $pattern => $methods) {
+
+            // Convert pattern to regex
+            $regex = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '(?P<$1>[^/]+)', $pattern);
+            $regex = '#^' . trim($regex, '/') . '$#';
+
+            if (preg_match($regex, $uri, $matches)) {
+
+                if (!isset($methods[$method])) {
+                    throw new RoutingException("Method not allowed", 405);
+                }
+
+                $route_or_callable = $methods[$method];
+
+                // Store extracted parameters inside request
+                $this->request->patterns = array_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
+
+                return $route_or_callable;
+            }
         }
 
-        $route = $this->routes[$uri];
-
-        if (!isset($route[$method])) {
-            throw new RoutingException('Method not allowed', 405);
-        }
-
-        return $route[$method];
+        throw new RoutingException("Route not found: " . $uri, 404);
     }
 
     /**
@@ -90,7 +101,13 @@ class Router
      */
     public function dispatch(): void
     {
-        $this->setRoute($this->find());
-        $this->route->execute($this->request);
+        $route_or_callable = $this->find();
+
+        if ($route_or_callable instanceof Route) {
+            $this->setRoute($route_or_callable);
+            $this->route->execute($this->request);
+        } elseif (is_callable($route_or_callable)) {
+            echo call_user_func($route_or_callable, $this->request);
+        }
     }
 }

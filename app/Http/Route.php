@@ -14,7 +14,7 @@ class Route
     /**
      * Router constructor.
      * 
-     * @param array $routes
+     * @param string $path
      */
     public function __construct(string $path = '')
     {
