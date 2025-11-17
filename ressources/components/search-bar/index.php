@@ -1,6 +1,8 @@
 <?php
 
-$action = isset($action) ? $action : APP_URL;
+use App\Helpers;
+
+$action = isset($action) ? $action : Helpers::currentUrl(false);
 $method = isset($method) ? $method : 'GET';
 
 ?>

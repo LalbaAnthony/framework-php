@@ -10,7 +10,7 @@ use App\Helpers;
     <section>
         <?php component('section-title', ['title' => $post->title, 'color' => '#32a852']) ?>
 
-        <form action="<?= Helpers::currentUrl() ?>" method="POST">
+        <form action="<?= Helpers::currentUrl(false) ?>" method="POST">
             <div class="fields-grid">
                 <?php component('field', [
                     'placeholder' => 'Enter the title',

@@ -1,6 +1,5 @@
 <?php
 
-use App\Component;
 use App\Helpers;
 
 ?>
@@ -11,7 +10,6 @@ use App\Helpers;
     <section>
         <?php component('section-title', ['title' => 'All posts', 'color' => '#eb4034']) ?>
         <?php component('search-bar', [
-            'action' => APP_URL,
             'method' => 'GET',
             'placeholder' => 'Search posts...',
             'search' => $search,
