@@ -73,6 +73,7 @@ use App\Helpers;
                     'method' => 'GET',
                 ],
                 [
+                    'name' => 'Delete',
                     'url' => '#',
                     'icon' => 'trash',
                     'color' => 'danger',
