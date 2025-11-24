@@ -44,6 +44,7 @@
   - [x] Faire bouton de liste pour aller vers page edit
   - [ ] Faire bouton suppr
   - [ ] Filters
+- [ ] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
 - [ ] Trouver une solution pour les relations
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Page Edit
