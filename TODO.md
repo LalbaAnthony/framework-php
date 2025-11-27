@@ -25,6 +25,7 @@
 - [x] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [x] Faire redirection des fichiers static avec https://chatgpt.com/share/6918c402-7b64-8008-b71a-ee5e6e86886c avec AssetsController (aussi pour point suivant)
 
+- [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux. Ou passer sur Tailwind ?
 - [ ] Regrouper les helpers par logique ?
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
   - [ ] Depl les helpers de route/queries/URLs dans Router ?
@@ -55,7 +56,6 @@
   - [ ] Faire save 
   - [ ] Ajouter liste des categories en multi select
   - [ ] Faire bouton suppr dans edit
-- [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Voler style bento de stoa
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
