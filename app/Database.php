@@ -96,10 +96,7 @@ class Database
      */
     private function connectIfIsnt(): void
     {
-        if ($this->connection !== null) {
-            return;
-        }
-        $this->connect();
+        if (!$this->connection) $this->connect();
     }
 
     /**
@@ -236,6 +233,7 @@ class Database
     public function lastInsertId(): int
     {
         $this->connectIfIsnt();
+
         try {
             return (int) $this->connection->lastInsertId();
         } catch (PDOException $e) {
@@ -252,6 +250,7 @@ class Database
     public function startTransaction(): void
     {
         $this->connectIfIsnt();
+
         try {
             $this->connection->beginTransaction();
         } catch (PDOException $e) {
@@ -268,6 +267,7 @@ class Database
     public function commit(): void
     {
         $this->connectIfIsnt();
+
         try {
             $this->connection->commit();
         } catch (PDOException $e) {
@@ -284,6 +284,7 @@ class Database
     public function rollback(): void
     {
         $this->connectIfIsnt();
+
         try {
             $this->connection->rollBack();
         } catch (PDOException $e) {
