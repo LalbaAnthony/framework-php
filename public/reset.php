@@ -13,11 +13,9 @@ if (APP_ENV !== 'development') {
 // Migrate the database
 $migrator = new Migrator();
 $migrator->crawl();
-
 print "Database migrated successfully.\n";
 
 // Seed the database
 $seeder = new Seeder();
 $seeder->crawl();
-
 print "Database seeded successfully.\n";
