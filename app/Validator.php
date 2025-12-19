@@ -9,7 +9,7 @@ use App\Exceptions\ValidatorException;
  * 
  * This class is used to validate data.
  * 
- * Usage as:
+ * Usage:
  * Validator::make($request->all(), [
  *   'name' => 'required|string|unique:attributes,name',
  *   'code' => 'required|string|unique:attributes,code',
@@ -19,6 +19,46 @@ use App\Exceptions\ValidatorException;
  */
 class Validator
 {
+    const VALIDATIONS = [ // More frequent first for performance
+        'required' => [
+            'regex' => '/^required$/',
+            'message' => 'The field is required',
+            'function' => function ($value) {
+                return !is_null($value) && $value !== '';
+            }
+        ],
+        'string' => [
+            'regex' => '/^string$/',
+            'message' => 'The field must be a string',
+            'function' => function ($value) {
+                return is_string($value);
+            }
+        ],
+        'integer' => [
+            'regex' => '/^integer$/',
+            'message' => 'The field must be an integer',
+            'function' => function ($value) {
+                return is_int($value);
+            }
+        ],
+        'in' => [
+            'regex' => '/^in:(.+)$/',
+            'message' => 'The field must be one of the following values: {values}',
+            'function' => function ($value, $params) {
+                $allowed = explode(',', $params);
+                return in_array($value, $allowed);
+            }
+        ],
+        'unique' => [
+            'regex' => '/^unique:(\w+),(\w+)$/',
+            'message' => 'The field already exists in the database',
+            'function' => function ($value, $params) {
+                // TODO: This is a placeholder for uniqueness check.
+                return true;
+            }
+        ],
+    ];
+
     /**
      * Data to validate.
      */
@@ -85,38 +125,42 @@ class Validator
      * @param mixed $value The value to validate
      * @return bool True if the rule passes, false otherwise
      */
-    private function check(string $key, string $rule, $value): bool
+    private function check(string $key, string $part, $value): ?string
     {
-        if (!$key || !$rule) throw new ValidatorException("The validation key and rule must be provided.");
+        if (!$key || !$part) throw new ValidatorException("The validation key and part must be provided.");
 
-        if ($rule === 'required') {
-            if (is_null($value) || $value === '') {
-                $this->addError($key, "The field is required");
-                return false;
+        foreach (self::VALIDATIONS as $key => $validation) {
+            if (preg_match($validation['regex'], $part, $matches)) {
+                $params = $matches[1] ?? null;
+
+                $ok = $validation['function']($value, $params);
+                if (!$ok) {
+                    $message = $validation['message'];
+                    if ($params && str_contains($message, '{values}')) {
+                        $message = str_replace('{values}', $params, $message);
+                    }
+
+                    return $message;
+                }
             }
         }
 
-        if (str_starts_with($rule, 'in:')) {
-            $alloweds = explode(',', substr($rule, 3));
-            if (!in_array($value, $alloweds)) {
-                $this->addError($key, "The field must be one of the following values: " . implode(', ', $alloweds));
-                return false;
-            }
-        }
 
-        if (str_starts_with($rule, 'unique:')) {
-            // $parts = explode(',', substr($rule, 7));
-            // $table = $parts[0] ?? null;
-            // $column = $parts[1] ?? $key;
+        return null;
+    }
 
-            // if (is_null($table)) {
-            //     throw new ValidatorException("The 'unique' rule for must specify a table.");
-            // }
+    /**
+     * Normalize the parts of a rule.
+     * 
+     * @param string|array $part The rule part
+     * @return array The normalized rule parts
+     */
+    private function normalizePart($part): ?array
+    {
+        if (is_string($part)) return explode('|', $part);
+        if (is_array($part)) return $part;
 
-            // TODO: Check uniqueness in the database
-        }
-
-        return true;
+        throw new ValidatorException("The parts must be a string or an array.");
     }
 
     /**
@@ -126,19 +170,14 @@ class Validator
     {
         $this->clearErrors();
 
-        foreach ($this->rules as $key => $rules) {
-            $value = is_array($this->data) ?
-                ($this->data[$key] ?? null) : // array case
-                ($this->data->$key ?? null); // object case
+        foreach (array_unique($this->rules) as $key => $parts) {
+            $value = Helpers::dataGet($this->data, $key);
 
-            if (is_string($rules)) {
-                $rules = explode('|', $rules);
-            } else if (!is_array($rules)) {
-                throw new ValidatorException("The rules for '$key' must be a string or an array.");
-            }
+            $parts = $this->normalizePart($parts);
 
-            foreach (array_unique($rules) as $rule) {
-                $this->check($key, $rule, $value);
+            foreach ($parts as $part) {
+                $error = $this->check($key, $part, $value);
+                if ($error) $this->addError($key, $error);
             }
         }
     }
