@@ -91,7 +91,7 @@ class Validator
 
         if ($rule === 'required') {
             if (is_null($value) || $value === '') {
-                $this->addError($key, "The field '$key' is required");
+                $this->addError($key, "The field is required");
                 return false;
             }
         }
@@ -99,7 +99,7 @@ class Validator
         if (str_starts_with($rule, 'in:')) {
             $alloweds = explode(',', substr($rule, 3));
             if (!in_array($value, $alloweds)) {
-                $this->addError($key, "The field '$key' must be one of the following values: " . implode(', ', $alloweds));
+                $this->addError($key, "The field must be one of the following values: " . implode(', ', $alloweds));
                 return false;
             }
         }
@@ -110,7 +110,7 @@ class Validator
             // $column = $parts[1] ?? $key;
 
             // if (is_null($table)) {
-            //     throw new ValidatorException("The 'unique' rule for '$key' must specify a table.");
+            //     throw new ValidatorException("The 'unique' rule for must specify a table.");
             // }
 
             // TODO: Check uniqueness in the database

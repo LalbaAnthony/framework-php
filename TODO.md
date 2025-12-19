@@ -51,6 +51,7 @@
 - [ ] Page Edit
   - [x] Faire tout les champs de post
   - [ ] Faire validate (class validator ?)
+    - [ ] Dimiinuer resp de check
   - [ ] Faire bouton de retour tout en haut
   - [ ] Remonté d'erreurs 
   - [ ] Faire save 
