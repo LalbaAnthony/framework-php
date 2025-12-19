@@ -8,7 +8,7 @@ use App\Helpers;
 
 <main>
     <section>
-        <?php component('section-title', ['title' => $post->title, 'color' => '#32a852']) ?>
+        <?php component('section-title', ['title' => $post->title]) ?>
 
         <form action="<?= Helpers::currentUrl(false) ?>" method="POST">
             <div class="fields-grid">

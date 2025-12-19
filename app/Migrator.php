@@ -23,11 +23,6 @@ class Migrator
     protected static ?Database $db = null;
 
     /**
-     * Char that will split the order and table name in migrations files.
-     */
-    private const MIGRATIONS_FILE_SEPARATOR = '-';
-
-    /**
      * Path to the migrations directory.
      */
     private const MIGRATIONS_PATH = __DIR__ . '/../migrations';

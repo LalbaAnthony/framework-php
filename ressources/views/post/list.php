@@ -8,7 +8,7 @@ use App\Helpers;
 
 <main>
     <section>
-        <?php component('section-title', ['title' => 'All posts', 'color' => '#eb4034']) ?>
+        <?php component('section-title', ['title' => 'All posts']) ?>
         <?php component('search-bar', [
             'method' => 'GET',
             'placeholder' => 'Search posts...',
@@ -48,8 +48,7 @@ use App\Helpers;
                     'sortable' => 'published',
                     'value' => function ($row) {
                         $text = dataGet($row, 'published') ? 'Yes' : 'No';
-                        $style = dataGet($row, 'published') ? 'color: black;' : 'font-weight: bold; color: orange;';
-                        return "<span style='$style'>$text</span>";
+                        return $text;
                     }
                 ],
                 [
