@@ -50,8 +50,7 @@
  	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
 - [ ] Page Edit
   - [x] Faire tout les champs de post
-  - [ ] Faire validate (class validator ?)
-    - [ ] Dimiinuer resp de check
+  - [ ] Continuer et clean class validator
   - [ ] Faire bouton de retour tout en haut
   - [ ] Remonté d'erreurs 
   - [ ] Faire save 
