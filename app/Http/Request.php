@@ -6,7 +6,7 @@ class Request
 {
     public string $method;
     public string $uri;
-    public string $body;
+    public array $body;
     public array $params;
     public array $patterns;
 
@@ -17,15 +17,15 @@ class Request
     {
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->uri = str_replace(APP_ROOT, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $this->body = file_get_contents('php://input');
+        $this->body = $_POST;
         $this->params = $_GET;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function json(): mixed
+    public function all(): array
     {
-        return json_decode($this->body, true);
+        return array_merge($this->params, $this->body);
     }
 }

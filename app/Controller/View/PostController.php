@@ -5,6 +5,7 @@ namespace App\Controller\View;
 use App\Http\Request;
 use App\Models\Post;
 use App\Controller\Controller;
+use App\Validator;
 
 class PostController extends Controller
 {
@@ -51,10 +52,21 @@ class PostController extends Controller
             $this->view('error');
             return;
         }
-        
+
+        $validator = Validator::make($request->all(), [
+            "slug" => "required",
+            "title" => "required",
+            "content" => "required",
+            "date" => "required|date",
+            "published" => "boolean",
+        ]);
+        var_dump($validator->errors);
+
         // TODO: Validate input data
         // TODO: Save the post
         // TODO: Handle errors
         // TODO: Redirect or show success message
+
+        $this->view('post/detail', compact('post'));
     }
 }

@@ -19,60 +19,20 @@ use App\Exceptions\ValidatorException;
  */
 class Validator
 {
-    const VALIDATIONS = [ // More frequent first for performance
-        'required' => [
-            'regex' => '/^required$/',
-            'message' => 'The field is required',
-            'function' => function ($value) {
-                return !is_null($value) && $value !== '';
-            }
-        ],
-        'string' => [
-            'regex' => '/^string$/',
-            'message' => 'The field must be a string',
-            'function' => function ($value) {
-                return is_string($value);
-            }
-        ],
-        'integer' => [
-            'regex' => '/^integer$/',
-            'message' => 'The field must be an integer',
-            'function' => function ($value) {
-                return is_int($value);
-            }
-        ],
-        'in' => [
-            'regex' => '/^in:(.+)$/',
-            'message' => 'The field must be one of the following values: {values}',
-            'function' => function ($value, $params) {
-                $allowed = explode(',', $params);
-                return in_array($value, $allowed);
-            }
-        ],
-        'unique' => [
-            'regex' => '/^unique:(\w+),(\w+)$/',
-            'message' => 'The field already exists in the database',
-            'function' => function ($value, $params) {
-                // TODO: This is a placeholder for uniqueness check.
-                return true;
-            }
-        ],
-    ];
-
     /**
      * Data to validate.
      */
-    private $data = [];
+    private array $data = [];
 
     /**
      * Validation rules.
      */
-    private $rules = [];
+    private array $rules = [];
 
     /**
      * Validation rules.
      */
-    public $errors = [];
+    public array $errors = [];
 
     /**
      * Validator class constructor
@@ -118,6 +78,69 @@ class Validator
     }
 
     /**
+     * Get all validation rules.
+     * 
+     * @return array The validation rules
+     */
+    private function validations(): array
+    {
+        // TODO : move this somewhere else as it grows too much
+        return [ // More frequent first for performance
+            'required' => [
+                'regex' => '/^required$/',
+                'message' => 'The field is required',
+                'function' => function ($value) {
+                    return !is_null($value) && $value !== '';
+                }
+            ],
+            'string' => [
+                'regex' => '/^string$/',
+                'message' => 'The field must be a string',
+                'function' => function ($value) {
+                    return is_string($value);
+                }
+            ],
+            'integer' => [
+                'regex' => '/^integer$/',
+                'message' => 'The field must be an integer',
+                'function' => function ($value) {
+                    return is_int($value);
+                }
+            ],
+            'boolean' => [
+                'regex' => '/^boolean$/',
+                'message' => 'The field must be a boolean',
+                'function' => function ($value) {
+                    return is_bool($value) || in_array($value, [0, 1, '0', '1'], true);
+                }
+            ],
+            'date' => [
+                'regex' => '/^date$/',
+                'message' => 'The field must be a valid date',
+                'function' => function ($value) {
+                    return (bool) strtotime($value);
+                }
+            ],
+            'in' => [
+                'regex' => '/^in:(.+)$/',
+                'message' => 'The field must be one of the following values: {values}',
+                'function' => function ($value, $params) {
+                    $allowed = explode(',', $params);
+                    return in_array($value, $allowed);
+                }
+            ],
+            'unique' => [
+                'regex' => '/^unique:(\w+),(\w+)$/',
+                'message' => 'The field already exists in the database',
+                'function' => function ($value, $params) {
+                    // TODO: This is a placeholder for uniqueness check.
+                    return true;
+                }
+            ],
+        ];
+    }
+
+    /**
      * Check a single validation rule.
      * 
      * @param string $key The key of the data
@@ -129,7 +152,7 @@ class Validator
     {
         if (!$key || !$part) throw new ValidatorException("The validation key and part must be provided.");
 
-        foreach (self::VALIDATIONS as $key => $validation) {
+        foreach ($this->validations() as $key => $validation) {
             if (preg_match($validation['regex'], $part, $matches)) {
                 $params = $matches[1] ?? null;
 

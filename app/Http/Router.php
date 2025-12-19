@@ -106,10 +106,12 @@ class Router
         if ($route_or_callable instanceof Route) {
             $this->setRoute($route_or_callable);
             $this->route->execute($this->request);
+            return;
         }
-
+        
         if (is_callable($route_or_callable)) {
             echo call_user_func($route_or_callable, $this->request);
+            return;
         }
 
         throw new RoutingException("Invalid route handler", 500);
