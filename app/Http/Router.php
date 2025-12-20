@@ -108,12 +108,65 @@ class Router
             $this->route->execute($this->request);
             return;
         }
-        
+
         if (is_callable($route_or_callable)) {
             echo call_user_func($route_or_callable, $this->request);
             return;
         }
 
         throw new RoutingException("Invalid route handler", 500);
+    }
+
+    /**
+     * Get the current URL.
+     *
+     * @return string
+     */
+    public static function currentUrl(bool $queries = true): string
+    {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = $_SERVER['REQUEST_URI'];
+
+        $url = $protocol . $host . $uri;
+
+        if (!$queries) $url = explode('?', $url)[0];
+
+        return $url;
+    }
+
+    /**
+     * Get the current URL queries.
+     *
+     * @return array
+     */
+    public static function currentQueries(): array
+    {
+        $queries = [];
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            parse_str($_SERVER['QUERY_STRING'], $queries);
+        }
+
+        return $queries;
+    }
+
+    /**
+     * Build a URL with query parameters.
+     * @param string $url
+     * @param array $params
+     * @return string
+     */
+    public static function buildUrl(?string $url, array $params = [], bool $keep = false): string
+    {
+        if (!$url || empty($url)) $url = self::currentUrl(false);
+        if (empty($params)) return $url;
+
+        if ($keep) {
+            $currentQueries = self::currentQueries();
+            $params = array_merge($currentQueries, $params);
+        }
+
+        $query = http_build_query($params);
+        return $url . '?' . $query;
     }
 }

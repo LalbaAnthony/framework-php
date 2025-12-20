@@ -1,9 +1,3 @@
-<?php
-
-use App\Component;
-
-?>
-
 <main>
     <div class="error-container">
         <h1 class="error-title"><?= $code ?? '500' ?></h1>

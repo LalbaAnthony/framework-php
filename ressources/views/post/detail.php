@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers;
+use App\Http\Router;
 
 ?>
 
@@ -10,7 +10,7 @@ use App\Helpers;
     <section>
         <?php component('section-title', ['title' => $post->title]) ?>
 
-        <form action="<?= Helpers::currentUrl(false) ?>" method="POST">
+        <form action="<?= Router::currentUrl(false) ?>" method="POST">
             <div class="fields-grid">
                 <?php component('field', [
                     'placeholder' => 'Enter the title',

@@ -67,6 +67,10 @@ a:hover {
     filter: brightness(1.15);
 }
 
+a.link {
+    text-decoration: underline;
+}
+
 input,
 textarea {
     font-family: "Inter", "Roboto", sans-serif;

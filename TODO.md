@@ -24,12 +24,10 @@
 - [x] Faire regex a la mano dans les routes pour supporter les ressources `ressources/*/styles/*` + trouver moyen de récup les data de l'URL
 - [x] Faire en sorte de mutaliser CSS et JS comme sur Ample: pouvoir appeler un seul fichier CSS/JS qui contient celui de tout les composants utilisés sur la page
 - [x] Faire redirection des fichiers static avec https://chatgpt.com/share/6918c402-7b64-8008-b71a-ee5e6e86886c avec AssetsController (aussi pour point suivant)
+- [-] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux. Ou passer sur Tailwind ?
+  - [x] Depl les helpers de route/queries/URLs dans Router ? + Faire un helpers de calcul d'URL complet (avec query params, hash, ...)
 
-- [ ] Refacto css pour adopter `.<COMPONENT-NAME>_<PART-NAME>` pour les sous parties des composants ? Demander a gpt c'est quoi le mieux. Ou passer sur Tailwind ?
-- [ ] Regrouper les helpers par logique ?
 - [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
-  - [ ] Depl les helpers de route/queries/URLs dans Router ?
-- [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 - [ ] Group routes (ex: /admin, /api, ...)
 - [ ] Faire proto de list pour admin
   - [x] Debuger sort + faire en sorte que l'on ppuisse trier sur plusieur cols + trier le bordel qu'est le fichier ressources/components/table/index.php
@@ -58,6 +56,7 @@
   - [ ] Faire bouton suppr dans edit
 - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Voler style bento de stoa
+- [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 - [ ] Faire réecriture htaccess pour les fichiers static des composants
 - [ ] Check et calquer arbo Laravel using https://github.com/laravel-workflow/sample-app
 - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)

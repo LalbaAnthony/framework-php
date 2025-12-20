@@ -1,8 +1,8 @@
 <?php
 
-use App\Helpers;
+use App\Http\Router;
 
-$action = isset($action) ? $action : Helpers::currentUrl(false);
+$action = isset($action) ? $action : Router::currentUrl(false);
 $method = isset($method) ? $method : 'GET';
 
 ?>

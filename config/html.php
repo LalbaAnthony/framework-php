@@ -5,7 +5,6 @@
  */
 
 define('HTML_NOJS', false);
-
 define('HTML_SCRIPTS', [
     [
         'src' => APP_URL . '/public/js/main.js',
@@ -16,7 +15,6 @@ define('HTML_SCRIPTS', [
         'defer' => true,
     ]
 ]);
-
 define('HTML_STYLES', [
     [
         'href' => APP_URL . '/public/css/main.css',

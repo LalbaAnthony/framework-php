@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers;
+use App\Http\Router;
 
 ?>
 
@@ -23,7 +23,7 @@ use App\Helpers;
                     ];
 
                     ?>
-                    <a href="<?= Helpers::buildUrl(null, $params, true) ?>">
+                    <a href="<?= Router::buildUrl(null, $params, true) ?>">
                         <span>
                             <?= e($column['name'] ?? '') ?>
                         </span>
@@ -71,7 +71,7 @@ use App\Helpers;
                     <td class="actions">
                         <?php foreach ($actions as $key => $action): ?>
                             <?php
-                            $url = is_callable($action['url']) ? $action['url']($row) : ($action['url'] ?? Helpers::currentUrl(false));
+                            $url = is_callable($action['url']) ? $action['url']($row) : ($action['url'] ?? Router::currentUrl(false));
                             $method = $action['method'] ?? 'GET';
                             ?>
                             <form action="<?= $url ?>" method="<?= $method ?>">
