@@ -1,35 +1,37 @@
-- [ ] Use `set_error_handler` + `register_shutdown_function` + `error_get_last` same as `set_exception_handler` (from https://chatgpt.com/share/68c3e157-c4b4-800a-8abf-b0b024cb301e)
-- [ ] Group routes (ex: /admin, /api, ...)
-- [ ] Faire proto de list pour admin
-  - [ ] Search
-    - [ ] Submit ne garde pas le tri
-  - [ ] Actions
-  - [ ] Faire bouton suppr
-  - [ ] Filters
-- [ ] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
-- [ ] Trouver une solution pour les relations
- 	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
-- [ ] Page Edit
-  - [ ] Continuer et clean class validator
-  - [ ] Faire bouton de retour tout en haut
-  - [ ] Remonté d'erreurs 
-  - [ ] Faire save 
-  - [ ] Ajouter liste des categories en multi select
-  - [ ] Faire bouton suppr dans edit
-- [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
+- [ ] Bugs
+  - [ ] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
+  - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
+- [ ] Features
+  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
+  - [ ] Authentification
+  - [ ] Implement rollbacks for migrations, seeders, models save, ...
+  - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
+  - [ ] Faire proto de list pour admin
+    - [ ] Search
+      - [ ] Submit ne garde pas le tri
+    - [ ] Actions
+    - [ ] Faire bouton suppr
+    - [ ] Filters
+  - [ ] Page Edit
+    - [ ] Continuer et clean class validator
+    - [ ] Faire bouton de retour tout en haut
+    - [ ] Remonté d'erreurs 
+    - [ ] Faire save 
+    - [ ] Ajouter liste des categories en multi select
+    - [ ] Faire bouton suppr dans edit
+- [ ] Routing
+  - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
+- [ ] Models
+  - [ ] Trouver une solution pour les relations
+   	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
+  - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Voler style bento de stoa
-- [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
-- [ ] Faire réecriture htaccess pour les fichiers static des composants
 - [ ] Check et calquer arbo Laravel using https://github.com/laravel-workflow/sample-app
-- [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
 - [ ] Unit tests
-- [ ] Error 500 isnt displayed on full page but in the none working part of the page only
-- [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
 - [ ] Hide Reset behind somekind of verification (authentification ?)
-- [ ] Implement rollbacks for migrations, seeders, models save, ...
 - [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll
 - [ ] Controllers
-- [ ] Authentification
 - [ ] API
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code
