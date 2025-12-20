@@ -27,6 +27,8 @@ set_exception_handler(function ($e) {
     } catch (Throwable $e) {
         // If an error occurs while handling the exception, display a simple message.
         // Cannot throw another exception since we are already in an exception handler
-        echo "<h1>Error " . $code . "</h1><p>" . $message . "</p><p>This page appears because an error occurred while handling the previous error. Check the logs for more details.</p>";
+        echo "<h1 style='color: crimson;'>Error " . $code . "</h1>";
+        echo "<p>This page appears because an error occurred while handling the previous error. Check the logs for more details.</p>";
+        echo "<p>" . $message . "</p>";
     }
 });

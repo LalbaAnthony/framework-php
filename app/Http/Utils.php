@@ -47,7 +47,9 @@ trait Utils
         header_remove('Server');
 
         // Set allowed methods
-        header('Access-Control-Allow-Methods: ' . implode(', ', $router->getAllowedMethods()));
+        if (ROUTING_DISPLAY_ALLOWED_METHODS) {
+            header('Access-Control-Allow-Methods: ' . implode(', ', $router->getAllowedMethods()));
+        }
 
         if (!empty($headers)) {
             if (isset($headers['origin'])) {

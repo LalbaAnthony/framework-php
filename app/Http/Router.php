@@ -77,7 +77,7 @@ class Router
      * @param Route $route
      * @return void
      */
-    public function setRoute(Route $route): void
+    public function setRoute(Route|callable $route): void
     {
         $this->route = $route;
     }
@@ -127,7 +127,7 @@ class Router
 
                 $routeOrCallable = $methods[$method];
 
-                if (is_array($methods)) {
+                if (ROUTING_DISPLAY_ALLOWED_METHODS && is_array($methods)) {
                     $allowedMethods = array_keys($methods);
                     $this->setAllowedMethods($allowedMethods);
                 }
@@ -147,15 +147,37 @@ class Router
     }
 
     /**
+     * Run the current route
+     * 
+     * @return void
+     */
+    private function run(mixed $data = null): void
+    {
+        if ($this->route instanceof Route) {
+            $this->route->execute($this->request, $data);
+            return;
+        }
+
+        if (is_callable($this->route)) {
+            echo call_user_func($this->route, $this->request, $data);
+            return;
+        }
+
+        throw new RoutingException("Invalid route handler", 500);
+    }
+
+    /**
      * Force execute a specific route
      * 
      * @return void
      */
     public function force(Route $route, mixed $data = null): void
     {
-        $this->setAllowedMethods(self::HTTP_METHODS, false);
+        if (ROUTING_DISPLAY_ALLOWED_METHODS) {
+            $this->setAllowedMethods(self::HTTP_METHODS, false);
+        }
         $this->setRoute($route);
-        $this->route->execute($this->request, $data);
+        $this->run($data);
     }
 
     /**
@@ -166,18 +188,7 @@ class Router
     public function dispatch(): void
     {
         $this->findAndSet();
-
-        if ($this->route instanceof Route) {
-            $this->route->execute($this->request);
-            return;
-        }
-
-        if (is_callable($this->route)) {
-            echo call_user_func($this->route, $this->request);
-            return;
-        }
-
-        throw new RoutingException("Invalid route handler", 500);
+        $this->run();
     }
 
     /**

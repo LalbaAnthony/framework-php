@@ -5,6 +5,7 @@
 - [ ] Routing
   - [x] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses avec `global $router; var_dump($router->getRoutes());` dans `function prepare()`
   - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] CORS
   - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
   - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
   - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
