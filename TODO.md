@@ -21,6 +21,7 @@
     - [ ] Faire bouton suppr dans edit
 - [ ] Routing
   - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
   - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 - [ ] Models
   - [ ] Trouver une solution pour les relations

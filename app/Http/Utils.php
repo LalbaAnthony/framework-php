@@ -93,10 +93,20 @@ trait Utils
         if (!file_exists($path)) throw new NotFoundException("The view $name does not exist.");
         if (!is_readable($path)) throw new FileException("The file $path is not readable.");
 
-        if ($data) extract($data, EXTR_OVERWRITE);
-
         self::openHtml();
-        require_once $path;
+
+        if ($data) {
+            extract($data, EXTR_OVERWRITE);
+        }
+
+        require $path;
+
+        if ($data) {
+            foreach (array_keys($data) as $key) {
+                unset($$key);
+            }
+        }
+
         self::closeHtml();
 
         exit;
