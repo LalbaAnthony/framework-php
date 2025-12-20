@@ -8,8 +8,7 @@ use App\Http\Router;
 
 <main>
     <section>
-        <?php component('section-title', ['title' => $post->title]) ?>
-
+        <?php component('section-title', ['title' => $post->title, 'goback' => true]) ?>
         <form action="<?= Router::currentUrl(false) ?>" method="POST">
             <div class="fields-grid">
                 <?php component('field', [
@@ -41,7 +40,7 @@ use App\Http\Router;
                     'required' => true,
                     'error' => $errors['date'] ?? null,
                     'value' => $post->date,
-                    ]) ?>
+                ]) ?>
                 <?php component('checkbox', [
                     'label' => 'Published',
                     'name' => 'published',
@@ -100,7 +99,7 @@ use App\Http\Router;
         grid-area: content;
     }
 
-    @media (min-width: 640px)  {
+    @media (min-width: 640px) {
         .fields-grid {
             grid-template-areas:
                 "title slug"

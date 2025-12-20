@@ -4,7 +4,7 @@
         <p class="error-description"><?= $message ?? '' ?></p>
         <div class="error-actions">
             <?= component('button', ['href' => APP_URL, 'label' => 'Home', 'color' => 'light', 'outline' => true]) ?>
-            <?= component('button', ['id' => 'go-back', 'label' => 'Go back', 'color' => 'dark']) ?>
+            <?= component('button', ['id' => 'goback', 'label' => 'Go back', 'color' => 'dark']) ?>
         </div>
     </div>
 </main>
@@ -39,7 +39,7 @@
 </style>
 
 <script>
-    document.getElementById('go-back').addEventListener('click', function() {
+    document.getElementById('goback').addEventListener('click', function() {
         goBackSafe();
     });
 </script>

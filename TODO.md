@@ -2,28 +2,26 @@
   - [ ] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 - [ ] Features
-  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
   - [ ] Authentification
-  - [ ] Implement rollbacks for migrations, seeders, models save, ...
   - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
   - [ ] Faire proto de list pour admin
-    - [ ] Search
-      - [ ] Submit ne garde pas le tri
     - [ ] Actions
     - [ ] Faire bouton suppr
     - [ ] Filters
   - [ ] Page Edit
     - [ ] Continuer et clean class validator
-    - [ ] Faire bouton de retour tout en haut
+    - [x] Faire bouton de retour tout en haut
     - [ ] Remonté d'erreurs 
     - [ ] Faire save 
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] Routing
   - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
   - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
   - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 - [ ] Models
+  - [ ] Implement rollbacks for migrations, seeders, models save, ...
   - [ ] Trouver une solution pour les relations
    	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
   - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable

@@ -2,7 +2,7 @@ section .section-title-wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 section h4.section-title-text {
@@ -10,7 +10,20 @@ section h4.section-title-text {
     font-weight: bold;
 }
 
-section span.section-title-hastage {
+section a.section-title-hastage {
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+section .section-title-goback {
+    width: fit-content;
+}
+
+section .section-title-goback:hover {
+    transform: translateX(-4px);
+    transition: transform 0.3s;
+}
+
+section .section-title-goback span {
+    cursor: pointer;
 }
