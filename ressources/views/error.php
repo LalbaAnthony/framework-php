@@ -20,6 +20,7 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
+        width: 90%;
     }
 
     .error-title {

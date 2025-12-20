@@ -11,6 +11,7 @@ class Router
 
     private Request $request;
     private Route $route;
+    private array $allowedMethods = [];
 
     /** @var Route[] */
     private array $routes = [];
@@ -25,6 +26,49 @@ class Router
     {
         $this->request = $request;
         $this->routes = $routes;
+    }
+
+    /**
+     * Get the allowed methods for the current request.
+     * 
+     * @return array
+     */
+    public function getAllowedMethods(): array
+    {
+        return $this->allowedMethods;
+    }
+
+    /**
+     * Validate HTTP methods.
+     * 
+     * @param array $methods
+     * @return bool
+     */
+    private static function areMethodsValid(array $methods = []): bool
+    {
+        if (empty($methods)) return true;
+
+        foreach ($methods as $method) {
+            if (!in_array($method, self::HTTP_METHODS)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Set the allowed methods for the current request.
+     * 
+     * @param array $methods
+     * @return void
+     */
+    public function setAllowedMethods(array $methods, bool $verify = true): void
+    {
+        if ($verify && !self::areMethodsValid($methods)) {
+            throw new RoutingException("Invalid HTTP methods", 500);
+        }
+
+        $this->allowedMethods = $methods;
     }
 
     /**
@@ -64,7 +108,7 @@ class Router
      * 
      * @return Route|callable
      */
-    public function find(): Route|callable
+    public function findAndSet(): void
     {
         $uri = trim($this->request->uri, '/');
         $method = $this->request->method;
@@ -81,12 +125,21 @@ class Router
                     throw new RoutingException("Method not allowed", 405);
                 }
 
-                $route_or_callable = $methods[$method];
+                $routeOrCallable = $methods[$method];
+
+                if (is_array($methods)) {
+                    $allowedMethods = array_keys($methods);
+                    $this->setAllowedMethods($allowedMethods);
+                }
+
+                if ($routeOrCallable instanceof Route || is_callable($routeOrCallable)) {
+                    $this->setRoute($routeOrCallable);
+                }
 
                 // Store extracted parameters inside request
-                $this->request->patterns = array_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
+                $this->request->patterns = arrafy_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
 
-                return $route_or_callable;
+                return;
             }
         }
 
@@ -100,6 +153,7 @@ class Router
      */
     public function force(Route $route, mixed $data = null): void
     {
+        $this->setAllowedMethods(self::HTTP_METHODS, false);
         $this->setRoute($route);
         $this->route->execute($this->request, $data);
     }
@@ -111,16 +165,15 @@ class Router
      */
     public function dispatch(): void
     {
-        $route_or_callable = $this->find();
+        $this->findAndSet();
 
-        if ($route_or_callable instanceof Route) {
-            $this->setRoute($route_or_callable);
+        if ($this->route instanceof Route) {
             $this->route->execute($this->request);
             return;
         }
 
-        if (is_callable($route_or_callable)) {
-            echo call_user_func($route_or_callable, $this->request);
+        if (is_callable($this->route)) {
+            echo call_user_func($this->route, $this->request);
             return;
         }
 

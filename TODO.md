@@ -3,7 +3,7 @@
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 
 - [ ] Routing
-  - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses avec `global $router; var_dump($router->getRoutes());` dans `function prepare()`
+  - [x] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses avec `global $router; var_dump($router->getRoutes());` dans `function prepare()`
   - [ ] Group routes (ex: /admin, /api, ...)
   - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
   - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins

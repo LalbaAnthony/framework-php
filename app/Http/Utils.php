@@ -33,23 +33,23 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    private function prepare(int $code, array $headers = ['methods' => self::HTTP_METHODS, 'origin' => '*', 'cache' => 0]): void
+    private function prepare(int $code, array $headers = ['origin' => '*', 'cache' => 0]): void
     {
+        global $router;
+
         if (headers_sent()) return;
 
         http_response_code($code);
-
-        header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Requested-With');
 
         // Remove sensitive headers
         header_remove('X-Powered-By');
         header_remove('X-Frame-Options');
         header_remove('Server');
 
+        // Set allowed methods
+        header('Access-Control-Allow-Methods: ' . implode(', ', $router->getAllowedMethods()));
+
         if (!empty($headers)) {
-            if (isset($headers['methods'])) {
-                header('Access-Control-Allow-Methods: ' . implode(', ', $headers['methods']));
-            }
             if (isset($headers['origin'])) {
                 header('Access-Control-Allow-Origin: ' . $headers['origin']);
             }
