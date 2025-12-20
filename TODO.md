@@ -1,9 +1,25 @@
 - [ ] Bugs
   - [ ] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
+
+- [ ] Routing
+  - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses avec `global $router; var_dump($router->getRoutes());` dans `function prepare()`
+  - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
+  - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
+  - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
+
+- [ ] Voler style bento de stoa
+- [ ] Check et calquer arbo Laravel using https://github.com/laravel-workflow/sample-app
+- [ ] Unit tests
+- [ ] Controllers
+- [ ] API
+- [ ] Faire PHP doc sur classes et méthodes
+- [ ] Traiter TODO et WIP du code
+
 - [ ] Features
   - [ ] Authentification
-  - [ ] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses
+    - [ ] Hide Reset behind somekind of verification (authentification ?)
   - [ ] Faire proto de list pour admin
     - [ ] Actions
     - [ ] Faire bouton suppr
@@ -15,22 +31,10 @@
     - [ ] Faire save 
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
-- [ ] Routing
-  - [ ] Group routes (ex: /admin, /api, ...)
-  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
-  - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
-  - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 - [ ] Models
+  - [ ] Possibilité de masquer des champs de base genre ID, created_at, updated_at
   - [ ] Implement rollbacks for migrations, seeders, models save, ...
   - [ ] Trouver une solution pour les relations
    	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
   - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
-- [ ] Voler style bento de stoa
-- [ ] Check et calquer arbo Laravel using https://github.com/laravel-workflow/sample-app
-- [ ] Unit tests
-- [ ] Hide Reset behind somekind of verification (authentification ?)
-- [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll
-- [ ] Controllers
-- [ ] API
-- [ ] Faire PHP doc sur classes et méthodes
-- [ ] Traiter TODO et WIP du code
+  - [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll

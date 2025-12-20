@@ -17,6 +17,7 @@ section a.section-title-hastage {
 
 section .section-title-goback {
     width: fit-content;
+    transition: all 0.15s ease-in-out;
 }
 
 section .section-title-goback:hover {

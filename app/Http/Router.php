@@ -50,6 +50,16 @@ class Router
     }
 
     /**
+     * Get all registered routes
+     * 
+     * @return Route[]
+     */
+    public function getRoutes(): array
+    {
+        return $this->routes;
+    }
+
+    /**
      * Find the route based of URI and method
      * 
      * @return Route|callable

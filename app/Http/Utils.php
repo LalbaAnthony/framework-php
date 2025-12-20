@@ -11,7 +11,7 @@ trait Utils
     use Html;
 
     const VIEWS_PATH = __DIR__ . '/../../ressources/views/';
-    const ROUTING_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
+    const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'];
 
     /**
      * Redirect to a different page
@@ -33,13 +33,18 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    private function prepare(int $code, array $headers = ['methods' => self::ROUTING_METHODS, 'origin' => '*', 'cache' => 0]): void
+    private function prepare(int $code, array $headers = ['methods' => self::HTTP_METHODS, 'origin' => '*', 'cache' => 0]): void
     {
         if (headers_sent()) return;
 
         http_response_code($code);
 
-        header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+        header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Requested-With');
+
+        // Remove sensitive headers
+        header_remove('X-Powered-By');
+        header_remove('X-Frame-Options');
+        header_remove('Server');
 
         if (!empty($headers)) {
             if (isset($headers['methods'])) {
@@ -66,7 +71,7 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    public function json(mixed $data = null, int $code = 200, array $headers = ['methods' => self::ROUTING_METHODS, 'origin' => '*', 'cache' => 0]): void
+    public function json(mixed $data = null, int $code = 200, array $headers = ['methods' => self::HTTP_METHODS, 'origin' => '*', 'cache' => 0]): void
     {
         $this->prepare($code, $headers);
 
