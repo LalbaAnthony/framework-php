@@ -10,7 +10,7 @@ class Router
     use Html;
 
     private Request $request;
-    private Route $route;
+    private mixed $route;
     private array $allowedMethods = [];
 
     /** @var Route[] */
@@ -106,7 +106,7 @@ class Router
     /**
      * Find the route based of URI and method
      * 
-     * @return Route|callable
+     * @return void
      */
     public function findAndSet(): void
     {
