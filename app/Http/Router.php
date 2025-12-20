@@ -137,7 +137,7 @@ class Router
                 }
 
                 // Store extracted parameters inside request
-                $this->request->patterns = arrafy_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
+                $this->request->patterns = array_filter($matches, fn($k) => !is_int($k), ARRAY_FILTER_USE_KEY);
 
                 return;
             }
