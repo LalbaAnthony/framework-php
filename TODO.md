@@ -24,8 +24,6 @@
     - [ ] Faire bouton suppr
     - [ ] Filters
   - [ ] Page Edit
-    - [ ] Continuer et clean class validator
-    - [ ] Remonté d'erreurs 
     - [ ] Faire save 
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
