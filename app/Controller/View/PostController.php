@@ -60,14 +60,22 @@ class PostController extends Controller
             "date" => "required|date",
             "published" => "boolean",
         ]);
-        var_dump($validator->errors);
-        var_dump($request->method);
 
-        // TODO: Validate input data
-        // TODO: Save the post
-        // TODO: Handle errors
-        // TODO: Redirect or show success message
+        $post->slug = $request->body['slug'];
+        $post->title = $request->body['title'];
+        $post->content = $request->body['content'];
+        $post->date = $request->body['date'];
+        $post->published = $request->body['published'];
 
-        $this->view('post/detail', compact('post'));
+        if ($validator->hasErrors()) {
+            $this->view('post/detail', ['post' => $post, 'errors' => $validator->errors]);
+            return;
+        }
+
+        // $post->save(); // TODO: saving here
+
+        if (!$validator->hasErrors()) {
+            $this->view('post/detail', ['post' => $post, 'success' => 'Post updated successfully.']);
+        }
     }
 }

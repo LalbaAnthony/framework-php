@@ -9,6 +9,14 @@ use App\Http\Router;
 <main>
     <section>
         <?php component('section-title', ['title' => $post->title, 'goback' => true]) ?>
+
+        <?php if (isset($success) && $success) : ?>
+            <?php component('alert', [
+                'type' => 'success',
+                'message' => 'Post updated successfully.'
+            ]) ?>
+        <?php endif; ?>
+
         <form action="<?= Router::currentUrl(false) ?>" method="POST">
             <?= hiddenMethodInput('PUT'); ?>
             <div class="fields-grid">
@@ -19,7 +27,7 @@ use App\Http\Router;
                     'class' => 'field-title',
                     'type' => 'text',
                     'required' => true,
-                    'error' => $errors['title'] ?? null,
+                    'errors' => $errors['title'] ?? [],
                     'value' => $post->title,
                 ]) ?>
                 <?php component('field', [
@@ -29,7 +37,7 @@ use App\Http\Router;
                     'class' => 'field-slug',
                     'type' => 'text',
                     'required' => true,
-                    'error' => $errors['slug'] ?? null,
+                    'errors' => $errors['slug'] ?? [],
                     'value' => $post->slug,
                 ]) ?>
                 <?php component('field', [
@@ -39,7 +47,7 @@ use App\Http\Router;
                     'class' => 'field-date',
                     'type' => 'date',
                     'required' => true,
-                    'error' => $errors['date'] ?? null,
+                    'errors' => $errors['date'] ?? [],
                     'value' => $post->date,
                 ]) ?>
                 <?php component('checkbox', [
@@ -47,7 +55,7 @@ use App\Http\Router;
                     'name' => 'published',
                     'class' => 'field-published',
                     'required' => false,
-                    'error' => $errors['published'] ?? null,
+                    'errors' => $errors['published'] ?? [],
                     'checked' => $post->published,
                 ]) ?>
                 <?php component('field', [
@@ -57,7 +65,7 @@ use App\Http\Router;
                     'class' => 'field-content',
                     'type' => 'textarea',
                     'required' => true,
-                    'error' => $errors['content'] ?? null,
+                    'errors' => $errors['content'] ?? [],
                     'value' => $post->content,
                 ]) ?>
             </div>

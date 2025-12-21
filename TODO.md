@@ -1,9 +1,7 @@
 - [ ] Bugs
-  - [x] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 
 - [ ] Routing
-  - [x] Faire en sorte que les type de methode des routes soit reutilisé pour les header de réponses avec `global $router; var_dump($router->getRoutes());` dans `function prepare()`
   - [ ] Group routes (ex: /admin, /api, ...)
   - [ ] CORS
   - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
@@ -27,7 +25,6 @@
     - [ ] Filters
   - [ ] Page Edit
     - [ ] Continuer et clean class validator
-    - [x] Faire bouton de retour tout en haut
     - [ ] Remonté d'erreurs 
     - [ ] Faire save 
     - [ ] Ajouter liste des categories en multi select

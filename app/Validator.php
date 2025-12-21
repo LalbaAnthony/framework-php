@@ -193,9 +193,8 @@ class Validator
     {
         $this->clearErrors();
 
-        foreach (array_unique($this->rules) as $key => $parts) {
+        foreach ($this->rules as $key => $parts) {
             $value = Helpers::dataGet($this->data, $key);
-
             $parts = $this->normalizePart($parts);
 
             foreach ($parts as $part) {

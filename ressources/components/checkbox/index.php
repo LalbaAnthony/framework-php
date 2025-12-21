@@ -4,7 +4,7 @@ use App\Helpers;
 
 $id = isset($id) ? $id : Helpers::randomHex(8);
 $class = isset($class) ? $class : '';
-$error = isset($error) && strlen($error) > 1 ? $error : '';
+$errors = isset($errors) && count($errors) > 0 ? $errors : [];
 $required = isset($required) ? $required : false;
 $checked = isset($checked) ? (bool) $checked : false;
 
@@ -23,7 +23,7 @@ if (!isset($name)) {
             value="1"
             <?php if ($checked) : ?> checked <?php endif; ?>
             <?php if ($required) : ?> required <?php endif; ?>
-            class="<?= $error ? 'error' : '' ?>" />
+            class="<?= $errors ? 'error' : '' ?>" />
         <span class="checkbox-label">
             <?= e($label ?? '') ?>
             <?php if ($required) : ?>
@@ -31,7 +31,7 @@ if (!isset($name)) {
             <?php endif; ?>
         </span>
     </label>
-    <?php if ($error) : ?>
-        <p class="error"><?= $error ?></p>
+    <?php if ($errors && count($errors) > 0) : ?>
+        <p class="error"><?= implode(', ', $errors) ?></p>
     <?php endif; ?>
 </div>

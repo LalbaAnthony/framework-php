@@ -4,9 +4,14 @@
     --gray-light: #F3F3F3;
     --gray: #cccccc;
     --dark: #120b14;
+    --info: #017bff;
+    --info-light: #d1e9ff;
     --success: #3caf57;
+    --success-light: #d2f0da;
     --warning: #cf4a02;
+    --warning-light: #ffe5d1;
     --danger: #cf0d0d;
+    --danger-light: #ffb3b3;
 }
 
 *,

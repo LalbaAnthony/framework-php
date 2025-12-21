@@ -9,10 +9,10 @@ $id = isset($id) ? $id : Helpers::randomHex(8);
 $type = isset($type) ? $type : 'text';
 $placeholder = isset($placeholder) ? $placeholder : '';
 $class = isset($class) ? $class : '';
-$error = isset($error) && sizeof($error) > 1 ? $error : '';
+$errors = isset($errors) && count($errors) > 0 ? $errors : [];
 $required = isset($required) ? $required : false;
 
-$tag  =  match ($type) {
+$tag = match ($type) {
     'textarea' => 'textarea',
     default => 'input',
 };
@@ -44,18 +44,16 @@ if (!in_array($type, $types)) {
             value="<?= e($value) ?>"
             autocomplete="<?= e($autocompletes[$type] ?? 'on') ?>"
             placeholder="<?= e($placeholder) ?>"
-            <?php if ($required) : ?> required <?php endif; ?>
-            class="<?= $class ?> <?= $error ? 'error' : '' ?>" />
+            class="<?= $class ?> <?= $errors ? 'error' : '' ?>" />
     <?php elseif ($tag === 'textarea') : ?>
         <textarea
             id="<?= e($id) ?>"
             name="<?= e($name) ?>"
             placeholder="<?= e($placeholder) ?>"
-            <?php if ($required) : ?> required <?php endif; ?>
-            class="<?= $error ? 'error' : '' ?>"><?= e($value) ?></textarea>
+            class="<?= $errors ? 'error' : '' ?>"><?= e($value) ?></textarea>
     <?php endif; ?>
-    <?php if ($error) : ?>
-        <p class="error"><?= $error  ?></p>
+    <?php if ($errors && count($errors) > 0) : ?>
+        <p class="error"><?= implode(', ', $errors) ?></p>
     <?php endif; ?>
     </p>
 </div>
