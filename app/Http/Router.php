@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Exceptions\RoutingException;
+use Exception;
 
 class Router
 {
@@ -49,9 +50,7 @@ class Router
         if (empty($methods)) return true;
 
         foreach ($methods as $method) {
-            if (!in_array($method, self::HTTP_METHODS)) {
-                return false;
-            }
+            self::verifyMethod($method);
         }
         return true;
     }
@@ -242,5 +241,19 @@ class Router
 
         $query = http_build_query($params);
         return $url . '?' . $query;
+    }
+
+    /**
+     * Generate a hidden input field for HTTP method override.
+     * 
+     * @param $method
+     * @return string
+     */
+    public static function hiddenMethodInput(string $method): string
+    {
+        if (empty($method)) return '';
+        if (!self::verifyMethod($method)) throw new Exception("Invalid HTTP method: $method");
+
+        return '<input type="hidden" name="' . self::FORM_METHOD_KEY . '" value="' . strtoupper($method) . '">';
     }
 }

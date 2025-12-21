@@ -10,6 +10,7 @@ use App\Http\Router;
     <section>
         <?php component('section-title', ['title' => $post->title, 'goback' => true]) ?>
         <form action="<?= Router::currentUrl(false) ?>" method="POST">
+            <?= hiddenMethodInput('PUT'); ?>
             <div class="fields-grid">
                 <?php component('field', [
                     'placeholder' => 'Enter the title',

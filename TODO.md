@@ -1,5 +1,5 @@
 - [ ] Bugs
-  - [ ] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
+  - [x] Contourner les limite de formulaire HTML pour les methodes PUT et DELETE (hidden input `<input type="hidden" name="_method" value="PUT">` + verif dans router ?)
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 
 - [ ] Routing

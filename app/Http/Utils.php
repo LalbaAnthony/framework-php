@@ -12,6 +12,24 @@ trait Utils
 
     const VIEWS_PATH = __DIR__ . '/../../ressources/views/';
     const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'];
+    const FORM_METHOD_KEY = '_method';
+
+    /**
+     * Verify if the HTTP method is valid
+     * 
+     * @param string $method
+     * @return bool
+     */
+    public static function verifyMethod(string $method): bool
+    {
+        $method = strtoupper($method);
+
+        if (!in_array($method, self::HTTP_METHODS)) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Redirect to a different page

@@ -61,6 +61,7 @@ class PostController extends Controller
             "published" => "boolean",
         ]);
         var_dump($validator->errors);
+        var_dump($request->method);
 
         // TODO: Validate input data
         // TODO: Save the post

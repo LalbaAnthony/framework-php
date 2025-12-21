@@ -2,6 +2,7 @@
 
 use App\Helpers;
 use App\Component;
+use App\Http\Router;
 use App\Icon;
 
 if (!function_exists('dump')) {
@@ -43,5 +44,12 @@ if (!function_exists('icon')) {
     function icon(...$vars): void
     {
         Icon::display(...$vars);
+    }
+}
+
+if (!function_exists('hiddenMethodInput')) {
+    function hiddenMethodInput(...$vars): string
+    {
+        return Router::hiddenMethodInput(...$vars);
     }
 }
