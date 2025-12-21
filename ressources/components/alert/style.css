@@ -1,26 +1,37 @@
-div.alert {
+div.alert-wrapper {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    div.alert-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+div.alert-message {
     padding: 1rem;
     border-radius: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-weight: 500;
 }
 
-div.alert-success {
+div.alert-message.success {
     background-color: var(--success-light);
     color: var(--success);
 }
 
-div.alert-warning {
+div.alert-message.warning {
     background-color: var(--warning-light);
     color: var(--warning);
 }
 
-div.alert-danger {
+div.alert-message.danger {
     background-color: var(--danger-light);
     color: var(--danger);
 }
 
-div.alert-info {
+div.alert-message.info {
     background-color: var(--info-light);
     color: var(--info);
 }
