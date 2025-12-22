@@ -126,7 +126,7 @@ class Router
 
                 $routeOrCallable = $methods[$method];
 
-                if (ROUTING_DISPLAY_ALLOWED_METHODS && is_array($methods)) {
+                if (ROUTING_ALLOW_METHODS && is_array($methods)) {
                     $allowedMethods = array_keys($methods);
                     $this->setAllowedMethods($allowedMethods);
                 }
@@ -172,7 +172,7 @@ class Router
      */
     public function force(Route $route, mixed $data = null): void
     {
-        if (ROUTING_DISPLAY_ALLOWED_METHODS) {
+        if (ROUTING_ALLOW_METHODS) {
             $this->setAllowedMethods(self::HTTP_METHODS, false);
         }
         $this->setRoute($route);
@@ -249,7 +249,7 @@ class Router
      * @param $method
      * @return string
      */
-    public static function hiddenMethodInput(string $method): string
+    public static function methodTag(string $method): string
     {
         if (empty($method)) return '';
         if (!self::verifyMethod($method)) throw new Exception("Invalid HTTP method: $method");

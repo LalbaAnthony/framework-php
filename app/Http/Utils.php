@@ -51,7 +51,7 @@ trait Utils
      * @param array $headers
      * @return void
      */
-    private function prepare(int $code, array $headers = ['origin' => '*', 'cache' => 0]): void
+    private function prepare(int $code, array $headers = ['cache' => 0]): void
     {
         global $router;
 
@@ -64,15 +64,18 @@ trait Utils
         header_remove('X-Frame-Options');
         header_remove('Server');
 
-        // Set allowed methods
-        if (ROUTING_DISPLAY_ALLOWED_METHODS) {
+        // Set allow methods
+        if (ROUTING_ALLOW_METHODS) {
             header('Access-Control-Allow-Methods: ' . implode(', ', $router->getAllowedMethods()));
         }
 
+        // Set allow origin
+        if (ROUTING_ALLOW_ORIGIN) {
+            $allowOrigin = is_array(ROUTING_ALLOW_ORIGIN) ? ROUTING_ALLOW_ORIGIN : [ROUTING_ALLOW_ORIGIN];
+            header('Access-Control-Allow-Origin: ' . implode(', ', $allowOrigin));
+        }
+
         if (!empty($headers)) {
-            if (isset($headers['origin'])) {
-                header('Access-Control-Allow-Origin: ' . $headers['origin']);
-            }
             if (isset($headers['cache']) && $headers['cache'] > 0) {
                 $seconds = $headers['cache'];
                 $ts = gmdate("D, d M Y H:i:s", time() + $seconds) . " GMT";

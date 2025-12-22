@@ -13,12 +13,12 @@ use App\Http\Router;
         <?php if (isset($success) && $success) : ?>
             <?php component('alert', [
                 'type' => 'success',
-                'message' => 'Post updated successfully.'
+                'message' => $success
             ]) ?>
         <?php endif; ?>
 
         <form action="<?= Router::currentUrl(false) ?>" method="POST">
-            <?= hiddenMethodInput('PUT'); ?>
+            <?= methodTag('PUT'); ?>
             <div class="fields-grid">
                 <?php component('field', [
                     'placeholder' => 'Enter the title',

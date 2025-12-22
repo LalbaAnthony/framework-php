@@ -47,9 +47,9 @@ if (!function_exists('icon')) {
     }
 }
 
-if (!function_exists('hiddenMethodInput')) {
-    function hiddenMethodInput(...$vars): string
+if (!function_exists('methodTag')) {
+    function methodTag(...$vars): string
     {
-        return Router::hiddenMethodInput(...$vars);
+        return Router::methodTag(...$vars);
     }
 }
