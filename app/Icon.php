@@ -87,8 +87,8 @@ class Icon
      */
     public function render(): string
     {
-        if (!file_exists($this->path)) throw new \Exception("Icon file not found: " . $this->path);
-        if (!is_readable($this->path)) throw new \Exception("Icon file is not readable: " . $this->path);
+        if (!file_exists($this->path)) throw new Exception("Icon file not found: " . $this->path);
+        if (!is_readable($this->path)) throw new Exception("Icon file is not readable: " . $this->path);
 
         ob_start();
 

@@ -1,6 +1,8 @@
 - [ ] Random
   - [ ] Passer couleurs bouton en light et text en dark de la couleur
   - [ ] Chg remonté wording var success et error dans les vues
+  - [ ] Faire en sorte que la generation d'un slug soit toujouers unique avec while existant
+  - [ ] Modifier API pour utiliser les slugs au lieu des IDs dans les pages de detail
 
 - [ ] Bugs
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
