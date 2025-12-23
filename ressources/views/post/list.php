@@ -10,13 +10,6 @@ use App\Helpers;
     <section>
         <?php component('section-title', ['title' => 'All posts']) ?>
 
-        <?php if (isset($success) && $success) : ?>
-            <?php component('alert', [
-                'type' => 'success',
-                'message' => $success
-            ]) ?>
-        <?php endif; ?>
-
         <?php component('search-bar', [
             'method' => 'GET',
             'placeholder' => 'Search posts...',
