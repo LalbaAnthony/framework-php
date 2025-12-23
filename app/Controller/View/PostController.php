@@ -25,7 +25,7 @@ class PostController extends Controller
             'sort' => $sort,
         ]);
 
-        $this->view('post/list', compact('posts', 'search', 'sort'));
+        $this->view('post/list', compact('posts', 'meta', 'search', 'sort'));
     }
 
     public function show(Request $request)

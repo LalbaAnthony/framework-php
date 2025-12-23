@@ -82,8 +82,8 @@ use App\Helpers;
             ],
         ]) ?>
         <?php component('pagination', [
-            'page' => $posts["page"],
-            'last' => $posts["last"],
+            'page' => $meta["page"],
+            'last' => $meta["last"],
         ]);
         ?>
     </section>
