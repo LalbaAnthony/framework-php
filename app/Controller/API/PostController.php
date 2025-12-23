@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Http\Request;
 use App\Models\Post;
 use App\Controller\Controller;
+use App\Models\Model;
 
 class PostController extends Controller
 {
@@ -15,12 +16,14 @@ class PostController extends Controller
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
-        [$data, $meta] = Post::findAllBy([
+        [$data, $meta] = Post::findAll([
             'search' => $search,
             'perPage' => $perPage,
             'page' => $page,
             'sort' => $sort,
         ]);
+
+        $data = Model::parseArraySafe($data);
 
         $status = count((array) $data) > 0 ? 200 : 204;
 
@@ -36,7 +39,9 @@ class PostController extends Controller
             return;
         }
 
-        $post = Post::findOne($id);
+        $post = Post::findByPk($id);
+
+        $post = $post->toArraySafe();
 
         if (!$post) {
             $this->json(['error' => 'Post not found'], 404);

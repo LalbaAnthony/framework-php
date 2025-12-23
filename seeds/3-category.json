@@ -1,14 +1,17 @@
 [
     {
         "id": 1,
+        "slug": "category-a",
         "label": "Category A"
     },
     {
         "id": 2,
+        "slug": "category-b",
         "label": "Category B"
     },
     {
         "id": 3,
+        "slug": "category-c",
         "label": "Category C"
     }
 ]

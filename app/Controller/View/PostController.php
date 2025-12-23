@@ -18,7 +18,7 @@ class PostController extends Controller
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
-        [$posts, $meta] = Post::findAllBy([
+        [$posts, $meta] = Post::findAll([
             'search' => $search,
             'perPage' => $perPage,
             'page' => $page,
@@ -32,7 +32,7 @@ class PostController extends Controller
     {
         $id = (int) ($request->patterns['id'] ?? 0);
 
-        $post = Post::findOne($id);
+        $post = Post::findByPk($id);
 
         if (!$post) {
             $this->view('error');
@@ -46,7 +46,7 @@ class PostController extends Controller
     {
         $id = (int) ($request->patterns['id'] ?? 0);
 
-        $post = Post::findOne($id);
+        $post = Post::findByPk($id);
 
         if (!$post) {
             $this->view('error');

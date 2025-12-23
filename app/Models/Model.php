@@ -21,6 +21,11 @@ abstract class Model
     const DEFAULT_UPDATED_AT = 'updated_at';
 
     /**
+     * Columns that should be hidden when converting the model to an array or JSON.
+     */
+    const DEFAULT_SENSITIVE_COLUMNS = ['id', 'created_at', 'updated_at'];
+
+    /**
      * Maximum items per page for pagination.
      */
     const MAX_PER_PAGE = 99;
@@ -55,171 +60,6 @@ abstract class Model
     public function __destruct()
     {
         static::$db = null;
-    }
-
-    /**
-     * Fill the model's properties from an array.
-     *
-     * Only properties that already exist in the object will be set.
-     *
-     * @param array $data
-     */
-    public function fill(array $data): void
-    {
-        foreach ($data as $key => $value) {
-            if (property_exists($this, $key)) {
-                if (gettype($value) === 'boolean') {
-                    $this->$key = ($value == '1' or $value === true) ? true : false;
-                    continue;
-                }
-                if (gettype($value) === 'string') {
-                    $this->$key = (string) $value;
-                    continue;
-                }
-                if (gettype($value) === 'integer') {
-                    $this->$key = (int) $value;
-                    continue;
-                }
-                if (gettype($value) === 'double') {
-                    $this->$key = (float) $value;
-                    continue;
-                }
-                if (gettype($value) === 'float') {
-                    $this->$key = (float) $value;
-                    continue;
-                }
-                if (gettype($value) === 'array') {
-                    if (is_string($value)) {
-                        $decoded = json_decode($value, true);
-                        if (json_last_error() === JSON_ERROR_NONE) {
-                            $this->$key = $decoded;
-                            continue;
-                        }
-                    }
-                    continue;
-                }
-                if (is_null($value)) {
-                    $this->$key = NULL;
-                    continue;
-                }
-
-                throw new ModelException("Unsupported property type for '$key' in " . static::class);
-            } else {
-                throw new ModelException("Property '$key' does not exist in " . static::class);
-            }
-        }
-    }
-
-    /**
-     * Save the current model to the database.
-     *
-     * Performs an UPDATE if the primary key exists, or an INSERT otherwise.
-     *
-     * @return bool
-     * @throws DatabaseException
-     */
-    public function save(): bool
-    {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
-        $primaryKey = static::getPrimaryKey();
-        $isUpdate = isset($this->$primaryKey) && !empty($this->$primaryKey);
-        $attributes = $this->toArray();
-
-        foreach ($attributes as $column => &$value) {
-            if ($column === static::getUpdatedAtColumn()) $value = Helpers::currentDateTime();
-            if ($column === static::getCreatedAtColumn() && !$isUpdate) $value = Helpers::currentDateTime();
-        }
-
-        if ($isUpdate) {
-            // UPDATE existing record
-            $columns = array_keys($attributes);
-            $placeholders = implode(", ", array_map(fn($column) => "$column = ?", $columns));
-            $params = array_values($attributes);
-
-            $sql = "UPDATE " . static::getTableName() . " SET $placeholders WHERE $primaryKey = ?";
-            $params[] = $this->$primaryKey;
-
-            $result = static::$db->execute($sql, $params);
-        } else {
-            // INSERT new record
-            if (array_key_exists($primaryKey, $attributes)) unset($attributes[$primaryKey]);
-
-            $columns = array_keys($attributes);
-            $placeholders = implode(", ", array_fill(0, count($columns), "?"));
-            $params = array_values($attributes);
-
-            $sql = "INSERT INTO " . static::getTableName() . " (" . implode(", ", $columns) . ") VALUES ($placeholders)";
-            $result = static::$db->execute($sql, $params);
-
-            if ($result) $this->$primaryKey = static::$db->lastInsertId();
-        }
-
-        if ($result) return true;
-
-        return false;
-    }
-
-    /**
-     * Delete the current model from the database.
-     *
-     * @return bool
-     * @throws DatabaseException
-     */
-    public function delete(): bool
-    {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
-        $primaryKey = static::getPrimaryKey();
-        if (!isset($this->$primaryKey)) {
-            return false;
-        }
-        $sql = "DELETE FROM " . static::getTableName() . " WHERE $primaryKey = ?";
-        return static::$db->execute($sql, [$this->$primaryKey]);
-    }
-
-    /**
-     * Refresh the current model's data from the database.
-     *
-     * @return bool
-     * @throws DatabaseException
-     */
-    public function refresh(): bool
-    {
-        $primaryKey = static::getPrimaryKey();
-
-        if (!isset($this->$primaryKey)) {
-            return false;
-        }
-
-        $fresh = static::findOne($this->$primaryKey);
-
-        if ($fresh) {
-            $this->fill($fresh->toArray());
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Convert the model to an associative array.
-     *
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return get_object_vars($this);
-    }
-
-    /**
-     * Set the database connection.
-     *
-     * @param Database $db
-     */
-    public static function setDatabase(Database $db): void
-    {
-        static::$db = $db;
     }
 
     /**
@@ -277,45 +117,291 @@ abstract class Model
     }
 
     /**
-     * Retrieve all records from the table.
+     * Get the columns that should be hidden when converting to array or JSON.
+     * 
+     * Override this in child classes to specify sensitive columns.
+     * 
+     * @return array
+     */
+    public static function getSensitiveColumns(): array
+    {
+        return static::DEFAULT_SENSITIVE_COLUMNS;
+    }
+
+    /**
+     * Convert the model to an associative array.
      *
-     * @return static[]
+     * @param array $options
+     * @return array
+     */
+    public function toArray(array $options = ['includeSensitive' => true]): array
+    {
+        $array = get_object_vars($this);
+
+        if (isset($options['includeSensitive']) && !$options['includeSensitive']) {
+            foreach (static::getSensitiveColumns() as $column) {
+                if (array_key_exists($column, $array)) {
+                    unset($array[$column]);
+                }
+            }
+        }
+
+        return $array;
+    }
+
+    /**
+     * Convert the model to an associative array, excluding sensitive columns.
+     *
+     * @return array
+     */
+    public function toArraySafe(): array
+    {
+        return $this->toArray(['includeSensitive' => false]);
+    }
+
+    /**
+     * Parse an array of models or data into an array of associative arrays.
+     *
+     * @param $items
+     * @param array $options
+     * @return array
+     */
+    public static function parseArray($items, array $options): array
+    {
+        if (!is_array($items)) return [];
+        if (empty($items)) return [];
+        
+        $parseds = array_map(function ($item) use ($options) {
+            if ($item instanceof Model) { // Check if item is an instance or subclass of Model
+                return $item->toArray($options);        
+            }
+            return $item;
+        }, $items);
+        
+        return $parseds;
+    }
+    
+    /**
+     * Parse an array of models or data into an array of associative arrays,
+     * excluding sensitive columns.
+     *
+     * @param array $items
+     * @return array
+     */
+    public static function parseArraySafe($items): array
+    {
+        return static::parseArray($items, ['includeSensitive' => false]);
+    }
+
+    /**
+     * Set the database connection.
+     *
+     * @param Database $db
+     */
+    public static function setDatabase(Database $db): void
+    {
+        static::$db = $db;
+    }
+
+    /**
+     * Fill the model's properties from an array.
+     *
+     * Only properties that already exist in the object will be set.
+     *
+     * @param array $data
+     */
+    public function fill(array $data): void
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                if (gettype($value) === 'boolean') {
+                    $this->$key = ($value == '1' or $value === true) ? true : false;
+                    continue;
+                }
+                if (gettype($value) === 'string') {
+                    $this->$key = (string) $value;
+                    continue;
+                }
+                if (gettype($value) === 'integer') {
+                    $this->$key = (int) $value;
+                    continue;
+                }
+                if (gettype($value) === 'double') {
+                    $this->$key = (float) $value;
+                    continue;
+                }
+                if (gettype($value) === 'float') {
+                    $this->$key = (float) $value;
+                    continue;
+                }
+                if (gettype($value) === 'array') {
+                    if (is_string($value)) {
+                        $decoded = json_decode($value, true);
+                        if (json_last_error() === JSON_ERROR_NONE) {
+                            $this->$key = $decoded;
+                            continue;
+                        }
+                    }
+                    continue;
+                }
+                if (is_null($value)) {
+                    $this->$key = NULL;
+                    continue;
+                }
+
+                throw new ModelException("Unsupported property type for '$key' in " . static::class);
+            } else {
+                throw new ModelException("Property '$key' does not exist in " . static::class);
+            }
+        }
+    }
+
+    /**
+     * Create a new record in the database.
+     * 
+     * Sets the primary key of the model upon successful insertion.
+     *
+     * @return bool
      * @throws DatabaseException
      */
-    public static function findAll(): array
+    public function create(array $attributes = []): bool
     {
-        // ! Should ne be used since no pagination
-        // ! Can really blow up the memory if table is big
+        if (array_key_exists($primaryKey, $attributes)) unset($attributes[$primaryKey]);
 
+        $columns = array_keys($attributes);
+        $placeholders = implode(", ", array_fill(0, count($columns), "?"));
+        $params = array_values($attributes);
+
+        $sql = "INSERT INTO " . static::getTableName() . " (" . implode(", ", $columns) . ") VALUES ($placeholders)";
+        $result = static::$db->execute($sql, $params);
+
+        if ($result) $this->$primaryKey = static::$db->lastInsertId();
+
+        if ($result) return true;
+
+        return false;
+    }
+
+    /**
+     * Update a record in the database.
+     * 
+     * Uses the primary key of the current model instance to identify the record to update.
+     *
+     * @return bool
+     * @throws DatabaseException
+     */
+    public function update(array $attributes = []): bool
+    {
+        $primaryKey = static::getPrimaryKey();
+        if (!isset($this->$primaryKey)) {
+            return false;
+        }
+
+        $columns = array_keys($attributes);
+        $placeholders = implode(", ", array_map(fn($column) => "$column = ?", $columns));
+        $params = array_values($attributes);
+
+        $sql = "UPDATE " . static::getTableName() . " SET $placeholders WHERE $primaryKey = ?";
+        $params[] = $this->$primaryKey;
+
+        $result = static::$db->execute($sql, $params);
+
+        if ($result) return true;
+
+        return false;
+    }
+
+    /**
+     * Save the current model to the database.
+     *
+     * Performs an UPDATE if the primary key exists, or an INSERT otherwise.
+     *
+     * @return bool
+     * @throws DatabaseException
+     */
+    public function save(bool $refresh = true): bool
+    {
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
-        $sql = "SELECT * FROM " . static::getTableName();
-        $results = static::$db->query($sql);
+        $primaryKey = static::getPrimaryKey();
+        $isUpdate = isset($this->$primaryKey) && !empty($this->$primaryKey);
+        $attributes = $this->toArray();
 
-        return [
-            array_map(fn($row) => new static($row), $results),
-            [
-                'page' => 1,
-                'perPage' => count($results),
-                'lastPage' => 1,
-                'totalItems' => count($results),
-            ]
-        ];
+        foreach ($attributes as $column => &$value) {
+            if ($column === static::getUpdatedAtColumn()) $value = Helpers::currentDateTime();
+            if ($column === static::getCreatedAtColumn() && !$isUpdate) $value = Helpers::currentDateTime();
+        }
+
+        if ($isUpdate) {
+            $result = $this->update($attributes);
+        } else {
+            $result = $this->create($attributes);
+        }
+
+        if ($refresh && $result) {
+            $this->refresh();
+        }
+
+        if ($result) return true;
+
+        return false;
+    }
+
+    /**
+     * Delete the current model from the database.
+     *
+     * @return bool
+     * @throws DatabaseException
+     */
+    public function delete(): bool
+    {
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
+
+        $primaryKey = static::getPrimaryKey();
+        if (!isset($this->$primaryKey)) {
+            return false;
+        }
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE $primaryKey = ?";
+        return static::$db->execute($sql, [$this->$primaryKey]);
+    }
+
+    /**
+     * Refresh the current model's data from the database.
+     *
+     * @return bool
+     * @throws DatabaseException
+     */
+    public function refresh(): bool
+    {
+        $primaryKey = static::getPrimaryKey();
+
+        if (!isset($this->$primaryKey)) {
+            return false;
+        }
+
+        $fresh = static::findByPk($this->$primaryKey);
+
+        if ($fresh) {
+            $this->fill($fresh->toArray());
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Retrieve a record by its primary key.
      *
-     * @param int $pk
+     * @param int $primaryKey
      * @return static|null
      * @throws DatabaseException
      */
-    public static function findOne(int $pk): ?static
+    public static function findByPk(int $primaryKey): ?static
     {
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE " . static::getPrimaryKey() . " = ?";
-        $result = static::$db->query($sql, [$pk]);
+        $result = static::$db->query($sql, [$primaryKey]);
 
         if ($result && count($result) > 0) {
             return new static($result[0]);
@@ -325,23 +411,18 @@ abstract class Model
     }
 
     /**
-     * Retrieve a record by its primary key.
+     * Retrieve the first record matching the given params.
      *
-     * @return static|null
+     * @param array $params
+     * @return array
      * @throws DatabaseException
      */
-    public static function findOneRandom(): ?static
+    public static function findOne(array $params): ?static
     {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
+        $params['perPage'] = 1;
+        [$data, $meta] = static::findAll($params);
 
-        $sql = "SELECT * FROM " . static::getTableName() . " ORDER BY RAND() LIMIT 1";
-        $result = static::$db->query($sql);
-
-        if ($result && count($result) > 0) {
-            return new static($result[0]);
-        }
-
-        return null;
+        return $data[0] ?? null;
     }
 
     /**
@@ -351,7 +432,7 @@ abstract class Model
      * @return static[]
      * @throws DatabaseException
      */
-    public static function findAllBy(array $params = []): array
+    public static function findAll(array $params = []): array
     {
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
@@ -446,20 +527,5 @@ abstract class Model
                 'totalItems' => $totalItems,
             ]
         ];
-    }
-
-    /**
-     * Retrieve the first record matching the given params.
-     *
-     * @param array $params
-     * @return array
-     * @throws DatabaseException
-     */
-    public static function findOneBy(array $params): array
-    {
-        $params['perPage'] = 1;
-        [$data, $meta] = static::findAllBy($params);
-
-        return $data;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Http\Request;
 use App\Models\Category;
 use App\Controller\Controller;
+use App\Models\Model;
 
 class CategoryController extends Controller
 {
@@ -15,12 +16,14 @@ class CategoryController extends Controller
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
-        [$data, $meta] = Category::findAllBy([
+        [$data, $meta] = Category::findAll([
             'search' => $search,
             'perPage' => $perPage,
             'page' => $page,
             'sort' => $sort,
         ]);
+
+        $data = Model::parseArraySafe($data);
 
         $status = count((array) $data) > 0 ? 200 : 204;
 
@@ -36,7 +39,9 @@ class CategoryController extends Controller
             return;
         }
 
-        $category = Category::findOne($id);
+        $category = Category::findByPk($id);
+
+        $category = $category->toArraySafe();
 
         if (!$category) {
             $this->json(['error' => 'Category not found'], 404);

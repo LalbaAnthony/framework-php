@@ -31,8 +31,9 @@
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] Models
-  - [ ] Diviser responsabilité des methods (findAllBy trop grosse, ...)
-  - [ ] Possibilité de masquer des champs de base genre ID, created_at, updated_at
+  - [ ] Diviser responsabilité des methods (findAll trop grosse, ...)
+  - [x] Possibilité de masquer des champs de base genre ID, created_at, updated_at
+    - [ ] Bouger toArraySafe pour ne pas avoir à l'appeler dans chaque controller de l'API ?
   - [ ] Implement rollbacks for migrations, seeders, models save, ...
   - [ ] Trouver une solution pour les relations
    	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
