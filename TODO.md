@@ -1,5 +1,5 @@
 - [ ] Random
-  - [ ] Passsser couleurs bouton en light et text en dark de la couleur
+  - [ ] Passer couleurs bouton en light et text en dark de la couleur
   - [ ] Chg remonté wording var success et error dans les vues
 
 - [ ] Bugs

@@ -187,14 +187,18 @@ abstract class Model
     public function refresh(): bool
     {
         $primaryKey = static::getPrimaryKey();
+
         if (!isset($this->$primaryKey)) {
             return false;
         }
+
         $fresh = static::findOne($this->$primaryKey);
+
         if ($fresh) {
             $this->fill($fresh->toArray());
             return true;
         }
+
         return false;
     }
 
@@ -302,16 +306,16 @@ abstract class Model
     /**
      * Retrieve a record by its primary key.
      *
-     * @param int $id
+     * @param int $pk
      * @return static|null
      * @throws DatabaseException
      */
-    public static function findOne(int $id): ?static
+    public static function findOne(int $pk): ?static
     {
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE " . static::getPrimaryKey() . " = ?";
-        $result = static::$db->query($sql, [$id]);
+        $result = static::$db->query($sql, [$pk]);
 
         if ($result && count($result) > 0) {
             return new static($result[0]);
@@ -453,11 +457,8 @@ abstract class Model
      */
     public static function findOneBy(array $params): array
     {
+        $params['perPage'] = 1;
         [$data, $meta] = static::findAllBy($params);
-
-        if (isset($data) && count((array) $data) > 0) {
-            $data = array_slice((array) $data, 0, 1);
-        }
 
         return $data;
     }
