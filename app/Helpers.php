@@ -100,8 +100,13 @@ class Helpers
 
     /**
      * Helper method to extract a single key segment from array or object.
+     * 
+     * @param array|object $target
+     * @param string $segment
+     * @param mixed $default
+     * @return mixed
      */
-    private static function getSegment(array|object $target, string $segment, mixed $default): mixed
+    private static function dataGetSegment(array|object $target, string $segment, mixed $default): mixed
     {
         if (is_array($target) && array_key_exists($segment, $target)) {
             return $target[$segment];
@@ -127,12 +132,12 @@ class Helpers
         if (!$key || $key === '') return $target;
 
         // If no dot notation, return the single segment
-        if (!str_contains($key, '.')) return self::getSegment($target, $key, $default);
+        if (!str_contains($key, '.')) return self::dataGetSegment($target, $key, $default);
 
         // Split and process each segment
         [$segment, $remaining] = explode('.', $key, 2);
 
-        $next = self::getSegment($target, $segment, null);
+        $next = self::dataGetSegment($target, $segment, null);
 
         if (!$next) return $default;
 

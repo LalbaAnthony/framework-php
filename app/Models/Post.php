@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-use Exception;
 use App\Exceptions\ModelException;
 
 /**

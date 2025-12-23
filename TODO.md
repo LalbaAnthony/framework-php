@@ -1,3 +1,6 @@
+- [ ] Use array destructuring for models returns: $posts = Post::findAll() should be [$posts, $pagination] = Post::findAll() and reflect change in views
+- [ ] Passsser couleurs bouton en light et text en dark de la couleur
+
 - [ ] Bugs
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
 
