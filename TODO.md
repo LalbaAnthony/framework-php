@@ -1,17 +1,9 @@
-- [ ] Use array destructuring for models returns: $posts = Post::findAll() should be [$posts, $pagination] = Post::findAll() and reflect change in views
-- [ ] Passsser couleurs bouton en light et text en dark de la couleur
-- [ ] Chg remonté success et error dans les vues
-- [ ] Reword pagination
+- [ ] Random
+  - [ ] Passsser couleurs bouton en light et text en dark de la couleur
+  - [ ] Chg remonté wording var success et error dans les vues
 
 - [ ] Bugs
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only
-
-- [ ] Routing
-  - [ ] Group routes (ex: /admin, /api, ...)
-  - [ ] CORS
-  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
-  - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
-  - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
 
 - [ ] Voler style bento de stoa
 - [ ] Check et calquer arbo Laravel using https://github.com/laravel-workflow/sample-app
@@ -21,7 +13,13 @@
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code
 
-- [ ] Features
+- [ ] Features & Improvements
+  - [ ] Routing
+    - [ ] Group routes (ex: /admin, /api, ...)
+    - [ ] CORS
+    - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
+    - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
+    - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
   - [ ] Authentification
     - [ ] Hide Reset behind somekind of verification (authentification ?)
   - [ ] Faire proto de list pour admin
@@ -33,6 +31,7 @@
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] Models
+  - [ ] Diviser responsabilité des methods (findAllBy trop grosse, ...)
   - [ ] Possibilité de masquer des champs de base genre ID, created_at, updated_at
   - [ ] Implement rollbacks for migrations, seeders, models save, ...
   - [ ] Trouver une solution pour les relations

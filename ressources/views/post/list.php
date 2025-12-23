@@ -83,7 +83,7 @@ use App\Helpers;
         ]) ?>
         <?php component('pagination', [
             'page' => $meta["page"],
-            'last' => $meta["last"],
+            'lastPage' => $meta["lastPage"],
         ]);
         ?>
     </section>

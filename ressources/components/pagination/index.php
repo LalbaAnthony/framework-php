@@ -1,8 +1,6 @@
 <?php
 
-use App\Icon;
-
-if ($last <= 1) return;
+if ($lastPage <= 1) return;
 
 ?>
 
@@ -24,15 +22,15 @@ if ($last <= 1) return;
     <span class="number active"><?= $page; ?></span>
 
     <!-- Next page -->
-    <?php if ($page < $last): ?>
+    <?php if ($page < $lastPage): ?>
         <span data-page="<?= ($page + 1); ?>" class="number"><?= ($page + 1); ?></span>
     <?php endif; ?>
 
     <!-- Last page -->
-    <?php if ($page < $last - 2): ?>
+    <?php if ($page < $lastPage - 2): ?>
         <span class="dots">...</span>
     <?php endif; ?>
-    <?php if ($page < $last - 1): ?>
-        <span data-page="<?= $last; ?>" class="number"><?= $last; ?></span>
+    <?php if ($page < $lastPage - 1): ?>
+        <span data-page="<?= $lastPage; ?>" class="number"><?= $lastPage; ?></span>
     <?php endif; ?>
 </div>

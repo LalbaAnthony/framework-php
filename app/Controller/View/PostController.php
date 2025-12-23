@@ -14,13 +14,13 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $search = (string) ($request->params['search'] ?? '');
-        $per = (int) ($request->params['per'] ?? self::DEFAULT_PER_PAGE);
+        $perPage = (int) ($request->params['perPage'] ?? self::DEFAULT_PER_PAGE);
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
         [$posts, $meta] = Post::findAllBy([
             'search' => $search,
-            'per' => $per,
+            'perPage' => $perPage,
             'page' => $page,
             'sort' => $sort,
         ]);

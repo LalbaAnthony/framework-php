@@ -21,6 +21,11 @@ abstract class Model
     const DEFAULT_UPDATED_AT = 'updated_at';
 
     /**
+     * Maximum items per page for pagination.
+     */
+    const MAX_PER_PAGE = 99;
+
+    /**
      * Default values for methods that accept optional parameters.
      */
     const DEFAULT_PER_PAGE = 10;
@@ -275,6 +280,9 @@ abstract class Model
      */
     public static function findAll(): array
     {
+        // ! Should ne be used since no pagination
+        // ! Can really blow up the memory if table is big
+
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
         $sql = "SELECT * FROM " . static::getTableName();
@@ -284,9 +292,9 @@ abstract class Model
             array_map(fn($row) => new static($row), $results),
             [
                 'page' => 1,
-                'per' => count($results),
-                'last' => 1,
-                'total' => count($results),
+                'perPage' => count($results),
+                'lastPage' => 1,
+                'totalItems' => count($results),
             ]
         ];
     }
@@ -342,17 +350,30 @@ abstract class Model
     public static function findAllBy(array $params = []): array
     {
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-        if (empty($params)) return static::findAll();
 
         // Set default values for optional parameters.
-        if (!isset($params['sort']) || !$params['sort']) $params['sort'] = static::DEFAULT_SORT;
-        if (!isset($params['per']) || !$params['per']) $params['per'] = static::DEFAULT_PER_PAGE;
+        if (!isset($params['perPage']) || !$params['perPage']) $params['perPage'] = static::DEFAULT_PER_PAGE;
         if (!isset($params['page']) || !$params['page']) $params['page'] = static::DEFAULT_PAGE;
+        if (!isset($params['sort']) || !$params['sort']) $params['sort'] = static::DEFAULT_SORT;
+
+        // Checking parameters validity
+        if (isset($params['perPage'])) {
+            $params['perPage'] = (int)$params['perPage'];
+            if ($params['perPage'] < 1) $params['perPage'] = static::DEFAULT_PER_PAGE;
+            if ($params['perPage'] > static::MAX_PER_PAGE) $params['perPage'] = static::MAX_PER_PAGE;
+        }
+        if (isset($params['page'])) {
+            $params['page'] = (int)$params['page'];
+            if ($params['page'] < 1) $params['page'] = static::DEFAULT_PAGE;
+        }
+        if (isset($params['sort']) && !is_array($params['sort'])) {
+            $params['sort'] = static::DEFAULT_SORT;
+        }
 
         // Calculate pagination values.
-        if (isset($params['page']) && isset($params['per'])) {
-            $params['limit'] = (int)$params['per'];
-            $params['offset'] = ((int)$params['page'] - 1) * (int)$params['per'];
+        if (isset($params['page']) && isset($params['perPage'])) {
+            $params['limit'] = (int)$params['perPage'];
+            $params['offset'] = ((int)$params['page'] - 1) * (int)$params['perPage'];
         }
 
         $bindings = [];
@@ -406,18 +427,19 @@ abstract class Model
         $sqlData = "SELECT * FROM $table WHERE 1 = 1 $and $sort $pagination";
         $sqlCount = "SELECT COUNT(*) as count FROM $table WHERE 1 = 1 $and";
 
-        $results = static::$db->query($sqlData, $bindings);
-        $countResult = static::$db->query($sqlCount, $bindings);
-        $count = isset($countResult[0]['count']) ? (int)$countResult[0]['count'] : 0;
-        $last = $params['per'] > 0 ? (int)ceil($count / $params['per']) : 1;
+        $resultsData = static::$db->query($sqlData, $bindings);
+        $resultCount = static::$db->query($sqlCount, $bindings);
+
+        $totalItems = isset($resultCount[0]['count']) ? (int)$resultCount[0]['count'] : 0;
+        $lastPage = $params['perPage'] > 0 ? (int)ceil($totalItems / $params['perPage']) : 1;
 
         return [
-            array_map(fn($row) => new static($row), $results),
+            array_map(fn($row) => new static($row), $resultsData),
             [
                 'page' => (int)$params['page'],
-                'per' => (int)$params['per'],
-                'last' => $last,
-                'total' => $count,
+                'perPage' => (int)$params['perPage'],
+                'lastPage' => $lastPage,
+                'totalItems' => $totalItems,
             ]
         ];
     }
