@@ -281,11 +281,13 @@ abstract class Model
         $results = static::$db->query($sql);
 
         return [
-            'page' => 1,
-            'per' => count($results),
-            'last' => 1,
-            'total' => count($results),
-            'data' => array_map(fn($row) => new static($row), $results)
+            array_map(fn($row) => new static($row), $results),
+            [
+                'page' => 1,
+                'per' => count($results),
+                'last' => 1,
+                'total' => count($results),
+            ]
         ];
     }
 
@@ -410,11 +412,13 @@ abstract class Model
         $last = $params['per'] > 0 ? (int)ceil($count / $params['per']) : 1;
 
         return [
-            'page' => (int)$params['page'],
-            'per' => (int)$params['per'],
-            'last' => $last,
-            'total' => $count,
-            'data' => array_map(fn($row) => new static($row), $results)
+            array_map(fn($row) => new static($row), $results),
+            [
+                'page' => (int)$params['page'],
+                'per' => (int)$params['per'],
+                'last' => $last,
+                'total' => $count,
+            ]
         ];
     }
 
@@ -427,12 +431,12 @@ abstract class Model
      */
     public static function findOneBy(array $params): array
     {
-        $result = static::findAllBy($params);
+        [$data, $meta] = static::findAllBy($params);
 
-        if (isset($result['data']) && count((array) $result['data']) > 0) {
-            $result['data'] = array_slice((array) $result['data'], 0, 1);
+        if (isset($data) && count((array) $data) > 0) {
+            $data = array_slice((array) $data, 0, 1);
         }
 
-        return $result;
+        return $data;
     }
 }

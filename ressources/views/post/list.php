@@ -61,7 +61,7 @@ use App\Helpers;
                     }
                 ],
             ],
-            'rows' => $posts["data"],
+            'rows' => $posts,
             'actions' => [
                 [
                     'name' => 'Edit',

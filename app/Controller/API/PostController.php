@@ -15,16 +15,16 @@ class PostController extends Controller
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
-        $return = Post::findAllBy([
+        [$data, $meta] = Post::findAllBy([
             'search' => $search,
             'per' => $per,
             'page' => $page,
             'sort' => $sort,
         ]);
 
-        $status = count((array) $return['data']) > 0 ? 200 : 204;
+        $status = count((array) $data) > 0 ? 200 : 204;
 
-        $this->json($return, $status);
+        $this->json(['data' => $data, 'meta' => $meta], $status);
     }
 
     public function show(Request $request, mixed $data = null)

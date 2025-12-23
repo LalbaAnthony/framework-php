@@ -18,7 +18,7 @@ class PostController extends Controller
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
-        $posts = Post::findAllBy([
+        [$posts, $meta] = Post::findAllBy([
             'search' => $search,
             'per' => $per,
             'page' => $page,
