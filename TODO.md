@@ -1,5 +1,5 @@
 - [ ] Random
-  - [ ] Passer couleurs bouton en light et text en dark de la couleur
+  - [ ] Passer couleurs bouton en light et text en dark de la couleur (utiliser tests home page)
   - [ ] Chg remonté wording var success et error dans les vues
   - [ ] Faire en sorte que la generation d'un slug soit toujouers unique avec while existant
   - [ ] Modifier API pour utiliser les slugs au lieu des IDs dans les pages de detail

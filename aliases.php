@@ -33,6 +33,13 @@ if (!function_exists('e')) {
     }
 }
 
+if (!function_exists('printLine')) {
+    function printLine(...$vars): void
+    {
+        Helpers::printLine(...$vars);
+    }
+}
+
 if (!function_exists('comp')) {
     function component(...$vars): void
     {
@@ -47,9 +54,9 @@ if (!function_exists('icon')) {
     }
 }
 
-if (!function_exists('methodTag')) {
-    function methodTag(...$vars): string
+if (!function_exists('methodInputTag')) {
+    function methodInputTag(...$vars): string
     {
-        return Router::methodTag(...$vars);
+        return Router::methodInputTag(...$vars);
     }
 }

@@ -6,16 +6,16 @@ use App\Seeder;
 require_once __DIR__ . '/../bootstrap.php';
 
 if (APP_ENV !== 'development') {
-    print "This script can only be run in development mode.\n";
+    printLine("This script can only be run in development mode.");
     exit;
 }
 
 // Migrate the database
 $migrator = new Migrator();
 $migrator->crawl();
-print "Database migrated successfully.\n";
+printLine("Database migrated successfully.");
 
 // Seed the database
 $seeder = new Seeder();
 $seeder->crawl();
-print "Database seeded successfully.\n";
+printLine("Database seeded successfully.");

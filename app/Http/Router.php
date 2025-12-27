@@ -249,7 +249,7 @@ class Router
      * @param $method
      * @return string
      */
-    public static function methodTag(string $method): string
+    public static function methodInputTag(string $method): string
     {
         if (empty($method)) return '';
         if (!self::verifyMethod($method)) throw new Exception("Invalid HTTP method: $method");

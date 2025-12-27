@@ -18,7 +18,7 @@ use App\Http\Router;
         <?php endif; ?>
 
         <form action="<?= Router::currentUrl(false) ?>" method="POST">
-            <?= methodTag('PUT'); ?>
+            <?= methodInputTag('PUT'); ?>
             <div class="fields-grid">
                 <?php component('field', [
                     'placeholder' => 'Enter the title',

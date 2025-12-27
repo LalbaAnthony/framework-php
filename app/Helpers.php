@@ -168,6 +168,22 @@ class Helpers
     }
 
     /**
+     * Print a line with appropriate line break based on SAPI.
+     * @param string $line
+     * @return void
+     */
+    public static function printLine(string $line): void
+    {
+        $lineBreaker = match (php_sapi_name()) {
+            'cli' => PHP_EOL,
+            'cgi-fcgi', 'fpm-fcgi', 'apache2handler' => '<br>',
+            default => '<br>',
+        };
+
+        echo $line . $lineBreaker;
+    }
+
+    /**
      * Escape HTML special characters in a string.
      * @param string $string
      * @return string
