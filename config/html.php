@@ -4,7 +4,7 @@
  * HTML settings
  */
 
-define('HTML_NOJS', false);
+define('HTML_NOJS', true);
 define('HTML_SCRIPTS', [
     [
         'src' => APP_URL . '/public/js/main.js',

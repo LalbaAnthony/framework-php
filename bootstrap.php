@@ -14,7 +14,7 @@ require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/html.php';
 require_once __DIR__ . '/config/routing.php';
 
-unset($envs); // Clean up $envs variable once we're done with it
+unset($_envs); // Clean up $_envs variable once we're done with it
 
 if (APP_DEBUG) {
     ini_set('display_errors', 1);
