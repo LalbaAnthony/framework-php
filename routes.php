@@ -4,10 +4,10 @@ use App\Http\Route;
 
 return [
     // Views
-    '/hello-world' => [
+    '/hello' => [ // Example route with a closure
         'GET'  => function ($request) {
-            echo "Hello World!";
-            // var_dump($request);
+            $name = $request->params['name'] ?? 'Guest';
+            echo "Hello $name!";
         },
     ],
     '/' => [

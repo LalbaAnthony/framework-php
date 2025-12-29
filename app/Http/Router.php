@@ -52,6 +52,7 @@ class Router
         foreach ($methods as $method) {
             self::verifyMethod($method);
         }
+
         return true;
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Exceptions\ModelException;
 
 /**
@@ -25,24 +26,19 @@ class Post extends Model
      */
     protected array $categories = [];
 
-    /**
-     * Return the associated database table name.
-     *
-     * @return string
-     */
     public static function getTableName(): string
     {
         return 'post';
     }
 
-    /**
-     * Get the columns that should be searchable via a simple search form.
-     *
-     * @return string
-     */
     public static function getSearchableColumns(): array
     {
         return ['title', 'slug', 'content'];
+    }
+
+    public static function getSensitiveColumns(): array
+    {
+        return ['id', 'user_id', 'created_at', 'updated_at', 'published'];
     }
 
     /**

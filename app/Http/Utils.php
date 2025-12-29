@@ -24,9 +24,8 @@ trait Utils
     {
         $method = strtoupper($method);
 
-        if (!in_array($method, self::HTTP_METHODS)) {
-            return false;
-        }
+        if (strlen($method) < 2) return false;
+        if (!in_array($method, self::HTTP_METHODS)) return false;
 
         return true;
     }

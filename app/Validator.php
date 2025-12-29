@@ -111,7 +111,7 @@ class Validator
                 'regex' => '/^boolean$/',
                 'message' => 'The field must be a boolean',
                 'function' => function ($value) {
-                    return is_bool($value) || in_array($value, [0, 1, '0', '1'], true);
+                    return is_bool($value) || in_array($value, [null, 0, 1, '0', '1'], true);
                 }
             ],
             'date' => [

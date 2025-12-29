@@ -35,21 +35,21 @@ class PostController extends Controller
         $post = Post::findByPk($id);
 
         if (!$post) {
-            $this->view('error');
+            $this->view('error', ['code' => 404, 'message' => 'Post not found']);
             return;
         }
-
+        
         $this->view('post/detail', compact('post'));
     }
-
+    
     public function update(Request $request)
     {
         $id = (int) ($request->patterns['id'] ?? 0);
-
+        
         $post = Post::findByPk($id);
-
+        
         if (!$post) {
-            $this->view('error');
+            $this->view('error', ['code' => 404, 'message' => 'Post not found']);
             return;
         }
 
@@ -65,7 +65,7 @@ class PostController extends Controller
         $post->title = $request->body['title'];
         $post->content = $request->body['content'];
         $post->date = $request->body['date'];
-        $post->published = $request->body['published'];
+        $post->published = $request->body['published'] ?? false;
 
         if ($validator->hasErrors()) {
             $this->view('post/detail', ['post' => $post, 'errors' => $validator->errors]);

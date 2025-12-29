@@ -1,6 +1,6 @@
 - [ ] Random
   - [ ] Passer couleurs bouton en light et text en dark de la couleur (utiliser tests home page)
-  - [ ] Chg remonté wording variable php success et error dans les vues
+  - [ ] Bool dans les forms (checkbox)
   - [ ] Modifier API pour utiliser les slugs au lieu des IDs dans les pages de detail
 
 - [ ] Bugs
