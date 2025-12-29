@@ -38,16 +38,16 @@ class PostController extends Controller
             $this->view('error', ['code' => 404, 'message' => 'Post not found']);
             return;
         }
-        
+
         $this->view('post/detail', compact('post'));
     }
-    
+
     public function update(Request $request)
     {
         $id = (int) ($request->patterns['id'] ?? 0);
-        
+
         $post = Post::findByPk($id);
-        
+
         if (!$post) {
             $this->view('error', ['code' => 404, 'message' => 'Post not found']);
             return;
@@ -72,10 +72,8 @@ class PostController extends Controller
             return;
         }
 
-        // $post->save(); // TODO: saving here
+        $post->save();
 
-        if (!$validator->hasErrors()) {
-            $this->view('post/detail', ['post' => $post, 'success' => 'Post updated successfully.']);
-        }
+        $this->view('post/detail', ['post' => $post, 'success' => 'Post updated successfully.']);
     }
 }

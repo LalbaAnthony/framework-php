@@ -31,6 +31,11 @@ class Post extends Model
         return 'post';
     }
 
+    public static function getFillableColumns(): array
+    {
+        return ['id', 'user_id', 'date', 'title', 'published', 'slug', 'content', 'updated_at', 'created_at'];
+    }
+
     public static function getSearchableColumns(): array
     {
         return ['title', 'slug', 'content'];

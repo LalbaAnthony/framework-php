@@ -46,7 +46,7 @@ abstract class Model
     {
         return DatabaseManager::get();
     }
-    
+
     /**
      * Construct a model with an optional data array.
      *
@@ -65,6 +65,15 @@ abstract class Model
      * @return string
      */
     abstract public static function getTableName(): string;
+
+    /**
+     * Get the columns that are mass assignable.
+     * 
+     * Override this in child classes to specify fillable columns.
+     * 
+     * @return array
+     */
+    abstract public static function getFillableColumns(): array;
 
     /**
      * Get the columns that should be searchable via a simple search form.
@@ -131,18 +140,27 @@ abstract class Model
      */
     public function toArray(array $options = ['includeSensitive' => true]): array
     {
-        $array = get_object_vars($this);
+        $includeSensitive = $options['includeSensitive'] ?? true;
+        $sensitive = $includeSensitive ? [] : array_flip(static::getSensitiveColumns()); // Flip for faster lookup
 
-        if (isset($options['includeSensitive']) && !$options['includeSensitive']) {
-            foreach (static::getSensitiveColumns() as $column) {
-                if (array_key_exists($column, $array)) {
-                    unset($array[$column]);
-                }
+        $array = [];
+
+        foreach (static::getFillableColumns() as $column) {
+            if (!property_exists($this, $column)) {
+                continue;
             }
+
+            // Skip sensitive columns if not allowed
+            if (!$includeSensitive && isset($sensitive[$column])) {
+                continue;
+            }
+
+            $array[$column] = $this->$column;
         }
 
         return $array;
     }
+
 
     /**
      * Convert the model to an associative array, excluding sensitive columns.
@@ -251,6 +269,8 @@ abstract class Model
      */
     public function create(array $attributes = []): bool
     {
+        $primaryKey = static::getPrimaryKey();
+
         if (array_key_exists($primaryKey, $attributes)) unset($attributes[$primaryKey]);
 
         $columns = array_keys($attributes);
@@ -278,6 +298,7 @@ abstract class Model
     public function update(array $attributes = []): bool
     {
         $primaryKey = static::getPrimaryKey();
+
         if (!isset($this->$primaryKey)) {
             return false;
         }
@@ -307,6 +328,7 @@ abstract class Model
     public function save(bool $refresh = true): bool
     {
         $primaryKey = static::getPrimaryKey();
+
         $isUpdate = isset($this->$primaryKey) && !empty($this->$primaryKey);
         $attributes = $this->toArray();
 
@@ -339,9 +361,11 @@ abstract class Model
     public function delete(): bool
     {
         $primaryKey = static::getPrimaryKey();
+
         if (!isset($this->$primaryKey)) {
             return false;
         }
+
         $sql = "DELETE FROM " . static::getTableName() . " WHERE $primaryKey = ?";
         return self::db()->execute($sql, [$this->$primaryKey]);
     }

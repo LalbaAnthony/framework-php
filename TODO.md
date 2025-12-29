@@ -33,6 +33,7 @@
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
   - [ ] Deplacer le INSERT INTO dans une lméthode statique du model pour reutiliser le code
 - [ ] Models
+  - [x] Utiliser fillables et guarded pour toArray
   - [ ] Diviser responsabilité des methods (findAll trop grosse, ...)
     - [ ] Bouger toArraySafe pour ne pas avoir à l'appeler dans chaque controller de l'API ?
   - [ ] Implement rollbacks for migrations, seeders, models save, ...

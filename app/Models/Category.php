@@ -18,6 +18,11 @@ class Category extends Model
         return 'category';
     }
 
+    public static function getFillableColumns(): array
+    {
+        return ['id', 'slug', 'label', 'updated_at', 'created_at'];
+    }
+
     public static function getSearchableColumns(): array
     {
         return ['label', 'slug'];

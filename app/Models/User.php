@@ -24,6 +24,11 @@ class User extends Model
         return 'user';
     }
 
+    public static function getFillableColumns(): array
+    {
+        return ['id', 'name', 'birthdate', 'token', 'password', 'last_login', 'is_admin', 'updated_at', 'created_at'];
+    }
+
     public static function getSearchableColumns(): array
     {
         return ['name', 'birthdate'];
