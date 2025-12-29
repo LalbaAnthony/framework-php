@@ -1,12 +1,9 @@
 [
     {
         "id": 1,
-        "name": "Fred",
-        "password": "password"
-    },
-    {
-        "id": 2,
-        "name": "Romain",
-        "password": "password"
+        "name": "John Doe",
+        "password": "password",
+        "birthdate": "1990-01-01",
+        "is_admin": true
     }
 ]

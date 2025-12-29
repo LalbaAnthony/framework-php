@@ -22,7 +22,6 @@
     - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
     - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
   - [ ] Authentification
-    - [ ] Hide Reset behind somekind of verification (authentification ?)
   - [ ] Faire proto de list pour admin
     - [ ] Actions
     - [ ] Faire bouton suppr
@@ -31,6 +30,10 @@
     - [ ] Faire save 
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
+- [ ] Seeders
+  - [ ] Faire faker
+  - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
+  - [ ] Deplacer le INSERT INTO dans une lméthode statique du model pour reutiliser le code
 - [ ] Models
   - [ ] Validator
     - [ ] Unique
