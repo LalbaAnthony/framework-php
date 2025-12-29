@@ -40,6 +40,13 @@ if (!function_exists('printLine')) {
     }
 }
 
+if (!function_exists('lorem')) {
+    function lorem(...$vars): string
+    {
+        return Helpers::lorem(...$vars);
+    }
+}
+
 if (!function_exists('comp')) {
     function component(...$vars): void
     {

@@ -100,6 +100,18 @@ class Database
     }
 
     /**
+     * Enables or disables foreign key checks.
+     * 
+     * @param bool $enabled True to enable, false to disable.
+     * @return void
+     * @throws DatabaseException
+     */
+    public function setForeignKeyChecks(bool $enabled): void
+    {
+        $this->execute("SET FOREIGN_KEY_CHECKS = " . ($enabled ? '1' : '0'));
+    }
+
+    /**
      * Rebuilds the query with the parameters.
      * 
      * @param string $query SQL request with placeholders.

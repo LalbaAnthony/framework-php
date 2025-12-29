@@ -76,12 +76,10 @@ class Seeder
     public function truncate(string $table): void
     {
         try {
-            static::$db->execute('SET FOREIGN_KEY_CHECKS=0;');
+            static::$db->setForeignKeyChecks(false);
             static::$db->execute("TRUNCATE TABLE $table;");
             static::$db->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
-            static::$db->execute('SET FOREIGN_KEY_CHECKS=1;');
-
-            Logger::success("Truncated the table $table.");
+            static::$db->setForeignKeyChecks(true);
         } catch (Exception $e) {
             throw new DatabaseException("Error truncating the table $table: " . $e->getMessage());
         }
@@ -118,15 +116,14 @@ class Seeder
             $this->resetAutoIncrement($table);
             $this->truncate($table);
 
-            static::$db->execute('SET FOREIGN_KEY_CHECKS=0;');
+            static::$db->setForeignKeyChecks(false);
             foreach ($data as $row) {
                 $columns = implode(', ', array_keys($row));
                 $values = implode("', '", array_map('addslashes', array_values($row)));
                 $query = "INSERT INTO $table ($columns) VALUES ('$values');";
                 static::$db->execute($query);
             }
-
-            static::$db->execute('SET FOREIGN_KEY_CHECKS=1;');
+            static::$db->setForeignKeyChecks(true);
 
             Logger::success("Seeded the database with file $path.");
         } catch (Exception $e) {

@@ -12,14 +12,8 @@ use Exception;
 class Faker
 {
     public const DATA = [
-        'email' => [
-            'domains' => ['example.com', 'test.com', 'demo.com', 'sample.com'],
-        ],
-        'passwords' => [
-            'simple' => 'password',
-            'complex' => 'P@ssw0rd!23',
-            'long' => 'ThisIsAVeryLongPassword12345',
-        ],
+        'email_domains' => ['example.com', 'test.com', 'demo.com', 'sample.com'],
+        'passwords' => ['password', '123456', 'qwerty', 'letmein', 'welcome', 'admin123'],
         'first_names' => ['John', 'Jane', 'Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank'],
         'last_names' => ['Doe', 'Smith', 'Johnson', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore'],
     ];
@@ -33,11 +27,11 @@ class Faker
     {
         $firstNames = self::DATA['first_names'];
         $lastNames = self::DATA['last_names'];
-        $domains = self::DATA['email']['domains'];
+        $emailDomains = self::DATA['email_domains'];
 
         $firstName = $firstNames[array_rand($firstNames)];
         $lastName = $lastNames[array_rand($lastNames)];
-        $domain = $domains[array_rand($domains)];
+        $domain = $emailDomains[array_rand($emailDomains)];
 
         $email = strtolower($firstName . '.' . $lastName . '@' . $domain);
 
@@ -63,12 +57,14 @@ class Faker
     /**
      * Generates a fake password.
      *
-     * @param string $type The type of password to generate ('simple', 'complex', 'long').
      * @return string
      */
-    public static function password(string $type): string
+    public static function password(): string
     {
-        return self::DATA['passwords'][$type] ?? '';
+        $passwords = self::DATA['passwords'];
+        $password = $passwords[array_rand($passwords)];
+
+        return $password;
     }
 
     /**

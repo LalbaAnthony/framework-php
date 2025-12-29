@@ -67,12 +67,10 @@ class Migrator
         if (!is_readable($path)) throw new FileException("The file $path is not readable.");
 
         try {
-            $basename = basename($path, '.sql'); // basename as 0-main
-
             $sql = file_get_contents($path);
             if ($sql === false) throw new FileException("The file $path could not be read.");
             if (empty($sql)) return; // Nothing to execute
-            
+
             static::$db->query($sql);
 
             Logger::info("Migrated the database with file $path");

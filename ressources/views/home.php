@@ -18,7 +18,9 @@
             <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'dark', 'outline' => false]) ?>
             <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'dark', 'outline' => true]) ?>
             <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'danger', 'outline' => false]) ?>
-            <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'danger', 'outline' => true]) ?>
+            <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'warning', 'outline' => false]) ?>
+            <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'success', 'outline' => false]) ?>
+            <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'info', 'outline' => false]) ?>
         </div>
     </section>
 </main>
