@@ -21,6 +21,9 @@ return [
         'PUT'  => new Route('View\\PostController@update'),
     ],
     // API
+    '/api' => [
+        'GET'  => new Route('API\\DefaultController@index'),
+    ],
     '/api/posts' => [
         'GET'  => new Route('API\\PostController@index'),
     ],

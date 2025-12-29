@@ -6,8 +6,11 @@
 
 <main>
     <section>
-        <?php component('section-title', ['title' => 'Home']) ?>
-        <p>Welcome to the home page!</p>
+        <?php component('section-title', ['title' => 'API']) ?>
+        <p>Go to the <a class="link" href="<?= APP_URL . '/api' ?>">API root</a>.</p>
+    </section>
+    <section>
+        <?php component('section-title', ['title' => 'Posts']) ?>
         <p>Go to the <a class="link" href="<?= APP_URL . '/posts' ?>">posts page</a> to see all posts.</p>
     </section>
     <section>

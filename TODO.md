@@ -29,7 +29,7 @@
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] Seeders
-  - [ ] Faire faker
+  - [ ] Continuer et implementer faker dans les seeders
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
   - [ ] Deplacer le INSERT INTO dans une lméthode statique du model pour reutiliser le code
 - [ ] Models
