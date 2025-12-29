@@ -1,7 +1,7 @@
 - [ ] Random
   - [ ] Passer couleurs bouton en light et text en dark de la couleur (utiliser tests home page)
   - [ ] Bool dans les forms (checkbox)
-  - [ ] Modifier API pour utiliser les slugs au lieu des IDs dans les pages de detail
+  - [x] Modifier API pour utiliser les slugs au lieu des IDs dans les pages de detail
 
 - [ ] Bugs
   - [ ] Error 500 isnt displayed on full page but in the none working part of the page only

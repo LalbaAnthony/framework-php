@@ -30,16 +30,11 @@ class PostController extends Controller
         $this->json(['data' => $data, 'meta' => $meta], $status);
     }
 
-    public function show(Request $request, mixed $data = null)
+    public function show(Request $request)
     {
-        $id = (int) ($request->patterns['id'] ?? 0);
+        $slug = (string) ($request->patterns['slug'] ?? '');
 
-        if ($id <= 0) {
-            $this->json(['error' => 'Invalid post ID'], 400);
-            return;
-        }
-
-        $post = Post::findByPk($id);
+        $post = Post::findByCol('slug', $slug);
 
         $post = $post->toArraySafe();
 

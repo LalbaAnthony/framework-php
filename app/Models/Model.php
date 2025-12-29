@@ -411,6 +411,28 @@ abstract class Model
     }
 
     /**
+     * Retrieve a record by a given column and its value.
+     *
+     * @param string $column
+     * @param mixed $value
+     * @return static|null
+     * @throws DatabaseException
+     */
+    public static function findByCol(string $column, mixed $value): ?static
+    {
+        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
+
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE $column = ?";
+        $result = static::$db->query($sql, [$value]);
+
+        if ($result && count($result) > 0) {
+            return new static($result[0]);
+        }
+
+        return null;
+    }
+
+    /**
      * Retrieve the first record matching the given params.
      *
      * @param array $params

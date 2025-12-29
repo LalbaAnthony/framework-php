@@ -32,14 +32,9 @@ class CategoryController extends Controller
 
     public function show(Request $request)
     {
-        $id = (int) ($request->patterns['id'] ?? 0);
+        $slug = (string) ($request->patterns['slug'] ?? '');
 
-        if ($id <= 0) {
-            $this->json(['error' => 'Invalid category ID'], 400);
-            return;
-        }
-
-        $category = Category::findByPk($id);
+        $category = Category::findByCol('slug', $slug);
 
         $category = $category->toArraySafe();
 
