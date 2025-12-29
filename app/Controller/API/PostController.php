@@ -34,7 +34,7 @@ class PostController extends Controller
     {
         $slug = (string) ($request->patterns['slug'] ?? '');
 
-        $post = Post::findByCol('slug', $slug);
+        $post = Post::findByCol($slug, 'slug');
 
         $post = $post->toArraySafe();
 

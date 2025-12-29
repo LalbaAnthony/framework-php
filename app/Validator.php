@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Exceptions\ValidatorException;
+use App\Models\Model;
 
 /**
  * Class Validator
@@ -86,42 +87,42 @@ class Validator
     {
         // TODO : move this somewhere else as it grows too much
         return [ // More frequent first for performance
-            'required' => [
+            'required' => [ // Usage: required
                 'regex' => '/^required$/',
                 'message' => 'The field is required',
                 'function' => function ($value) {
                     return !is_null($value) && $value !== '';
                 }
             ],
-            'string' => [
+            'string' => [ // Usage: string
                 'regex' => '/^string$/',
                 'message' => 'The field must be a string',
                 'function' => function ($value) {
                     return is_string($value);
                 }
             ],
-            'integer' => [
+            'integer' => [ // Usage: integer
                 'regex' => '/^integer$/',
                 'message' => 'The field must be an integer',
                 'function' => function ($value) {
                     return is_int($value);
                 }
             ],
-            'boolean' => [
+            'boolean' => [ // Usage: boolean
                 'regex' => '/^boolean$/',
                 'message' => 'The field must be a boolean',
                 'function' => function ($value) {
                     return is_bool($value) || in_array($value, [null, 0, 1, '0', '1'], true);
                 }
             ],
-            'date' => [
+            'date' => [ // Usage: date
                 'regex' => '/^date$/',
                 'message' => 'The field must be a valid date',
                 'function' => function ($value) {
                     return (bool) strtotime($value);
                 }
             ],
-            'in' => [
+            'in' => [ // Usage: in:value1,value2,value3
                 'regex' => '/^in:(.+)$/',
                 'message' => 'The field must be one of the following values: {values}',
                 'function' => function ($value, $params) {
@@ -129,12 +130,14 @@ class Validator
                     return in_array($value, $allowed);
                 }
             ],
-            'unique' => [
-                'regex' => '/^unique:(\w+),(\w+)$/',
+            'unique' => [ // Usage: unique:table,column
+                'regex' => '/^unique:(.+)$/',
                 'message' => 'The field already exists in the database',
                 'function' => function ($value, $params) {
-                    // TODO: This is a placeholder for uniqueness check.
-                    return true;
+                    [$table, $column] = explode(',', $params);
+                    dump($value, $table, $column);
+                    $existing = Model::exists($value, $column, $table, $value);
+                    return $existing === null;
                 }
             ],
         ];

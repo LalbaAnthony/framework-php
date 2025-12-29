@@ -34,7 +34,7 @@ class CategoryController extends Controller
     {
         $slug = (string) ($request->patterns['slug'] ?? '');
 
-        $category = Category::findByCol('slug', $slug);
+        $category = Category::findByCol($slug, 'slug');
 
         $category = $category->toArraySafe();
 
