@@ -129,7 +129,7 @@ class Validator
                     return in_array($value, $allowed);
                 }
             ],
-            'unique' => [ // Usage: unique:model,column,pk
+            'unique' => [ // Usage: unique:model,column,pk where pk is the primary key to exclude. pk is optional but it might result in false positives for updates
                 'regex' => '/^unique:(.+)$/',
                 'message' => 'The field already exists in the database',
                 'function' => function ($value, $params) {
