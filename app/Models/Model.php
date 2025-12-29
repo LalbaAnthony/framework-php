@@ -87,7 +87,7 @@ abstract class Model
      *
      * @return string
      */
-    protected static function getPrimaryKey(): string
+    public static function getPrimaryKey(): string
     {
         return static::DEFAULT_PRIMARY_KEY;
     }
@@ -170,17 +170,17 @@ abstract class Model
     {
         if (!is_array($items)) return [];
         if (empty($items)) return [];
-        
+
         $parseds = array_map(function ($item) use ($options) {
             if ($item instanceof Model) { // Check if item is an instance or subclass of Model
-                return $item->toArray($options);        
+                return $item->toArray($options);
             }
             return $item;
         }, $items);
-        
+
         return $parseds;
     }
-    
+
     /**
      * Parse an array of models or data into an array of associative arrays,
      * excluding sensitive columns.
@@ -418,11 +418,13 @@ abstract class Model
      * @return static|null
      * @throws DatabaseException
      */
-    public static function findByCol(mixed $value, string $column, ?string $table = null): ?static
+    public static function findByCol(mixed $value, ?string $column = null, ?string $table = null): ?static
     {
         if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
 
+        $column = $column ?? static::getPrimaryKey();
         $table = $table ?? static::getTableName();
+
         $sql = "SELECT * FROM $table WHERE $column = ?";
         $result = static::$db->query($sql, [$value]);
 
@@ -432,33 +434,6 @@ abstract class Model
 
         return null;
     }
-
-    /**
-     * Retrieve a record by a given column and its value.
-     *
-     * @param mixed $value
-     * @param string $column
-     * @param string|null $table
-     * @param mixed|null $but Optional value to exclude from the check (e.g., current record's primary key)
-     * @return static|null
-     * @throws DatabaseException
-     */
-    public static function exists(mixed $value, string $column, ?string $table = null, mixed $but = null): bool
-    {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
-        $table = $table ?? static::getTableName();
-        $sql = "SELECT COUNT(*) FROM $table WHERE $column = ?";
-        if ($but !== null) {
-            $sql .= " AND " . $column . " != ?";
-            $result = static::$db->query($sql, [$value, $but]);
-        } else {
-            $result = static::$db->query($sql, [$value]);
-        }
-
-        return $result && $result[0]['COUNT(*)'] > 0;
-    }
-
 
     /**
      * Retrieve the first record matching the given params.

@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Exceptions\ValidatorException;
-use App\Models\Model;
 
 /**
  * Class Validator
@@ -130,14 +129,14 @@ class Validator
                     return in_array($value, $allowed);
                 }
             ],
-            'unique' => [ // Usage: unique:table,column
+            'unique' => [ // Usage: unique:model,column,pk
                 'regex' => '/^unique:(.+)$/',
                 'message' => 'The field already exists in the database',
                 'function' => function ($value, $params) {
-                    [$table, $column] = explode(',', $params);
-                    dump($value, $table, $column);
-                    $existing = Model::exists($value, $column, $table, $value);
-                    return $existing === null;
+                    [$model, $column, $pk] = array_pad(explode(',', $params), 3, null);
+                    $modelPath = 'App\\Models\\' . ucfirst($model);
+                    $existing = $modelPath::findByCol($value, $column);
+                    return !$existing || ($pk && $existing->{$modelPath::getPrimaryKey()} == $pk);
                 }
             ],
         ];
