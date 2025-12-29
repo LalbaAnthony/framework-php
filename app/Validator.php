@@ -82,7 +82,7 @@ class Validator
      * 
      * @return array The validation rules
      */
-    private function validations(): array
+    private static function validations(): array
     {
         // TODO : move this somewhere else as it grows too much
         return [ // More frequent first for performance
@@ -154,7 +154,7 @@ class Validator
     {
         if (!$key || !$part) throw new ValidatorException("The validation key and part must be provided.");
 
-        foreach ($this->validations() as $key => $validation) {
+        foreach (self::validations() as $key => $validation) {
             if (preg_match($validation['regex'], $part, $matches)) {
                 $params = $matches[1] ?? null;
 
