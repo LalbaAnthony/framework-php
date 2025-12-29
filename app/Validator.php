@@ -93,6 +93,13 @@ class Validator
                     return !is_null($value) && $value !== '';
                 }
             ],
+            'slug' => [ // Usage: slug
+                'regex' => '/^slug$/',
+                'message' => 'The field must be a valid slug',
+                'function' => function ($value) {
+                    return is_string($value) && preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $value);
+                }
+            ],
             'string' => [ // Usage: string
                 'regex' => '/^string$/',
                 'message' => 'The field must be a string',

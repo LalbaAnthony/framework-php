@@ -54,7 +54,7 @@ class PostController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            "slug" => "required|unique:post,slug,{$post->id}",
+            "slug" => "required|slug|unique:post,slug,{$post->id}",
             "title" => "required",
             "content" => "required",
             "date" => "required|date",
