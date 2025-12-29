@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Database;
+use App\DatabaseManager;
 use App\Helpers;
-use Exception;
 use App\Exceptions\DatabaseException;
 use App\Exceptions\ModelException;
 
@@ -42,8 +42,11 @@ abstract class Model
      *
      * @var Database|null
      */
-    protected static ?Database $db = null;
-
+    protected static function db(): Database
+    {
+        return DatabaseManager::get();
+    }
+    
     /**
      * Construct a model with an optional data array.
      *
@@ -52,14 +55,6 @@ abstract class Model
     public function __construct(array $data = [])
     {
         $this->fill($data);
-    }
-
-    /**
-     * Destructor to clean up the model.
-     */
-    public function __destruct()
-    {
-        static::$db = null;
     }
 
     /**
@@ -194,16 +189,6 @@ abstract class Model
     }
 
     /**
-     * Set the database connection.
-     *
-     * @param Database $db
-     */
-    public static function setDatabase(Database $db): void
-    {
-        static::$db = $db;
-    }
-
-    /**
      * Fill the model's properties from an array.
      *
      * Only properties that already exist in the object will be set.
@@ -273,9 +258,9 @@ abstract class Model
         $params = array_values($attributes);
 
         $sql = "INSERT INTO " . static::getTableName() . " (" . implode(", ", $columns) . ") VALUES ($placeholders)";
-        $result = static::$db->execute($sql, $params);
+        $result = self::db()->execute($sql, $params);
 
-        if ($result) $this->$primaryKey = static::$db->lastInsertId();
+        if ($result) $this->$primaryKey = self::db()->lastInsertId();
 
         if ($result) return true;
 
@@ -304,7 +289,7 @@ abstract class Model
         $sql = "UPDATE " . static::getTableName() . " SET $placeholders WHERE $primaryKey = ?";
         $params[] = $this->$primaryKey;
 
-        $result = static::$db->execute($sql, $params);
+        $result = self::db()->execute($sql, $params);
 
         if ($result) return true;
 
@@ -321,8 +306,6 @@ abstract class Model
      */
     public function save(bool $refresh = true): bool
     {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
         $primaryKey = static::getPrimaryKey();
         $isUpdate = isset($this->$primaryKey) && !empty($this->$primaryKey);
         $attributes = $this->toArray();
@@ -355,14 +338,12 @@ abstract class Model
      */
     public function delete(): bool
     {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
         $primaryKey = static::getPrimaryKey();
         if (!isset($this->$primaryKey)) {
             return false;
         }
         $sql = "DELETE FROM " . static::getTableName() . " WHERE $primaryKey = ?";
-        return static::$db->execute($sql, [$this->$primaryKey]);
+        return self::db()->execute($sql, [$this->$primaryKey]);
     }
 
     /**
@@ -398,10 +379,8 @@ abstract class Model
      */
     public static function findByPk(int $primaryKey): ?static
     {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE " . static::getPrimaryKey() . " = ?";
-        $result = static::$db->query($sql, [$primaryKey]);
+        $result = self::db()->query($sql, [$primaryKey]);
 
         if ($result && count($result) > 0) {
             return new static($result[0]);
@@ -420,13 +399,11 @@ abstract class Model
      */
     public static function findByCol(mixed $value, ?string $column = null, ?string $table = null): ?static
     {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
         $column = $column ?? static::getPrimaryKey();
         $table = $table ?? static::getTableName();
 
         $sql = "SELECT * FROM $table WHERE $column = ?";
-        $result = static::$db->query($sql, [$value]);
+        $result = self::db()->query($sql, [$value]);
 
         if ($result && count($result) > 0) {
             return new static($result[0]);
@@ -459,8 +436,6 @@ abstract class Model
      */
     public static function findAll(array $params = []): array
     {
-        if (!static::$db) throw new DatabaseException("Database connection not set in " . static::class);
-
         // Set default values for optional parameters.
         if (!isset($params['perPage']) || !$params['perPage']) $params['perPage'] = static::DEFAULT_PER_PAGE;
         if (!isset($params['page']) || !$params['page']) $params['page'] = static::DEFAULT_PAGE;
@@ -537,8 +512,8 @@ abstract class Model
         $sqlData = "SELECT * FROM $table WHERE 1 = 1 $and $sort $pagination";
         $sqlCount = "SELECT COUNT(*) as count FROM $table WHERE 1 = 1 $and";
 
-        $resultsData = static::$db->query($sqlData, $bindings);
-        $resultCount = static::$db->query($sqlCount, $bindings);
+        $resultsData = self::db()->query($sqlData, $bindings);
+        $resultCount = self::db()->query($sqlCount, $bindings);
 
         $totalItems = isset($resultCount[0]['count']) ? (int)$resultCount[0]['count'] : 0;
         $lastPage = $params['perPage'] > 0 ? (int)ceil($totalItems / $params['perPage']) : 1;

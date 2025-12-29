@@ -1,6 +1,7 @@
 <?php
 
 use App\Database;
+use App\DatabaseManager;
 use App\Models\Model;
 use App\Migrator;
 use App\Seeder;
@@ -28,7 +29,4 @@ if (!gc_enabled()) {
 
 require_once __DIR__ . '/aliases.php';
 
-$database = new Database(DATABASE_HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
-Model::setDatabase($database);
-Migrator::setDatabase($database);
-Seeder::setDatabase($database);
+DatabaseManager::init(DATABASE_HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);

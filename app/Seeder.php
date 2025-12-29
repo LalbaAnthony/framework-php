@@ -17,13 +17,6 @@ use App\Exceptions\NotFoundException;
 class Seeder
 {
     /**
-     * The Database instance.
-     *
-     * @var Database|null
-     */
-    protected static ?Database $db = null;
-
-    /**
      * Char that will split the order and table name in seeds files.
      */
     private const SEEDS_FILE_SEPARATOR = '-';
@@ -34,21 +27,13 @@ class Seeder
     private const SEEDS_PATH = __DIR__ . '/../seeds';
 
     /**
-     * Destructor to clean up the model.
-     */
-    public function __destruct()
-    {
-        static::$db = null;
-    }
-
-    /**
-     * Set the database connection.
+     * The Database instance.
      *
-     * @param Database $db
+     * @var Database|null
      */
-    public static function setDatabase(Database $db): void
+    protected static function db(): Database
     {
-        static::$db = $db;
+        return DatabaseManager::get();
     }
 
     /**
@@ -60,7 +45,7 @@ class Seeder
     public function resetAutoIncrement(string $table): void
     {
         try {
-            static::$db->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
+            self::db()->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
         } catch (Exception $e) {
             throw new DatabaseException("Error resetting the auto increment of the table $table: " . $e->getMessage());
         }
@@ -76,10 +61,10 @@ class Seeder
     public function truncate(string $table): void
     {
         try {
-            static::$db->setForeignKeyChecks(false);
-            static::$db->execute("TRUNCATE TABLE $table;");
-            static::$db->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
-            static::$db->setForeignKeyChecks(true);
+            self::db()->setForeignKeyChecks(false);
+            self::db()->execute("TRUNCATE TABLE $table;");
+            self::db()->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
+            self::db()->setForeignKeyChecks(true);
         } catch (Exception $e) {
             throw new DatabaseException("Error truncating the table $table: " . $e->getMessage());
         }
@@ -116,14 +101,14 @@ class Seeder
             $this->resetAutoIncrement($table);
             $this->truncate($table);
 
-            static::$db->setForeignKeyChecks(false);
+            self::db()->setForeignKeyChecks(false);
             foreach ($data as $row) {
                 $columns = implode(', ', array_keys($row));
                 $values = implode("', '", array_map('addslashes', array_values($row)));
                 $query = "INSERT INTO $table ($columns) VALUES ('$values');";
-                static::$db->execute($query);
+                self::db()->execute($query);
             }
-            static::$db->setForeignKeyChecks(true);
+            self::db()->setForeignKeyChecks(true);
 
             Logger::success("Seeded the database with file $path.");
         } catch (Exception $e) {

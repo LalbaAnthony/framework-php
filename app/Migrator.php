@@ -16,33 +16,18 @@ use App\Exceptions\DatabaseException;
 class Migrator
 {
     /**
-     * The Database instance.
-     *
-     * @var Database|null
-     */
-    protected static ?Database $db = null;
-
-    /**
      * Path to the migrations directory.
      */
     private const MIGRATIONS_PATH = __DIR__ . '/../migrations';
 
-    /**
-     * Destructor to clean up the model.
-     */
-    public function __destruct()
-    {
-        static::$db = null;
-    }
-
-    /**
-     * Set the database connection.
+        /**
+     * The Database instance.
      *
-     * @param Database $db
+     * @var Database|null
      */
-    public static function setDatabase(Database $db): void
+    protected static function db(): Database
     {
-        static::$db = $db;
+        return DatabaseManager::get();
     }
 
     /**
@@ -71,7 +56,7 @@ class Migrator
             if ($sql === false) throw new FileException("The file $path could not be read.");
             if (empty($sql)) return; // Nothing to execute
 
-            static::$db->query($sql);
+            self::db()->query($sql);
 
             Logger::info("Migrated the database with file $path");
         } catch (Exception $e) {

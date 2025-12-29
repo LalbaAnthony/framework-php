@@ -17,22 +17,22 @@ class Database
     /**
      * Hostname of the database server.
      */
-    private string $dbHost = '';
+    private string $host = '';
 
     /**
      * Database name.
      */
-    private string $dbName = '';
+    private string $name = '';
 
     /**
      * Username to connect to the database.
      */
-    private string $dbUser = '';
+    private string $user = '';
 
     /**
      * Password to connect to the database.
      */
-    private string $dbPass = '';
+    private string $password = '';
 
     /**
      * Connection to the database.
@@ -42,12 +42,12 @@ class Database
     /**
      * Database class constructor.
      */
-    public function __construct(string $dbHost = '', string $dbName = '', string $dbUser = '', string $dbPass = '')
+    public function __construct(string $host = '', string $name = '', string $user = '', string $password = '')
     {
-        $this->dbHost = $dbHost;
-        $this->dbName = $dbName;
-        $this->dbUser = $dbUser;
-        $this->dbPass = $dbPass;
+        $this->host = $host;
+        $this->name = $name;
+        $this->user = $user;
+        $this->password = $password;
         $this->connect();
     }
 
@@ -69,9 +69,9 @@ class Database
     {
         try {
             $this->connection = new PDO(
-                "mysql:host={$this->dbHost};dbname={$this->dbName}",
-                $this->dbUser,
-                $this->dbPass
+                "mysql:host={$this->host};dbname={$this->name};charset=utf8mb4",
+                $this->user,
+                $this->password
             );
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {

@@ -58,7 +58,7 @@ class Post extends Model
         $sql = "SELECT c.* FROM category c 
                 INNER JOIN post_category qc ON c.id = qc.category_id
                 WHERE qc.post_id = ?";
-        $results = static::$db->query($sql, [$this->id]);
+        $results = self::db()->query($sql, [$this->id]);
         $this->categories = array_map(fn($row) => new Category($row), $results);
         return $this->categories;
     }
@@ -78,13 +78,13 @@ class Post extends Model
 
         // Optional: Check if the association already exists.
         $sqlCheck = "SELECT * FROM post_category WHERE post_id = ? AND category_id = ?";
-        $existing = static::$db->query($sqlCheck, [$this->id, $category->id]);
+        $existing = self::db()->query($sqlCheck, [$this->id, $category->id]);
         if (!empty($existing)) {
             return true; // Already attached.
         }
 
         $sql = "INSERT INTO post_category (post_id, category_id) VALUES (?, ?)";
-        $result = static::$db->execute($sql, [$this->id, $category->id]);
+        $result = self::db()->execute($sql, [$this->id, $category->id]);
         if ($result) {
             // Update local collection if already loaded.
             $this->categories[] = $category;
@@ -106,7 +106,7 @@ class Post extends Model
         if ($category->id === null) throw new ModelException("Category must be saved before detaching.");
 
         $sql = "DELETE FROM post_category WHERE post_id = ? AND category_id = ?";
-        $result = static::$db->execute($sql, [$this->id, $category->id]);
+        $result = self::db()->execute($sql, [$this->id, $category->id]);
 
         // Optionally update the local categories collection.
         $this->categories = array_filter($this->categories, fn($cat) => $cat->id !== $category->id);
@@ -129,7 +129,7 @@ class Post extends Model
 
         // Remove all existing associations.
         $sqlDelete = "DELETE FROM post_category WHERE post_id = ?";
-        $result = static::$db->execute($sqlDelete, [$this->id]);
+        $result = self::db()->execute($sqlDelete, [$this->id]);
         if (!$result) {
             return false;
         }
