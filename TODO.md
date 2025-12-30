@@ -20,11 +20,9 @@
     - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
     - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
   - [ ] Authentification
-  - [ ] Faire proto de list pour admin
-    - [x] Faire bouton suppr
+  - [ ] Faire proto de liste pour admin
     - [ ] Filters
   - [ ] Page Edit
-    - [x] Faire save 
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] BDD
@@ -33,9 +31,8 @@
 - [ ] Seeders
   - [ ] Continuer et implementer faker dans les seeders
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
-  - [ ] Deplacer le INSERT INTO dans une lméthode statique du model pour reutiliser le code
+  - [ ] Deplacer le INSERT INTO dans une méthode statique du model pour reutiliser le code
 - [ ] Models
-  - [x] Utiliser fillables et guarded pour toArray
   - [ ] Diviser responsabilité des methods (findAll trop grosse, ...)
     - [ ] Bouger toArraySafe pour ne pas avoir à l'appeler dans chaque controller de l'API ?
   - [ ] Implement rollbacks for migrations, seeders, models save, ...
