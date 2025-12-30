@@ -35,11 +35,12 @@ trait Utils
      * 
      * @return void
      */
-    public static function redirect(string $uri = '/'): void
+    public static function redirect(string $uri, array $params = []): void
     {
         if (headers_sent()) return;
 
-        header('Location: ' . APP_URL . $uri);
+        header('Location: ' . Router::buildUrl(APP_URL . $uri, $params));
+
         exit;
     }
 

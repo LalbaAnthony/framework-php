@@ -74,7 +74,8 @@ use App\Http\Router;
                             $url = is_callable($action['url']) ? $action['url']($row) : ($action['url'] ?? Router::currentUrl(false));
                             $method = $action['method'] ?? 'GET';
                             ?>
-                            <form action="<?= $url ?>" method="<?= $method ?>">
+                            <form action="<?= $url ?>" method="<?= Router::limitMethodHtml($method) ?>">
+                                <?= methodInputTag($method); ?>
                                 <?php component('button', [
                                     'type' => 'submit',
                                     'label' => $action['name'] ?? '',

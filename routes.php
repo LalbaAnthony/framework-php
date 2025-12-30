@@ -19,6 +19,7 @@ return [
     '/posts/{id}' => [
         'GET'  => new Route('View\\PostController@show'),
         'PUT'  => new Route('View\\PostController@update'),
+        'DELETE'  => new Route('View\\PostController@delete'),
     ],
     // API
     '/api' => [

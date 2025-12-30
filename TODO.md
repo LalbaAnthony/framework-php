@@ -21,13 +21,14 @@
     - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
   - [ ] Authentification
   - [ ] Faire proto de list pour admin
-    - [ ] Actions
-    - [ ] Faire bouton suppr
+    - [x] Faire bouton suppr
     - [ ] Filters
   - [ ] Page Edit
-    - [ ] Faire save 
+    - [x] Faire save 
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
+- [ ] BDD
+  - [ ] Faire migrations dans des classes au lieu de fichiers SQL comme https://github.com/laravel-workflow/sample-app/blob/main/database/migrations/0001_01_01_000001_create_cache_table.php
 - [ ] Seeders
   - [ ] Continuer et implementer faker dans les seeders
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
@@ -37,7 +38,7 @@
   - [ ] Diviser responsabilité des methods (findAll trop grosse, ...)
     - [ ] Bouger toArraySafe pour ne pas avoir à l'appeler dans chaque controller de l'API ?
   - [ ] Implement rollbacks for migrations, seeders, models save, ...
-  - [ ] Trouver une solution pour les relations
+  - [ ] Trouver une solution pour les relations, deplacer contenu de detach, syncCategories dans Model et n'avoir qu'a instancer des methods abstractes dans les models enfants
    	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
   - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
   - [ ] Surcharger le findAll dans les models pour table ayant dans parents en utilisant parent::findAll

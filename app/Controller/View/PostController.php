@@ -25,7 +25,11 @@ class PostController extends Controller
             'sort' => $sort,
         ]);
 
-        $this->view('post/list', compact('posts', 'meta', 'search', 'sort'));
+        $success = null;
+        if (isset($request->params['deleted'])) $success = 'Post deleted successfully.';
+        if (isset($request->params['updated'])) $success = 'Post updated successfully.';
+
+        $this->view('post/list', compact('posts', 'meta', 'search', 'sort', 'success'));
     }
 
     public function show(Request $request)
@@ -74,6 +78,22 @@ class PostController extends Controller
 
         $post->save();
 
-        $this->view('post/detail', ['post' => $post, 'success' => 'Post updated successfully.']);
+        $this->redirect('/posts', ['updated' => true]);
+    }
+
+    public function delete(Request $request)
+    {
+        $id = (int) ($request->patterns['id'] ?? 0);
+
+        $post = Post::findByPk($id);
+
+        if (!$post) {
+            $this->view('error', ['code' => 404, 'message' => 'Post not found']);
+            return;
+        }
+
+        $post->delete();
+
+        $this->redirect('/posts', ['deleted' => true]);
     }
 }

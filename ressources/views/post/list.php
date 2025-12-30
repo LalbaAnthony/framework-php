@@ -10,12 +10,20 @@ use App\Helpers;
     <section>
         <?php component('section-title', ['title' => 'All posts']) ?>
 
+        <?php if (isset($success) && $success) : ?>
+            <?php component('alert', [
+                'type' => 'success',
+                'message' => $success
+            ]) ?>
+        <?php endif; ?>
+
         <?php component('search-bar', [
             'method' => 'GET',
             'placeholder' => 'Search posts...',
             'search' => $search,
         ]);
         ?>
+
         <?php component('table', [
             'sort' => $sort,
             'columns' => [
@@ -69,12 +77,14 @@ use App\Helpers;
                         return APP_URL . '/posts/' . dataGet($row, 'id');
                     },
                     'icon' => 'pen',
-                    'color' => 'dark',
+                    'color' => 'info',
                     'method' => 'GET',
                 ],
                 [
                     'name' => 'Delete',
-                    'url' => '#',
+                    'url' => function ($row) {
+                        return APP_URL . '/posts/' . dataGet($row, 'id');
+                    },
                     'icon' => 'trash',
                     'color' => 'danger',
                     'method' => 'DELETE',

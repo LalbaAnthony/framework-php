@@ -4,7 +4,7 @@ use App\Helpers;
 use App\Http\Router;
 
 $action = isset($action) ? $action : Router::currentUrl(false);
-$method = isset($method) ? $method : 'GET';
+$method = isset($method) ? Router::limitMethodHtml($method) : 'GET';
 $id = isset($id) ? $id : Helpers::randomHex(8);
 
 ?>

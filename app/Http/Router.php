@@ -225,6 +225,21 @@ class Router
     }
 
     /**
+     * Limit method to HTML form methods.
+     * 
+     * @param string $method
+     * @return string
+     */
+    public static function limitMethodHtml(string $method): string
+    {
+        $method = strtoupper($method);
+        if (in_array($method, ['GET', 'POST'])) {
+            return $method;
+        }
+        return 'POST';
+    }
+
+    /**
      * Build a URL with query parameters.
      * @param string $url
      * @param array $params
