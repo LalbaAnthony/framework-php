@@ -6,6 +6,10 @@
 
 <main>
     <section>
+        <?php component('section-title', ['title' => 'Reset the app']) ?>
+        <p>Go to <a class="link" href="<?= APP_URL . '/reset.php' ?>">reset.php</a> to reset the application data.</p>
+    </section>
+    <section>
         <?php component('section-title', ['title' => 'API']) ?>
         <p>Go to the <a class="link" href="<?= APP_URL . '/api' ?>">API root</a>.</p>
     </section>
