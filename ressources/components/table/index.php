@@ -81,8 +81,8 @@ use App\Http\Router;
                                     'label' => $action['name'] ?? '',
                                     'icon' => $action['icon'] ?? null,
                                     'color' => $action['color'] ?? '',
-                                    'outline' => $action['outline'] ?? '',
-                                    'hover' => $action['hover'] ?? '',
+                                    'outline' => $action['outline'] ?? false,
+                                    'hover' => $action['hover'] ?? false,
                                 ]); ?>
                             </form>
                         <?php endforeach; ?>
