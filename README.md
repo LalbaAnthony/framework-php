@@ -5,10 +5,29 @@ Just a pure mix of Laravel, Symfony, CodeIgniter, Yii, ... with a bit of my own 
 
 It isnt mean to be used in production (at least for now), since it might be buggy and not secure enough.
 
-## 📦 Config
+## 🚀 Quick start
 
 - Copy the `.env.example` file to `.env` and set your environment variables.
 - Config the `RewriteBase` in the `public/.htaccess` file.
+
+## 📐 Architecture
+
+- `app/` : contains the application code (Controllers, Models, Database, Http, ...)
+  - `Controllers/` `*` : contains the controllers
+  - `Database/` : contains the database related classes (Connection, Migrator, Seeder, ...)
+  - `Exceptions/` `*` : contains the custom exceptions
+  - `Http/` : contains the HTTP related classes (Request, Response, Router, Controller, ...)
+  - `Models/` `*` : contains the models
+  - `Util/` : contains utility classes as helpers, faker, ...
+  - `View/` : contains the view related classes (View, Component, ...) 
+- `config/` : contains the configuration files
+- `public/` : contains the public files (entrypoint index.php, assets, ...)
+- `ressources/` : contains the views, icons, ...
+- ...
+
+In the `app/` folder, folders marked with * are meant to be modified by the user to add application specific code. All the other folders are meant to contain framework code only.
+
+There is no `vendor/` folder since this project is dependency free (and will always be).
 
 ## ⌨️ Code
 
@@ -36,6 +55,10 @@ dump($post->created_at); // Automatically set
 $post = Post::findByPk($post->id);
 dump($post);
 ```
+
+### Aliases
+
+You can define class aliases in `aliases.php` to simplify class references throughout your application.
 
 ### Icons
 

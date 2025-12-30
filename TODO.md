@@ -14,6 +14,7 @@
 
 - [ ] Features & Improvements
   - [ ] Routing
+    - [ ] Move `public function view()`  into a dedicated class inside of `View` folder ?
     - [ ] Group routes (ex: /admin, /api, ...)
     - [ ] CORS
     - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
