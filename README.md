@@ -1,14 +1,21 @@
 # Framework PHP
 
 This is a simple PHP framework for building web applications.
-Just a pure mix of Laravel, Symfony, CodeIgniter, Yii, ... with a bit of my own touch.
+Just a pure mix of Laravel, Symfony, ... with a bit of my own touch.
 
 It isnt mean to be used in production (at least for now), since it might be buggy and not secure enough.
+
+Basically, its a learning project to figure out how a framework can work under the hood and how to build one from scratch.
 
 ## 🚀 Quick start
 
 - Copy the `.env.example` file to `.env` and set your environment variables.
-- Config the `RewriteBase` in the `public/.htaccess` file.
+- Web server setup:
+  - Config the `RewriteBase` in the `public/.htaccess` file if needed.
+  - Start a local server (ex: XAMPP, MAMP, ...)
+- Database setup:
+  - Create a database and set the connection parameters in the `.env` file.
+  - Run the `reset.php` script in the `public/` folder to create the database schema and seed initial data.
 
 ## 📐 Architecture
 
