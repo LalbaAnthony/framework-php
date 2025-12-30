@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Helpers;
+use App\Util\Helpers;
+use App\Database\Model;
 
 /**
  * The User model represents a record in the "user" table.

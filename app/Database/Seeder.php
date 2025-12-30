@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Database;
 
 use Exception;
-use App\Database;
-use App\Logger;
+use App\Database\Database;
+use App\Util\Logger;
 use App\Exceptions\DatabaseException;
 use App\Exceptions\FileException;
 use App\Exceptions\NotFoundException;
@@ -24,7 +24,7 @@ class Seeder
     /**
      * Path to the seeds directory.
      */
-    private const SEEDS_PATH = __DIR__ . '/../seeds';
+    private const SEEDS_PATH = __DIR__ . '/../../seeds';
 
     /**
      * The Database instance.

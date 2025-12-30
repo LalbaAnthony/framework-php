@@ -1,7 +1,7 @@
 <?php
 
-use App\Migrator;
-use App\Seeder;
+use App\Database\Migrator;
+use App\Database\Seeder;
 
 require_once __DIR__ . '/../bootstrap.php';
 

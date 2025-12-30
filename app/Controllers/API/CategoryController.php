@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\API;
+namespace App\Controllers\API;
 
 use App\Http\Request;
-use App\Models\Post;
-use App\Controller\Controller;
-use App\Models\Model;
+use App\Models\Category;
+use App\Http\Controller;
+use App\Database\Model;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     public function index(Request $request)
     {
@@ -16,7 +16,7 @@ class PostController extends Controller
         $page = (int) ($request->params['page'] ?? parent::DEFAULT_PAGE);
         $sort = (array) ($request->params['sort'] ?? parent::DEFAULT_SORT);
 
-        [$data, $meta] = Post::findAll([
+        [$data, $meta] = Category::findAll([
             'search' => $search,
             'perPage' => $perPage,
             'page' => $page,
@@ -34,15 +34,15 @@ class PostController extends Controller
     {
         $slug = (string) ($request->patterns['slug'] ?? '');
 
-        $post = Post::findByCol($slug, 'slug');
+        $category = Category::findByCol($slug, 'slug');
 
-        $post = $post->toArraySafe();
+        $category = $category->toArraySafe();
 
-        if (!$post) {
-            $this->json(['error' => 'Post not found'], 404);
+        if (!$category) {
+            $this->json(['error' => 'Category not found'], 404);
             return;
         }
 
-        $this->json(['data' => [$post]], 200);
+        $this->json(['data' => [$category]], 200);
     }
 }

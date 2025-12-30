@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers;
+use App\Util\Helpers;
 use App\Http\Router;
 
 $action = isset($action) ? $action : Router::currentUrl(false);

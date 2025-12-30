@@ -1,8 +1,7 @@
 <?php
 
-use App\Logger;
+use App\Util\Logger;
 use App\Http\Route;
-use App\Http\Request;
 
 set_exception_handler(function ($e) {
     global $router;

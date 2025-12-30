@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Util;
 
 use App\Exceptions\FileException;
 use Exception;
@@ -15,7 +15,7 @@ class Logger
     /**
      * Path to the log files directory.
      */
-    private const LOG_PATH = __DIR__ . '/../logs/';
+    private const LOG_PATH = __DIR__ . '/../../logs/';
 
     /**
      * Types of log messages.

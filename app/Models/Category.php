@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Database\Model;
+
 /**
  * The Category model represents a record in the "category" table.
  */

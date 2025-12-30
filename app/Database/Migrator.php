@@ -1,12 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Database;
 
 use Exception;
-use App\Database;
+use App\Database\Database;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\FileException;
 use App\Exceptions\DatabaseException;
+use App\Util\Logger;
 
 /**
  * Class Migrator
@@ -18,7 +19,7 @@ class Migrator
     /**
      * Path to the migrations directory.
      */
-    private const MIGRATIONS_PATH = __DIR__ . '/../migrations';
+    private const MIGRATIONS_PATH = __DIR__ . '/../../migrations';
 
         /**
      * The Database instance.

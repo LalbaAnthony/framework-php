@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Database;
 
-use App\Database;
-use App\DatabaseManager;
-use App\Helpers;
+use App\Database\Database;
+use App\Database\DatabaseManager;
+use App\Util\Helpers;
 use App\Exceptions\DatabaseException;
 use App\Exceptions\ModelException;
 

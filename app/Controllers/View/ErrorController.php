@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\View;
+namespace App\Controllers\View;
 
 use App\Http\Request;
-use App\Controller\Controller;
+use App\Http\Controller;
 
 class ErrorController extends Controller
 {

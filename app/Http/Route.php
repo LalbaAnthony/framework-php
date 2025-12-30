@@ -46,7 +46,7 @@ class Route
 
         list($this->controller, $this->method) = explode('@', $this->path);
 
-        $this->class = 'App\\Controller\\' . $this->controller;
+        $this->class = 'App\\Controllers\\' . $this->controller;
 
         if (!class_exists($this->class)) {
             throw new RoutingException($this->class . " does not exist. Check namespaces.", 404);

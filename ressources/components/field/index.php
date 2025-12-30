@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers;
+use App\Util\Helpers;
 
 $types = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'date', 'datetime-local', 'month', 'week', 'time', 'color', 'textarea'];
 $autocompletes = ['text' => 'on', 'password' => 'current-password', 'email' => 'email', 'tel' => 'tel', 'url' => 'url', 'search' => 'search', 'name' => 'name'];

@@ -1,10 +1,6 @@
 <?php
 
-use App\Database;
-use App\DatabaseManager;
-use App\Models\Model;
-use App\Migrator;
-use App\Seeder;
+use App\Database\DatabaseManager;
 
 require_once __DIR__ . '/autoloader.php';
 require_once __DIR__ . '/exceptionhandler.php';

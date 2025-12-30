@@ -28,6 +28,7 @@
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] BDD
+  - [ ] Remplacer Migrator by Migration classes
   - [ ] Faire migrations dans des classes au lieu de fichiers SQL comme https://github.com/laravel-workflow/sample-app/blob/main/database/migrations/0001_01_01_000001_create_cache_table.php
 - [ ] Seeders
   - [ ] Continuer et implementer faker dans les seeders

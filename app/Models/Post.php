@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Exceptions\ModelException;
 
+use App\Database\Model;
+
 /**
  * The Post model represents a record in the "post" table.
  */

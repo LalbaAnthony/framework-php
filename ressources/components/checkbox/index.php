@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers;
+use App\Util\Helpers;
 
 $id = isset($id) ? $id : Helpers::randomHex(8);
 $class = isset($class) ? $class : '';

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\API;
+namespace App\Controllers\API;
 
 use App\Http\Request;
-use App\Controller\Controller;
+use App\Http\Controller;
 
 class DefaultController extends Controller
 {

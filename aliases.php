@@ -1,9 +1,9 @@
 <?php
 
-use App\Helpers;
-use App\Component;
+use App\Util\Helpers;
+use App\View\Component;
 use App\Http\Router;
-use App\Icon;
+use App\View\Icon;
 
 if (!function_exists('dump')) {
     function dump(...$vars): void

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\View;
 
 use App\Exceptions\FileException;
 use App\Exceptions\ComponentException;
@@ -22,7 +22,7 @@ class Component
     /**
      * Base directory for components.
      */
-    private const COMPONENTS_PATH = __DIR__ . '/../ressources/components';
+    private const COMPONENTS_PATH = __DIR__ . '/../../ressources/components';
 
     /**
      * Associative array to track printed HTML tags for deduplication.

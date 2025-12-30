@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\View;
 
 use Exception;
 use App\Exceptions\IconException;
@@ -20,7 +20,7 @@ class Icon
     /**
      * Base directory for icons.
      */
-    private const ICONS_PATH = __DIR__ . '/../ressources/icons';
+    private const ICONS_PATH = __DIR__ . '/../../ressources/icons';
 
     /**
      * The name of the icon.
@@ -52,7 +52,7 @@ class Icon
         $this->name = $name;
         $this->color = $color;
         $this->size = $size;
-        $this->path = self::ICONS_PATH . '/' . $name . '.svg';
+        $this->path = self::ICONS_PATH . '/' . $this->name . '.svg';
     }
 
     /**

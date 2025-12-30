@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller\View;
+namespace App\Controllers\View;
 
 use App\Http\Request;
 use App\Models\Post;
-use App\Controller\Controller;
-use App\Validator;
+use App\Http\Controller;
+use App\Util\Validator;
 
 class PostController extends Controller
 {
