@@ -77,7 +77,7 @@ use App\Http\Router;
                         return [
                             'value' => $category->id,
                             'label' => $category->label,
-                            'selected' => in_array($category->id, $post->categoryIds()), // TODO: find a better way ?
+                            'selected' => in_array($category->id, [1, 3]), // TODO: find a way to get selected categories for the post
                         ];
                     }, $categories),
                     'multiple' => true,

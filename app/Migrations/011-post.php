@@ -27,6 +27,6 @@ return new class extends Migration
 
     public function down(Database $db): void
     {
-        $db->drop('post');
+        $db->dropIfExists('post');
     }
 };

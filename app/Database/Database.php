@@ -149,7 +149,7 @@ class Database
      * @return void
      * @throws DatabaseException
      */
-    public function drop(string $table, bool $fkCheck = false): void
+    public function dropIfExists(string $table, bool $fkCheck = false): void
     {
         if (!$fkCheck) $this->setForeignKeyChecks(false);
 
