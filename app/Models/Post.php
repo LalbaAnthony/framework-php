@@ -57,9 +57,6 @@ class Post extends Model
      */
     public function loadCategories(): array
     {
-        // Return already loaded categories.
-        if (!empty($this->categories)) return $this->categories;
-
         if ($this->id === null) throw new ModelException("Post must be saved before loading categories.");
 
         $sql = "SELECT c.* FROM category c 
@@ -161,7 +158,7 @@ class Post extends Model
      */
     public function categoryIds(): array
     {
-        $this->loadCategories(); // Ensure categories are loaded.
+        if (empty($this->categories)) $this->loadCategories();
         return array_map(fn($category) => $category->id, $this->categories);
     }
 }
