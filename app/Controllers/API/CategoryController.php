@@ -36,12 +36,12 @@ class CategoryController extends Controller
 
         $category = Category::findByCol($slug, 'slug');
 
-        $category = $category->toArraySafe();
-
         if (!$category) {
             $this->json(['error' => 'Category not found'], 404);
             return;
         }
+
+        $category = $category->toArraySafe();
 
         $this->json(['data' => [$category]], 200);
     }

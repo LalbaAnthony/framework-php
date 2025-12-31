@@ -14,8 +14,7 @@
         <h4>Some of endpoints:</h4>
         <ul>
             <li><a class="link" href="<?= APP_URL . '/api/posts' ?>"><?= APP_URL . '/api/posts' ?></a> - Get all posts (GET)</li>
-            <li><a class="link" href="<?= APP_URL . '/api/posts/1' ?>"><?= APP_URL . '/api/posts/1' ?></a> - Get post with ID 1 (GET)</li>
-            <li><a class="link" href="<?= APP_URL . '/api/posts' ?>"><?= APP_URL . '/api/posts' ?></a> - Create a new post (POST)</li>
+            <li><a class="link" href="<?= APP_URL . '/api/posts/mon-premier-post' ?>"><?= APP_URL . '/api/posts/{slug}' ?></a> - Get a post by slug (GET)</li>
         </ul>
     </section>
     <section>

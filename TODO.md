@@ -26,10 +26,13 @@
   - [ ] Page Edit
     - [ ] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
+- [ ] BDD
+  - [ ] Migration: rajout de la possibilité de ne lancer que les migrations non lancées. De manière a pouvoir faire une maj de la BDD en prod sans tout reset
 - [ ] File system as storage
 - [ ] Seeders
   - [ ] Continuer et implementer faker dans les seeders
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
+  - [x] Deplacer le INSERT INTO dans une méthode statique du model pour reutiliser le code
 - [ ] Models
   - [ ] Diviser responsabilité des methods (findAll trop grosse, ...)
     - [ ] Bouger toArraySafe pour ne pas avoir à l'appeler dans chaque controller de l'API ?

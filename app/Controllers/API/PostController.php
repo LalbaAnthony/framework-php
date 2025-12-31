@@ -36,12 +36,12 @@ class PostController extends Controller
 
         $post = Post::findByCol($slug, 'slug');
 
-        $post = $post->toArraySafe();
-
         if (!$post) {
             $this->json(['error' => 'Post not found'], 404);
             return;
         }
+
+        $post = $post->toArraySafe();
 
         $this->json(['data' => [$post]], 200);
     }
