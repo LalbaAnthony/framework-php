@@ -55,7 +55,7 @@ class Post extends Model
      * @return Category[]
      * @throws ModelException
      */
-    public function getCategories(): array
+    public function loadCategories(): array
     {
         // Return already loaded categories.
         if (!empty($this->categories)) return $this->categories;
@@ -161,7 +161,7 @@ class Post extends Model
      */
     public function categoryIds(): array
     {
-        $this->getCategories(); // Ensure categories are loaded.
+        $this->loadCategories(); // Ensure categories are loaded.
         return array_map(fn($category) => $category->id, $this->categories);
     }
 }
