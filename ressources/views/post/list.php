@@ -36,14 +36,14 @@ use App\Util\Helpers;
                     }
                 ],
                 [
-                    'name' => 'Slug',
-                    'value' => 'slug',
-                    'sortable' => 'slug'
-                ],
-                [
                     'name' => 'Title',
                     'value' => 'title',
                     'sortable' => 'title'
+                ],
+                [
+                    'name' => 'Slug',
+                    'value' => 'slug',
+                    'sortable' => 'slug'
                 ],
                 [
                     'name' => 'Content',

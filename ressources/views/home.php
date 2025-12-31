@@ -7,11 +7,16 @@
 <main>
     <section>
         <?php component('section-title', ['title' => 'Reset the app']) ?>
-        <p>Go to <a class="link" href="<?= APP_URL . '/reset.php' ?>">reset.php</a> to reset the application data.</p>
+        <p>Go to <a class="link" href="<?= APP_URL . '/reset' ?>">reset</a> to reset the application data.</p>
     </section>
     <section>
         <?php component('section-title', ['title' => 'API']) ?>
-        <p>Go to the <a class="link" href="<?= APP_URL . '/api' ?>">API root</a>.</p>
+        <h4>Some of endpoints:</h4>
+        <ul>
+            <li><a class="link" href="<?= APP_URL . '/api/posts' ?>"><?= APP_URL . '/api/posts' ?></a> - Get all posts (GET)</li>
+            <li><a class="link" href="<?= APP_URL . '/api/posts/1' ?>"><?= APP_URL . '/api/posts/1' ?></a> - Get post with ID 1 (GET)</li>
+            <li><a class="link" href="<?= APP_URL . '/api/posts' ?>"><?= APP_URL . '/api/posts' ?></a> - Create a new post (POST)</li>
+        </ul>
     </section>
     <section>
         <?php component('section-title', ['title' => 'Posts']) ?>

@@ -1,8 +1,51 @@
 <?php
 
+use App\Database\Migrator;
+use App\Database\Seeder;
 use App\Http\Route;
 
 return [
+    // Scripts
+    '/seed' => [
+        'GET'  => function ($request) {
+            if (APP_ENV !== 'development') {
+                printLine("This script can only be run in development mode.");
+                exit;
+            }
+
+            $seeder = new Seeder();
+            $seeder->crawl();
+            printLine("Database seeded successfully.");
+        },
+    ],
+    '/migrate' => [
+        'GET'  => function ($request) {
+            if (APP_ENV !== 'development') {
+                printLine("This script can only be run in development mode.");
+                exit;
+            }
+
+            $migrator = new Migrator();
+            $migrator->crawl();
+            printLine("Database migrated successfully.");
+        },
+    ],
+    '/reset' => [
+        'GET'  => function ($request) {
+            if (APP_ENV !== 'development') {
+                printLine("This script can only be run in development mode.");
+                exit;
+            }
+
+            $migrator = new Migrator();
+            $migrator->crawl();
+            printLine("Database migrated successfully.");
+
+            $seeder = new Seeder();
+            $seeder->crawl();
+            printLine("Database seeded successfully.");
+        },
+    ],
     // Views
     '/hello' => [ // Example route with a closure
         'GET'  => function ($request) {

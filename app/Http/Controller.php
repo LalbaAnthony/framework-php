@@ -2,9 +2,13 @@
 
 namespace App\Http;
 
+use App\View\View;
+
 abstract class Controller
 {
     use Utils;
+    use Response;
+    use View;
 
     /**
      * Default values for pagination and sorting.

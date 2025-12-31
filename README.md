@@ -15,7 +15,7 @@ Basically, its a learning project to figure out how a framework can work under t
   - Start a local server (ex: XAMPP, MAMP, ...)
 - Database setup:
   - Create a database and set the connection parameters in the `.env` file.
-  - Run the `reset.php` script in the `public/` folder to create the database schema and seed initial data.
+  - Go to `/reset` script in the `public/` folder to create the database schema and seed initial data.
 
 ## 📐 Architecture
 

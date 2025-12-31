@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Exceptions\RoutingException;
+use App\View\Html;
 use Exception;
 
 class Router
