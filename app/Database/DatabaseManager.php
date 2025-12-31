@@ -16,18 +16,13 @@ final class DatabaseManager
     /**
      * Initialize the Database instance.
      * 
-     * @param string $host
-     * @param string $name
-     * @param string $user
-     * @param string $password
+     * @param Database $instance The database instance.
      */
-    public static function init(string $host, string $name, string $user, string $password): void
+    public static function init(Database $instance): void
     {
-        if (self::$instance !== null) {
-            throw new Exception('Database already initialized');
-        }
+        if (self::$instance !== null) throw new Exception('Database already initialized');
 
-        self::$instance = new Database($host, $name, $user, $password);
+        self::$instance = $instance;
     }
 
     /**
@@ -37,9 +32,7 @@ final class DatabaseManager
      */
     public static function get(): Database
     {
-        if (self::$instance === null) {
-            throw new Exception('Database not initialized');
-        }
+        if (self::$instance === null) throw new Exception('Database not initialized');
 
         return self::$instance;
     }

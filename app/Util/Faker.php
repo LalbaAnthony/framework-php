@@ -9,7 +9,7 @@ use Exception;
  *
  * This class is used to generate fake data for testing purposes.
  */
-class Faker
+final class Faker
 {
     public const DATA = [
         'email_domains' => ['example.com', 'test.com', 'demo.com', 'sample.com'],

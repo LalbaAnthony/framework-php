@@ -7,8 +7,10 @@ namespace App\Util;
  *
  * This class is used to provide helper public functions.
  */
-class Helpers
+final class Helpers
 {
+    private function __construct() {} // Private constructor to prevent instantiation
+
     /**
      * Get current date in Y-m-d format.
      *

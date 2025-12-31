@@ -10,8 +10,10 @@ use Exception;
  *
  * This class is used to log messages to a file.
  */
-class Logger
+final class Logger
 {
+    private function __construct() {} // Private constructor to prevent instantiation
+
     /**
      * Path to the log files directory.
      */

@@ -1,9 +1,11 @@
 <?php
 
+use App\Database\Database;
 use App\Database\DatabaseManager;
 
 require_once __DIR__ . '/autoloader.php';
 require_once __DIR__ . '/exceptionhandler.php';
+
 require_once __DIR__ . '/dotenvloader.php';
 
 require_once __DIR__ . '/config/app.php';
@@ -19,10 +21,8 @@ if (APP_DEBUG) {
     error_reporting(E_ALL);
 }
 
-if (!gc_enabled()) {
-    gc_enable();
-}
+if (!gc_enabled()) gc_enable();
 
 require_once __DIR__ . '/aliases.php';
 
-DatabaseManager::init(DATABASE_HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
+DatabaseManager::init(new Database(DATABASE_HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD));
