@@ -152,4 +152,16 @@ class Post extends Model
         $this->categories = $categories;
         return true;
     }
+
+    /**
+     * Returns an array of category IDs associated with this post.
+     *
+     * @return int[]
+     * @throws ModelException
+     */
+    public function categoryIds(): array
+    {
+        $this->getCategories(); // Ensure categories are loaded.
+        return array_map(fn($category) => $category->id, $this->categories);
+    }
 }

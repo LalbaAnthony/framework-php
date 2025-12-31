@@ -5,6 +5,7 @@ namespace App\Controllers\View;
 use App\Http\Request;
 use App\Models\Post;
 use App\Http\Controller;
+use App\Models\Category;
 use App\Util\Validator;
 
 class PostController extends Controller
@@ -37,13 +38,14 @@ class PostController extends Controller
         $id = (int) ($request->patterns['id'] ?? 0);
 
         $post = Post::findByPk($id);
+        $categories = Category::findAll(['perPage' => 1000])[0];
 
         if (!$post) {
             $this->view('error', ['code' => 404, 'message' => 'Post not found']);
             return;
         }
 
-        $this->view('post/detail', compact('post'));
+        $this->view('post/detail', compact('post', 'categories'));
     }
 
     public function update(Request $request)
@@ -77,6 +79,8 @@ class PostController extends Controller
         }
 
         $post->save();
+
+        // TODO: save categories here
 
         $this->redirect('/posts', ['updated' => true]);
     }

@@ -68,6 +68,21 @@ use App\Http\Router;
                     'errors' => $errors['content'] ?? [],
                     'value' => $post->content,
                 ]) ?>
+                <?php component('select', [
+                    'placeholder' => 'Select a category',
+                    'label' => 'Category',
+                    'name' => 'categories',
+                    'class' => 'field-category',
+                    'options' => array_map(function ($category) use ($post) {
+                        return [
+                            'value' => $category->id,
+                            'label' => $category->label,
+                            'selected' => in_array($category->id, $post->categoryIds()), // TODO: find a better way ?
+                        ];
+                    }, $categories),
+                    'multiple' => true,
+                    'errors' => $errors['category'] ?? [],
+                ]) ?>
             </div>
             <div class="actions-grid">
                 <?php component('button', [

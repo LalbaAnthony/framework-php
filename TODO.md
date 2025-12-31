@@ -14,7 +14,6 @@
 
 - [ ] Features & Improvements
   - [ ] Routing
-    - [ ] Move `public function view()`  into a dedicated class inside of `View` folder ?
     - [ ] Group routes (ex: /admin, /api, ...)
     - [ ] CORS
     - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
@@ -24,7 +23,7 @@
   - [ ] Faire proto de liste pour admin
     - [ ] Filters
   - [ ] Page Edit
-    - [ ] Ajouter liste des categories en multi select
+    - [~] Ajouter liste des categories en multi select
     - [ ] Faire bouton suppr dans edit
 - [ ] BDD
   - [ ] Migration: rajout de la possibilité de ne lancer que les migrations non lancées. De manière a pouvoir faire une maj de la BDD en prod sans tout reset
