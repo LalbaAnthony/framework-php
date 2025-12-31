@@ -207,6 +207,30 @@ abstract class Model
     }
 
     /**
+     * Get the value of the primary key for this model instance.
+     *
+     * @return mixed
+     */
+    public function getPrimaryKeyValue(): mixed
+    {
+        $primaryKey = static::getPrimaryKey();
+        return $this->$primaryKey ?? null;
+    }
+
+    /**
+     * Set the value of the primary key for this model instance.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function setPrimaryKeyValue(mixed $value): mixed
+    {
+        $primaryKey = static::getPrimaryKey();
+        $this->$primaryKey = $value;
+        return $this->$primaryKey;
+    }
+
+    /**
      * Fill the model's properties from an array.
      *
      * Only properties that already exist in the object will be set.
@@ -280,7 +304,7 @@ abstract class Model
         $sql = "INSERT INTO " . static::getTableName() . " (" . implode(", ", $columns) . ") VALUES ($placeholders)";
         $result = self::db()->execute($sql, $params);
 
-        if ($result) $this->$primaryKey = self::db()->lastInsertId();
+        if ($result) $this->setPrimaryKeyValue(self::db()->lastInsertId());
 
         if ($result) return true;
 
@@ -297,9 +321,7 @@ abstract class Model
      */
     public function update(array $attributes = []): bool
     {
-        $primaryKey = static::getPrimaryKey();
-
-        if (!isset($this->$primaryKey)) {
+        if (empty($this->getPrimaryKeyValue())) {
             return false;
         }
 
@@ -307,8 +329,8 @@ abstract class Model
         $placeholders = implode(", ", array_map(fn($column) => "$column = ?", $columns));
         $params = array_values($attributes);
 
-        $sql = "UPDATE " . static::getTableName() . " SET $placeholders WHERE $primaryKey = ?";
-        $params[] = $this->$primaryKey;
+        $sql = "UPDATE " . static::getTableName() . " SET $placeholders WHERE " . static::getPrimaryKey() . " = ?";
+        $params[] = $this->getPrimaryKeyValue();
 
         $result = self::db()->execute($sql, $params);
 
@@ -329,7 +351,7 @@ abstract class Model
     {
         $primaryKey = static::getPrimaryKey();
 
-        $isUpdate = isset($this->$primaryKey) && !empty($this->$primaryKey);
+        $isUpdate = !empty($this->getPrimaryKeyValue());
         $attributes = $this->toArray();
 
         foreach ($attributes as $column => &$value) {
@@ -360,14 +382,12 @@ abstract class Model
      */
     public function delete(): bool
     {
-        $primaryKey = static::getPrimaryKey();
-
-        if (!isset($this->$primaryKey)) {
+        if (!$this->getPrimaryKeyValue()) {
             return false;
         }
 
-        $sql = "DELETE FROM " . static::getTableName() . " WHERE $primaryKey = ?";
-        return self::db()->execute($sql, [$this->$primaryKey]);
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE " . static::getPrimaryKey() . " = ?";
+        return self::db()->execute($sql, [$this->getPrimaryKeyValue()]);
     }
 
     /**
@@ -378,13 +398,11 @@ abstract class Model
      */
     public function refresh(): bool
     {
-        $primaryKey = static::getPrimaryKey();
-
-        if (!isset($this->$primaryKey)) {
+        if (!$this->getPrimaryKeyValue()) {
             return false;
         }
 
-        $fresh = static::findByPk($this->$primaryKey);
+        $fresh = static::findByPk($this->getPrimaryKeyValue());
 
         if ($fresh) {
             $this->fill($fresh->toArray());
