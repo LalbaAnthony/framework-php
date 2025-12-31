@@ -2,12 +2,9 @@
 
 namespace App\Database;
 
-use Exception;
-use App\Database\Database;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\FileException;
 use App\Exceptions\DatabaseException;
-use App\Util\Logger;
 
 /**
  * Class Migrator
@@ -19,9 +16,9 @@ class Migrator
     /**
      * Path to the migrations directory.
      */
-    private const MIGRATIONS_PATH = __DIR__ . '/../../migrations';
+    private const MIGRATIONS_PATH = __DIR__ . '/../Migrations';
 
-        /**
+    /**
      * The Database instance.
      *
      * @var Database|null
@@ -32,34 +29,61 @@ class Migrator
     }
 
     /**
-     * Migrate the database with data.
+     * List of migration files.
+     *
+     * @var Migration[]
+     */
+    private array $migrations = [];
+
+    /**
+     * Runs the migrator to populate the database.
+     *
+     * @return void
+     */
+    public static function run(): void
+    {
+        $migrator = new self();
+        $migrator->crawl();
+        $migrator->execute();
+    }
+
+    /**
+     * Crawl for migration files.
      *
      * @return void
      */
     public function crawl(): void
     {
-        if (!is_dir(self::MIGRATIONS_PATH)) throw new NotFoundException("The migrations path does not exist: " . self::MIGRATIONS_PATH);
+        if (!is_dir(self::MIGRATIONS_PATH)) throw new NotFoundException("The migrations directory does not exist.");
 
-        $files = glob(self::MIGRATIONS_PATH . '/*.sql');
+        $files = glob(self::MIGRATIONS_PATH . '/*.php');
+        sort($files);
 
         foreach ($files as $file) {
-            $this->migrate($file);
+            require_once $file;
+            $migration = include $file;
+            $this->migrations[] = $migration;
         }
     }
 
-    public function migrate(string $path): void
+    /**
+     * Migrate the database with data from all migration files.
+     *
+     * @return void
+     */
+    public function execute(): void
     {
-        if (!file_exists($path)) throw new NotFoundException("The file $path does not exist.");
-        if (!is_readable($path)) throw new FileException("The file $path is not readable.");
+        // First, down all migrations to reset the database.
+        // ! Execute in reverse order to avoid foreign key constraint issues.
+        for ($i = count($this->migrations) - 1; $i >= 0; $i--) {
+            $migration = $this->migrations[$i];
+            $migration->down(self::db());
+        }
 
-        try {
-            $sql = file_get_contents($path);
-            if ($sql === false) throw new FileException("The file $path could not be read.");
-            if (empty($sql)) return; // Nothing to execute
-
-            self::db()->query($sql);
-        } catch (Exception $e) {
-            throw new DatabaseException("Error migrating the database with file $path: " . $e->getMessage());
+        // Then, up all migrations to populate the database.
+        for ($i = 0; $i < count($this->migrations); $i++) {
+            $migration = $this->migrations[$i];
+            $migration->up(self::db());
         }
     }
 }

@@ -4,7 +4,6 @@ namespace App\Database;
 
 use Exception;
 use App\Database\Database;
-use App\Util\Logger;
 use App\Exceptions\DatabaseException;
 use App\Exceptions\FileException;
 use App\Exceptions\NotFoundException;
@@ -59,7 +58,7 @@ class Seeder
     }
 
     /**
-     * Seeds the database with data.
+     * Crawl for seed files.
      *
      * @return void
      */

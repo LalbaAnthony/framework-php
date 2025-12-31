@@ -7,41 +7,28 @@ use App\Http\Route;
 return [
     // Scripts
     '/seed' => [
-        'GET'  => function ($request) {
-            if (APP_ENV !== 'development') {
-                printLine("This script can only be run in development mode.");
-                exit;
+        'GET'  => function () {
+            if (APP_ENV == 'development') {
+                Seeder::run();
+                printLine("Database seeded successfully.");
             }
-
-            Seeder::run();
-            printLine("Database seeded successfully.");
         },
     ],
     '/migrate' => [
-        'GET'  => function ($request) {
-            if (APP_ENV !== 'development') {
-                printLine("This script can only be run in development mode.");
-                exit;
+        'GET'  => function () {
+            if (APP_ENV == 'development') {
+                Migrator::run();
+                printLine("Database migrated successfully.");
             }
-
-            $migrator = new Migrator();
-            $migrator->crawl();
-            printLine("Database migrated successfully.");
         },
     ],
     '/reset' => [
-        'GET'  => function ($request) {
-            if (APP_ENV !== 'development') {
-                printLine("This script can only be run in development mode.");
-                exit;
+        'GET'  => function () {
+            if (APP_ENV == 'development') {
+                Migrator::run();
+                Seeder::run();
+                printLine("Database reset and seeded successfully.");
             }
-
-            $migrator = new Migrator();
-            $migrator->crawl();
-            printLine("Database migrated successfully.");
-
-            Seeder::run();
-            printLine("Database seeded successfully.");
         },
     ],
     // Views

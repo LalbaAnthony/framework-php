@@ -24,6 +24,7 @@ Basically, its a learning project to figure out how a framework can work under t
   - `Database/` : contains the database related classes (Connection, Migrator, Seeder, ...)
   - `Exceptions/` `*` : contains the custom exceptions
   - `Http/` : contains the HTTP related classes (Request, Response, Router, Controller, ...)
+  - `Migrations/` `*`: contains the migration files
   - `Models/` `*` : contains the models
   - `Util/` : contains utility classes as helpers, faker, ...
   - `View/` : contains the view related classes (View, Component, ...) 

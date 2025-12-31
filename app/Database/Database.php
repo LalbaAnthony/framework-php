@@ -111,6 +111,18 @@ class Database
         $this->execute("SET FOREIGN_KEY_CHECKS = " . ($enabled ? '1' : '0'));
     }
 
+    /**
+     * Checks if a table exists in the database.
+     * 
+     * @param string $table The name of the table.
+     * @return bool True if the table exists, false otherwise.
+     * @throws DatabaseException
+     */
+    public function tableExists(string $table): bool
+    {
+        $result = $this->fetchFirst("SHOW TABLES LIKE ?", [$table]);
+        return $result !== false;
+    }
 
     /**
      * Deletes all data from a table.
@@ -123,7 +135,26 @@ class Database
     {
         if (!$fkCheck) $this->setForeignKeyChecks(false);
 
-        $this->execute("TRUNCATE TABLE `$table`");
+        if ($this->tableExists($table)) {
+            $this->execute("TRUNCATE TABLE `$table`");
+        }
+
+        if (!$fkCheck) $this->setForeignKeyChecks(true);
+    }
+
+    /**
+     * Drops a table from the database.
+     * 
+     * @param string $table The name of the table.
+     * @return void
+     * @throws DatabaseException
+     */
+    public function drop(string $table, bool $fkCheck = false): void
+    {
+        if (!$fkCheck) $this->setForeignKeyChecks(false);
+
+        $this->truncate($table, $fkCheck);
+        $this->execute("DROP TABLE IF EXISTS `$table`");
 
         if (!$fkCheck) $this->setForeignKeyChecks(true);
     }
@@ -137,7 +168,9 @@ class Database
      */
     public function resetAutoIncrement(string $table): void
     {
-        $this->execute("ALTER TABLE `$table` AUTO_INCREMENT = 1;");
+        if ($this->tableExists($table)) {
+            $this->execute("ALTER TABLE `$table` AUTO_INCREMENT = 1;");
+        }
     }
 
     /**
@@ -240,7 +273,7 @@ class Database
             $statement->execute();
             return $statement;
         } catch (PDOException $e) {
-            throw new DatabaseException("Error executing the query: " . $e->getMessage());
+            throw new DatabaseException("Error executing the query: " . $this->mergeQueryAndParams($query, $params) .  " | " . $e->getMessage());
         }
     }
 
