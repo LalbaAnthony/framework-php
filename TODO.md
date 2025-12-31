@@ -29,6 +29,7 @@
 - [ ] BDD
   - [ ] Remplacer Migrator by Migration classes
   - [ ] Faire migrations dans des classes au lieu de fichiers SQL comme https://github.com/laravel-workflow/sample-app/blob/main/database/migrations/0001_01_01_000001_create_cache_table.php
+- [ ] File system as storage
 - [ ] Seeders
   - [ ] Continuer et implementer faker dans les seeders
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)

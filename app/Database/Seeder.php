@@ -37,37 +37,25 @@ class Seeder
     }
 
     /**
-     * Reset the auto increment value of a table.
-     * 
-     * @param string $table
-     * @return void
+     * List of seed files.
+     *
+     * @var array
      */
-    public function resetAutoIncrement(string $table): void
-    {
-        try {
-            self::db()->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
-        } catch (Exception $e) {
-            throw new DatabaseException("Error resetting the auto increment of the table $table: " . $e->getMessage());
-        }
-    }
+    private array $files = [];
 
     /**
-     * Remove all data from a table.
-     * 
-     * @param string $table
+     * Runs the seeder to populate the database.
      *
      * @return void
+     * @throws NotFoundException
+     * @throws FileException
+     * @throws DatabaseException
      */
-    public function truncate(string $table): void
+    public static function run(): void
     {
-        try {
-            self::db()->setForeignKeyChecks(false);
-            self::db()->execute("TRUNCATE TABLE $table;");
-            self::db()->execute("ALTER TABLE $table AUTO_INCREMENT = 1;");
-            self::db()->setForeignKeyChecks(true);
-        } catch (Exception $e) {
-            throw new DatabaseException("Error truncating the table $table: " . $e->getMessage());
-        }
+        $seeder = new self();
+        $seeder->crawl();
+        $seeder->execute();
     }
 
     /**
@@ -80,12 +68,35 @@ class Seeder
         if (!is_dir(self::SEEDS_PATH)) throw new NotFoundException("The seeds directory does not exist.");
 
         $files = glob(self::SEEDS_PATH . '/*.json');
+        sort($files);
 
-        foreach ($files as $file) {
+        $this->files = $files;
+    }
+
+    /**
+     * Seeds the database with data from all seed files.
+     *
+     * @return void
+     * @throws NotFoundException
+     * @throws FileException
+     * @throws DatabaseException
+     */
+    public function execute(): void
+    {
+        foreach ($this->files as $file) {
             $this->seed($file);
         }
     }
 
+    /**
+     * Seeds the database with data from a specific file.
+     *
+     * @param string $path The path to the seed file.
+     * @return void
+     * @throws NotFoundException
+     * @throws FileException
+     * @throws DatabaseException
+     */
     public function seed(string $path): void
     {
         if (!file_exists($path)) throw new NotFoundException("The file $path does not exist.");
@@ -95,22 +106,12 @@ class Seeder
             $basename = basename($path, '.json'); // basename as 0-user
             $table = explode(self::SEEDS_FILE_SEPARATOR, $basename)[1] ?? $basename;
 
-            $data = json_decode(file_get_contents($path), true);
+            $data = jsonDecode(file_get_contents($path), true);
             if (empty($data)) return;
 
-            $this->resetAutoIncrement($table);
-            $this->truncate($table);
-
-            self::db()->setForeignKeyChecks(false);
-            foreach ($data as $row) {
-                $columns = implode(', ', array_keys($row));
-                $values = implode("', '", array_map('addslashes', array_values($row)));
-                $query = "INSERT INTO $table ($columns) VALUES ('$values');";
-                self::db()->execute($query);
-            }
-            self::db()->setForeignKeyChecks(true);
-
-            Logger::success("Seeded the database with file $path.");
+            self::db()->resetAutoIncrement($table);
+            self::db()->truncate($table);
+            self::db()->bulkCreate($table, $data);
         } catch (Exception $e) {
             throw new DatabaseException("Error seeding the database with file $path: " . $e->getMessage());
         }

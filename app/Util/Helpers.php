@@ -79,6 +79,21 @@ class Helpers
     }
 
     /**
+     * A wrapper for json_decode. Remove BOM if present.
+     *
+     * @param string $json
+     * @param bool|null $associative
+     * @param int $depth
+     * @param int $flags
+     * @return mixed
+     */
+    public static function jsonDecode(string $json, ?bool $associative = null, int $depth = 512, int $flags = 0): mixed
+    {
+        $json = ltrim($json, "\xEF\xBB\xBF"); // Remove BOM if present, more info here: https://fr.wikipedia.org/wiki/Indicateur_d%27ordre_des_octets
+        return json_decode($json, $associative, $depth, $flags);
+    }
+
+    /**
      * Return a string with a limit of n characters plus a suffix.
      *
      * @param string $text

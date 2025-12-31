@@ -7,8 +7,8 @@ $filename = __DIR__ . '/.env';
 
 $_envs = [];
 
-if (!file_exists($filename)) throw new Exception("Error: .env file not found.");
-if (!is_readable($filename)) throw new Exception("Error: .env file is not readable.");
+if (!file_exists($filename)) throw new NotFoundException("Error: .env file not found.");
+if (!is_readable($filename)) throw new FileException("Error: .env file is not readable.");
 
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 

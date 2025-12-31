@@ -63,6 +63,15 @@ $post = Post::findByPk($post->id);
 dump($post);
 ```
 
+### Seeders
+
+Seeder uses JSON files to populate the database with initial data.
+
+Seeding data is located in the `seeds/` folder.
+All files are named after the table they seed with the order prefix to define the order of execution. Example: `001-users.json`, `002-posts.json`, ...
+
+Order and table name are separated by `-` character.
+
 ### Aliases
 
 You can define class aliases in `aliases.php` to simplify class references throughout your application.

@@ -239,7 +239,7 @@ abstract class Model
                 }
                 if (gettype($value) === 'array') {
                     if (is_string($value)) {
-                        $decoded = json_decode($value, true);
+                        $decoded = jsonDecode($value, true);
                         if (json_last_error() === JSON_ERROR_NONE) {
                             $this->$key = $decoded;
                             continue;

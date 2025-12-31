@@ -58,8 +58,6 @@ class Migrator
             if (empty($sql)) return; // Nothing to execute
 
             self::db()->query($sql);
-
-            Logger::info("Migrated the database with file $path");
         } catch (Exception $e) {
             throw new DatabaseException("Error migrating the database with file $path: " . $e->getMessage());
         }

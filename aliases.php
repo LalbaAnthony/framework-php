@@ -47,6 +47,13 @@ if (!function_exists('lorem')) {
     }
 }
 
+if (!function_exists('jsonDecode')) {
+    function jsonDecode(...$vars): mixed
+    {
+        return Helpers::jsonDecode(...$vars);
+    }
+}
+
 if (!function_exists('comp')) {
     function component(...$vars): void
     {

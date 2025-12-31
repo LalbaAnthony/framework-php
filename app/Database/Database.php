@@ -111,6 +111,57 @@ class Database
         $this->execute("SET FOREIGN_KEY_CHECKS = " . ($enabled ? '1' : '0'));
     }
 
+
+    /**
+     * Deletes all data from a table.
+     * 
+     * @param string $table The name of the table.
+     * @return void
+     * @throws DatabaseException
+     */
+    public function truncate(string $table, bool $fkCheck = false): void
+    {
+        if (!$fkCheck) $this->setForeignKeyChecks(false);
+
+        $this->execute("TRUNCATE TABLE `$table`");
+
+        if (!$fkCheck) $this->setForeignKeyChecks(true);
+    }
+
+    /**
+     * Resets the auto increment value of a table.
+     * 
+     * @param string $table The name of the table.
+     * @return void
+     * @throws DatabaseException
+     */
+    public function resetAutoIncrement(string $table): void
+    {
+        $this->execute("ALTER TABLE `$table` AUTO_INCREMENT = 1;");
+    }
+
+    /**
+     * Inserts multiple rows into a table.
+     * 
+     * @param string $table The name of the table.
+     * @param array $data An array of associative arrays representing the rows to insert.
+     * @return void
+     * @throws DatabaseException
+     */
+    public function bulkCreate(string $table, array $data, bool $fkCheck = false): void
+    {
+        if (!$fkCheck) $this->setForeignKeyChecks(false);
+
+        foreach ($data as $row) {
+            $columns = implode(', ', array_keys($row));
+            $values = implode("', '", array_map('addslashes', array_values($row)));
+            $query = "INSERT INTO $table ($columns) VALUES ('$values');";
+            $this->execute($query);
+        }
+
+        if (!$fkCheck) $this->setForeignKeyChecks(true);
+    }
+
     /**
      * Rebuilds the query with the parameters.
      * 

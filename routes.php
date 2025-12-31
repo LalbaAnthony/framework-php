@@ -13,8 +13,7 @@ return [
                 exit;
             }
 
-            $seeder = new Seeder();
-            $seeder->crawl();
+            Seeder::run();
             printLine("Database seeded successfully.");
         },
     ],
@@ -41,8 +40,7 @@ return [
             $migrator->crawl();
             printLine("Database migrated successfully.");
 
-            $seeder = new Seeder();
-            $seeder->crawl();
+            Seeder::run();
             printLine("Database seeded successfully.");
         },
     ],
