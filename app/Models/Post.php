@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Exceptions\ModelException;
-
 use App\Database\Model;
 
 class Post extends Model
