@@ -230,6 +230,33 @@ abstract class Model
         return $this->$primaryKey;
     }
 
+    private function parseValueByType(mixed $value, string $type): mixed
+    {
+        switch ($type) {
+            case 'boolean':
+                return ($value == '1' or $value === true) ? true : false;
+            case 'string':
+                return (string) $value;
+            case 'integer':
+                return (int) $value;
+            case 'double':
+            case 'float':
+                return (float) $value;
+            case 'array':
+                if (is_string($value)) {
+                    $decoded = jsonDecode($value, true);
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        return $decoded;
+                    }
+                }
+                return $value;
+            case 'NULL':
+                return null;
+            default:
+                throw new ModelException("Unsupported property type '$type' in " . static::class);
+        }
+    }
+
     /**
      * Fill the model's properties from an array.
      *
@@ -241,42 +268,7 @@ abstract class Model
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
-                if (gettype($value) === 'boolean') {
-                    $this->$key = ($value == '1' or $value === true) ? true : false;
-                    continue;
-                }
-                if (gettype($value) === 'string') {
-                    $this->$key = (string) $value;
-                    continue;
-                }
-                if (gettype($value) === 'integer') {
-                    $this->$key = (int) $value;
-                    continue;
-                }
-                if (gettype($value) === 'double') {
-                    $this->$key = (float) $value;
-                    continue;
-                }
-                if (gettype($value) === 'float') {
-                    $this->$key = (float) $value;
-                    continue;
-                }
-                if (gettype($value) === 'array') {
-                    if (is_string($value)) {
-                        $decoded = jsonDecode($value, true);
-                        if (json_last_error() === JSON_ERROR_NONE) {
-                            $this->$key = $decoded;
-                            continue;
-                        }
-                    }
-                    continue;
-                }
-                if (is_null($value)) {
-                    $this->$key = NULL;
-                    continue;
-                }
-
-                throw new ModelException("Unsupported property type for '$key' in " . static::class);
+                $this->$key = $this->parseValueByType($value, gettype($value));
             } else {
                 throw new ModelException("Property '$key' does not exist in " . static::class);
             }
@@ -463,10 +455,25 @@ abstract class Model
      */
     public static function findOne(array $params): ?static
     {
-        $params['perPage'] = 1;
-        [$data, $meta] = static::findAll($params);
+        $static::verifyingParams($params);
+        $static::defaultingParams($params);
 
-        return $data[0] ?? null;
+        $bindings = [];
+
+        $searchClause = static::buildSearchClause($params, $bindings);
+        $sortClause = static::buildSortClause($params);
+        $paginationClause = " LIMIT 1";
+
+        $table = static::getTableName();
+        $sqlData = "SELECT * FROM $table WHERE 1 = 1 AND ($searchClause) $sortClause $paginationClause";
+
+        $resultData = self::db()->query($sqlData, $bindings);
+
+        if ($resultData && count($resultData) > 0) {
+            return new static($resultData[0]);
+        }
+
+        return null;
     }
 
     /**
@@ -478,52 +485,119 @@ abstract class Model
      */
     public static function findAll(array $params = []): array
     {
-        // Set default values for optional parameters.
-        if (!isset($params['perPage']) || !$params['perPage']) $params['perPage'] = static::DEFAULT_PER_PAGE;
-        if (!isset($params['page']) || !$params['page']) $params['page'] = static::DEFAULT_PAGE;
-        if (!isset($params['sort']) || !$params['sort']) $params['sort'] = static::DEFAULT_SORT;
+        static::verifyingParams($params);
+        static::defaultingParams($params);
 
-        // Checking parameters validity
+        $bindings = [];
+
+        $searchClause = static::buildSearchClause($params, $bindings);
+        $sortClause = static::buildSortClause($params);
+        $paginationClause = static::buildPaginationClause($params);
+
+        $table = static::getTableName();
+        $sqlData = "SELECT * FROM $table WHERE 1 = 1 AND ($searchClause) $sortClause $paginationClause";
+        $sqlCount = "SELECT COUNT(*) as count FROM $table WHERE 1 = 1 AND ($searchClause)";
+
+        $resultData = self::db()->query($sqlData, $bindings);
+        $resultCount = self::db()->query($sqlCount, $bindings);
+
+        $totalItems = isset($resultCount[0]['count']) ? (int)$resultCount[0]['count'] : 0;
+        $lastPage = $params['perPage'] > 0 ? (int)ceil($totalItems / $params['perPage']) : 1;
+
+        return [
+            array_map(fn($row) => new static($row), $resultData),
+            [
+                'page' => (int)$params['page'],
+                'perPage' => (int)$params['perPage'],
+                'lastPage' => $lastPage,
+                'totalItems' => $totalItems,
+            ]
+        ];
+    }
+
+    /**
+     * Set default values for pagination and sorting parameters.
+     *
+     * @param array $params
+     */
+    private static function defaultingParams(array &$params): void
+    {
+        if (!isset($params['perPage']) || !$params['perPage']) {
+            $params['perPage'] = static::DEFAULT_PER_PAGE;
+        }
+
+        if (!isset($params['page']) || !$params['page']) {
+            $params['page'] = static::DEFAULT_PAGE;
+        }
+
+        if (!isset($params['sort']) || !$params['sort']) {
+            $params['sort'] = static::DEFAULT_SORT;
+        }
+    }
+
+    /**
+     * Verify and sanitize pagination and sorting parameters.
+     *
+     * @param array $params
+     */
+    private static function verifyingParams(array &$params): void
+    {
         if (isset($params['perPage'])) {
             $params['perPage'] = (int)$params['perPage'];
             if ($params['perPage'] < 1) $params['perPage'] = static::DEFAULT_PER_PAGE;
             if ($params['perPage'] > static::MAX_PER_PAGE) $params['perPage'] = static::MAX_PER_PAGE;
         }
+
         if (isset($params['page'])) {
             $params['page'] = (int)$params['page'];
             if ($params['page'] < 1) $params['page'] = static::DEFAULT_PAGE;
         }
+
         if (isset($params['sort']) && !is_array($params['sort'])) {
             $params['sort'] = static::DEFAULT_SORT;
         }
+    }
 
-        // Calculate pagination values.
-        if (isset($params['page']) && isset($params['perPage'])) {
-            $params['limit'] = (int)$params['perPage'];
-            $params['offset'] = ((int)$params['page'] - 1) * (int)$params['perPage'];
-        }
+    /**
+     * Build the search SQL clause.
+     * 
+     * @param array $params
+     * @param array $bindings
+     * @return string
+     */
+    private static function buildSearchClause(array $params, array &$bindings): string
+    {
+        $search = '';
 
-        $bindings = [];
-        $and = '';
-
-        // Build a secure search clause using placeholders.
         if (isset($params['search']) && $params['search']) {
-            $search = $params['search'];
+            $s = $params['search'];
             $searchClauseParts = [];
             foreach (static::getSearchableColumns() as $column) {
-                // Validate the column name to allow only safe characters.
                 if (preg_match('/^[a-zA-Z0-9_]+$/', $column)) {
                     $searchClauseParts[] = "$column LIKE ?";
-                    $bindings[] = "%$search%";
+                    $bindings[] = "%$s%";
                 }
             }
             if (!empty($searchClauseParts)) {
-                $and .= " AND (" . implode(" OR ", $searchClauseParts) . ")";
+                $search .= " (" . implode(" OR ", $searchClauseParts) . ")";
             }
+        } else {
+            $search .= " 1 = 1 "; // No search, always true
         }
 
-        // Build a secure sort clause by validating each sort option.
+        return $search;
+    }
+
+    /**
+     * Build the sorting SQL clause.
+     *
+     * @param array $params
+     * @return string
+     */
+    private static function buildSortClause(array $params): string
+    {
         $sort = '';
+
         if (isset($params['sort']) && $params['sort']) {
             $sortParts = [];
             foreach ($params['sort'] as $sortOption) {
@@ -539,35 +613,29 @@ abstract class Model
             }
         }
 
-        // Build pagination clause.
+        return $sort;
+    }
+
+    /**
+     * Build the pagination SQL clause.
+     *
+     * @param array $params
+     * @return string
+     */
+    private static function buildPaginationClause(array $params): string
+    {
         $pagination = '';
-        if (isset($params['limit']) && $params['limit']) {
-            $limit = (int)$params['limit'];
+
+        if (isset($params['perPage']) && $params['perPage']) {
+            $limit = (int)$params['perPage'];
             $pagination .= " LIMIT $limit";
         }
-        if (isset($params['offset']) && $params['offset']) {
-            $offset = (int)$params['offset'];
+
+        if (isset($params['page']) && $params['page'] && isset($params['perPage']) && $params['perPage']) {
+            $offset = ((int)$params['page'] - 1) * (int)$params['perPage'];
             $pagination .= " OFFSET $offset";
         }
 
-        $table = static::getTableName();
-        $sqlData = "SELECT * FROM $table WHERE 1 = 1 $and $sort $pagination";
-        $sqlCount = "SELECT COUNT(*) as count FROM $table WHERE 1 = 1 $and";
-
-        $resultsData = self::db()->query($sqlData, $bindings);
-        $resultCount = self::db()->query($sqlCount, $bindings);
-
-        $totalItems = isset($resultCount[0]['count']) ? (int)$resultCount[0]['count'] : 0;
-        $lastPage = $params['perPage'] > 0 ? (int)ceil($totalItems / $params['perPage']) : 1;
-
-        return [
-            array_map(fn($row) => new static($row), $resultsData),
-            [
-                'page' => (int)$params['page'],
-                'perPage' => (int)$params['perPage'],
-                'lastPage' => $lastPage,
-                'totalItems' => $totalItems,
-            ]
-        ];
+        return $pagination;
     }
 }
