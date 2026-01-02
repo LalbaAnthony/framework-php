@@ -226,6 +226,18 @@ class Router
     }
 
     /**
+     * Check if the method is an allowed HTML form method.
+     * 
+     * @param string $method
+     * @return string
+     */
+    public static function isMethodHtml(string $method): bool
+    {
+        $method = strtoupper($method);
+        return in_array($method, ['GET', 'POST']);
+    }
+
+    /**
      * Limit method to HTML form methods.
      * 
      * @param string $method
@@ -233,10 +245,10 @@ class Router
      */
     public static function limitMethodHtml(string $method): string
     {
-        $method = strtoupper($method);
-        if (in_array($method, ['GET', 'POST'])) {
+        if (self::isMethodHtml($method)) {
             return $method;
         }
+
         return 'POST';
     }
 
