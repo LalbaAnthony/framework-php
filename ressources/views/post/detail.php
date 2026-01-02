@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Router;
+use App\Util\Helpers;
 
 ?>
 
@@ -77,7 +78,7 @@ use App\Http\Router;
                         return [
                             'value' => $category->id,
                             'label' => $category->label,
-                            'selected' => in_array($category->id, [1, 3]), // TODO: find a way to get selected categories for the post
+                            'selected' => in_array($category->id, pluck($post->categories, 'id')),
                         ];
                     }, $categories),
                     'multiple' => true,

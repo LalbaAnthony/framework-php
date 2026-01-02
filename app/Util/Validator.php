@@ -84,7 +84,6 @@ class Validator
      */
     private static function validations(): array
     {
-        // TODO : move this somewhere else as it grows too much ?
         return [ // More frequent first for performance
             'required' => [ // Usage: required
                 'regex' => '/^required$/',

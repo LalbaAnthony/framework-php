@@ -54,6 +54,13 @@ if (!function_exists('jsonDecode')) {
     }
 }
 
+if (!function_exists('pluck')) {
+    function pluck(...$vars): array
+    {
+        return Helpers::pluck(...$vars);
+    }
+}
+
 if (!function_exists('comp')) {
     function component(...$vars): void
     {

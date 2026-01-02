@@ -123,7 +123,7 @@ final class Helpers
      * @param mixed $default
      * @return mixed
      */
-    private static function dataGetSegment(array|object $target, string $segment, mixed $default): mixed
+    private static function getSegment(array|object $target, string $segment, mixed $default): mixed
     {
         if (is_array($target) && array_key_exists($segment, $target)) {
             return $target[$segment];
@@ -134,6 +134,25 @@ final class Helpers
         }
 
         return $default;
+    }
+
+    /**
+     * Pluck a specific key's values from an array of arrays or objects.
+     *
+     * @param object|array $items
+     * @param string $key
+     * @return array
+     */
+    public static function pluck(array|object $items, string $key): array
+    {
+        $results = [];
+
+        foreach ($items as $item) {
+            $value = static::getSegment($item, $key, null);
+            if ($value !== null) $results[] = $value;
+        }
+
+        return $results;
     }
 
     /**
@@ -149,12 +168,12 @@ final class Helpers
         if (!$key || $key === '') return $target;
 
         // If no dot notation, return the single segment
-        if (!str_contains($key, '.')) return self::dataGetSegment($target, $key, $default);
+        if (!str_contains($key, '.')) return self::getSegment($target, $key, $default);
 
         // Split and process each segment
         [$segment, $remaining] = explode('.', $key, 2);
 
-        $next = self::dataGetSegment($target, $segment, null);
+        $next = self::getSegment($target, $segment, null);
 
         if (!$next) return $default;
 

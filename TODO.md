@@ -12,29 +12,28 @@
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code
 
-- [ ] Features & Improvements
-  - [ ] Routing
-    - [ ] Group routes (ex: /admin, /api, ...)
-    - [ ] CORS
-    - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
-    - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
-    - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
-  - [ ] Authentification
-  - [ ] Faire proto de liste pour admin
-    - [ ] Filters
-  - [ ] Page Edit
-    - [~] Ajouter liste des categories en multi select
-    - [ ] Faire bouton suppr dans edit
-- [ ] BDD
-  - [ ] Migration: rajout de la possibilité de ne lancer que les migrations non lancées. De manière a pouvoir faire une maj de la BDD en prod sans tout reset
-  - [ ] Implement rollbacks for migrations, seeders, models save, ...
-- [ ] File system as storage
-- [ ] Seeders
-  - [ ] Continuer et implementer faker dans les seeders
-  - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
+- [ ] Faire proto de liste pour admin
+  - [ ] Filters
+- [ ] Page Edit
+  - [~] Ajouter liste des categories en multi select
+  - [ ] Faire bouton suppr dans edit
 - [ ] Models
   - [ ] Trouver une solution pour les relations, deplacer contenu de detach, syncCategories dans Model et n'avoir qu'a instancer des methods abstractes dans les models enfants
    	- [x] hasMany, belongsToMany, ...
    	- [ ] Ajouter with pour ne pas faire plusieurs requetes si veut afficher tout les categories d'une liste de post https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
    	- [ ] Ajouter categories and retour API + arraySafe dans les relations 
   - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
+- [ ] Seeders
+  - [ ] Continuer et implementer faker dans les seeders
+  - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
+- [ ] BDD
+  - [ ] Migration: rajout de la possibilité de ne lancer que les migrations non lancées. De manière a pouvoir faire une maj de la BDD en prod sans tout reset
+  - [ ] Implement rollbacks for migrations, seeders, models save, ...
+- [ ] File system as storage
+- [ ] Routing
+  - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] CORS
+  - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
+  - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
+  - [ ] Rate limiter on API using https://chatgpt.com/share/691358e5-d3c8-8008-b367-ee61c966f481
+- [ ] Authentification
