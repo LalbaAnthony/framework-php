@@ -10,6 +10,10 @@
         <p>Go to <a class="link" href="<?= APP_URL . '/reset' ?>">reset</a> to reset the application data.</p>
     </section>
     <section>
+        <?php component('section-title', ['title' => 'Sandbox']) ?>
+        <p>Go to <a class="link" href="<?= APP_URL . '/sandbox' ?>">sandbox</a> to test code snippets.</p>
+    </section>
+    <section>
         <?php component('section-title', ['title' => 'API']) ?>
         <h4>Some of endpoints:</h4>
         <ul>
@@ -32,6 +36,13 @@
             <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'warning', 'outline' => false]) ?>
             <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'success', 'outline' => false]) ?>
             <?= component('button', ['href' => APP_URL, 'label' => 'Lorem', 'color' => 'info', 'outline' => false]) ?>
+        </div>
+    </section>
+    <section>
+        <?php component('section-title', ['title' => 'Pills']) ?>
+        <div>
+            <?= component('pill', ['href' => APP_URL, 'label' => 'Pill 1', 'color' => '#3490dc']) ?>
+            <?= component('pill', ['label' => 'Pill 2', 'color' => '#e3342f']) ?>
         </div>
     </section>
 </main>

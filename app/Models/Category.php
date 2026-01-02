@@ -9,6 +9,7 @@ class Category extends Model
     public ?int $id = null;
     public string $slug = '';
     public string $label = '';
+    public ?string $color = null;
     public ?string $updated_at = null;
     public ?string $created_at = null;
 
@@ -23,11 +24,11 @@ class Category extends Model
 
     public static function getFillableColumns(): array
     {
-        return ['id', 'slug', 'label', 'updated_at', 'created_at'];
+        return ['id', 'slug', 'label', 'color', 'updated_at', 'created_at'];
     }
 
     public static function getSearchableColumns(): array
     {
-        return ['label', 'slug'];
+        return ['label', 'slug', 'color'];
     }
 }

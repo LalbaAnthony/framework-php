@@ -1,6 +1,7 @@
 <?php
 
 use App\Util\Helpers;
+use App\View\Component;
 
 ?>
 
@@ -50,6 +51,26 @@ use App\Util\Helpers;
                     'sortable' => 'content',
                     'value' => function ($row) {
                         return Helpers::stringLimit(dataGet($row, 'content'), 15);
+                    }
+                ],
+                [
+                    'name' => 'Categories',
+                    'value' => function ($row) {
+                        $categories = $row->categories;
+                        if (is_array($categories) && count($categories) > 0) {
+                            $content = '';
+                            $content .= '<div style="display: flex; gap: 4px; flex-wrap: wrap;">';
+                            foreach ($categories as $category) {
+                                $content .= Component::get('pill', [
+                                    'label' => $category->label,
+                                    'color' => $category->color,
+                                ]);
+                            }
+                            $content .= '</div>';
+                            return $content;
+                        } else {
+                            return '<div style="color: var(--gray);">No categories</div>';
+                        }
                     }
                 ],
                 [

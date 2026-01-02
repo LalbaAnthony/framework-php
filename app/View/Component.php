@@ -196,6 +196,46 @@ class Component
     }
 
     /**
+     * Renders the component and returns its output as a string.
+     * 
+     * @return string The rendered component output.
+     */
+    public function render(): string
+    {
+        $output = '';
+
+        try {
+            $output .= $this->renderPhp();
+            $output .= $this->renderInclud($this->cssPath, 'css');
+            $output .= $this->renderInclud($this->jsPath, 'js');
+            $output .= $this->renderInclud($this->htmlPath, 'html');
+        } catch (Exception $e) {
+            throw new ComponentException("Error rendering component '" . $this->name . "': " . $e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Static helper method to quickly get the rendered component output.
+     *
+     * @param string $name  The component name.
+     * @param array  $props Associative array of properties.
+     * @param array  $params Associative array of component parameters.
+     *
+     * @throws NotFoundException If the component file is not found or is not readable.
+     */
+    public static function get(string $name, array $props = [], array $params = []): string
+    {
+        if (!$name || empty($name)) {
+            throw new ComponentException("Component name is required for get.", 400);
+        }
+
+        $component = new self($name, $props, $params);
+        return $component->render();
+    }
+
+    /**
      * Static helper method to quickly render a component.
      *
      * @param string $name  The component name.
@@ -211,17 +251,6 @@ class Component
         }
 
         $component = new self($name, $props, $params);
-
-        try {
-            $content = '';
-            $content .= $component->renderPhp();
-            $content .= $component->renderInclud($component->cssPath, 'css');
-            $content .= $component->renderInclud($component->jsPath, 'js');
-            $content .= $component->renderInclud($component->htmlPath, 'html');
-
-            echo $content;
-        } catch (Exception $e) {
-            throw new ComponentException("Error rendering component '" . $name . "': " . $e->getMessage(), $e->getCode(), $e);
-        }
+        echo $component->render();
     }
 }

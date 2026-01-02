@@ -12,6 +12,7 @@ return new class extends Migration
             `id` INT AUTO_INCREMENT NOT NULL UNIQUE,
             `slug` VARCHAR(50) NOT NULL,
             `label` VARCHAR(50) NOT NULL,
+            `color` VARCHAR(7) DEFAULT NULL,
             `updated_at` DATETIME,
             `created_at` DATETIME NOT NULL DEFAULT NOW(),
             CONSTRAINT `category_PK` PRIMARY KEY (`id`)

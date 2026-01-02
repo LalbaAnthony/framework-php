@@ -2,16 +2,19 @@
     {
         "id": 1,
         "slug": "category-a",
-        "label": "Category A"
+        "label": "Category A",
+        "color": "#ff5733"
     },
     {
         "id": 2,
         "slug": "category-b",
-        "label": "Category B"
+        "label": "Category B",
+        "color": "#33c3ff"
     },
     {
         "id": 3,
         "slug": "category-c",
-        "label": "Category C"
+        "label": "Category C",
+        "color": "#e3342f"
     }
 ]

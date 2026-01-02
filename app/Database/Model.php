@@ -313,7 +313,9 @@ abstract class Model
         $value = $this->$localKey;
         $table = $relatedClass::getTableName();
 
-        $sql = "SELECT * FROM $table WHERE $foreignKey = ? LIMIT 1";
+        $sql = <<<SQL
+            SELECT * FROM $table WHERE $foreignKey = ? LIMIT 1
+        SQL;
 
         $result = self::db()->query($sql, [$value]);
 
@@ -332,7 +334,9 @@ abstract class Model
         $value = $this->$localKey;
         $table = $relatedClass::getTableName();
 
-        $sql = "SELECT * FROM $table WHERE $foreignKey = ?";
+        $sql = <<<SQL
+            SELECT * FROM $table WHERE $foreignKey = ?
+        SQL;
 
         $rows = self::db()->query($sql, [$value]);
 
@@ -345,9 +349,11 @@ abstract class Model
     protected function belongsTo($relatedClass, $foreignKey, $ownerKey)
     {
         $value = $this->$foreignKey;
-
         $table = $relatedClass::getTableName();
-        $sql = "SELECT * FROM $table WHERE $ownerKey = ? LIMIT 1";
+
+        $sql = <<<SQL
+            SELECT * FROM $table WHERE $ownerKey = ? LIMIT 1
+        SQL;
 
         $result = self::db()->query($sql, [$value]);
 

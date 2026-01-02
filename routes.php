@@ -31,13 +31,21 @@ return [
             }
         },
     ],
-    // Views
+    // Tests
+    '/sandbox' => [
+        'GET'  => function () {
+            if (APP_ENV == 'development') {
+                require_once __DIR__ . '/public/sandbox.php';
+            }
+        },
+    ],
     '/hello' => [ // Example route with a closure
         'GET'  => function ($request) {
             $name = $request->params['name'] ?? 'Guest';
             echo "Hello $name!";
         },
     ],
+    // Views
     '/' => [
         'GET'  => new Route('View\\HomeController@index'),
     ],
