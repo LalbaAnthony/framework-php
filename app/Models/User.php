@@ -5,17 +5,14 @@ namespace App\Models;
 use App\Util\Helpers;
 use App\Database\Model;
 
-/**
- * The User model represents a record in the "user" table.
- */
 class User extends Model
 {
-    public int $id = null;
+    public ?int $id = null;
     public string $name = '';
     public string $birthdate = '';
-    public string $token = '';
+    public ?string $token = '';
     public string $password = '';
-    public string $last_login = '';
+    public ?string $last_login = '';
     public bool $is_admin = false;
     public ?string $updated_at = null;
     public ?string $created_at = null;

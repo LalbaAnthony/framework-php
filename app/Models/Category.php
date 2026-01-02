@@ -4,9 +4,6 @@ namespace App\Models;
 
 use App\Database\Model;
 
-/**
- * The Category model represents a record in the "category" table.
- */
 class Category extends Model
 {
     public ?int $id = null;
@@ -14,6 +11,10 @@ class Category extends Model
     public string $label = '';
     public ?string $updated_at = null;
     public ?string $created_at = null;
+
+    protected static array $belongsToMany = [
+        'posts' => [Post::class, 'post_category', 'category_id', 'post_id'],
+    ];
 
     public static function getTableName(): string
     {

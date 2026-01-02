@@ -34,5 +34,7 @@
   - [ ] Rajouter possibilité d'instancier le seeder avec des fonctions pour map des valeurs (ex: date actuelle, hash de mot de passe, ...)
 - [ ] Models
   - [ ] Trouver une solution pour les relations, deplacer contenu de detach, syncCategories dans Model et n'avoir qu'a instancer des methods abstractes dans les models enfants
-   	- [ ] https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
+   	- [x] hasMany, belongsToMany, ...
+   	- [ ] Ajouter with pour ne pas faire plusieurs requetes si veut afficher tout les categories d'une liste de post https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
+   	- [ ] Ajouter categories and retour API + arraySafe dans les relations 
   - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable

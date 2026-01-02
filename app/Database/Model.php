@@ -70,6 +70,7 @@ abstract class Model
      * Get the columns that are mass assignable.
      * 
      * Override this in child classes to specify fillable columns.
+     * Used in toArray and fill methods. Could not use reflection since not all class properties are database columns.
      * 
      * @return array
      */
@@ -276,6 +277,110 @@ abstract class Model
     }
 
     /**
+     * Magic getter: if $name matches a declared relation, load it.
+     */
+    public function __get(string $name)
+    {
+        if (isset(static::$hasOne[$name])) {
+            [$relatedClass, $foreignKey, $localKey] = static::$hasOne[$name];
+            return $this->hasOne($relatedClass, $foreignKey, $localKey);
+        }
+
+        if (isset(static::$hasMany[$name])) {
+            [$relatedClass, $foreignKey, $localKey] = static::$hasMany[$name];
+            return $this->hasMany($relatedClass, $foreignKey, $localKey);
+        }
+
+        if (isset(static::$belongsTo[$name])) {
+            [$relatedClass, $foreignKey, $ownerKey] = static::$belongsTo[$name];
+            return $this->belongsTo($relatedClass, $foreignKey, $ownerKey);
+        }
+
+        if (isset(static::$belongsToMany[$name])) {
+            [$relatedClass, $pivot, $pivotFk, $pivotRelatedKey] = static::$belongsToMany[$name];
+            return $this->belongsToMany($relatedClass, $pivot, $pivotFk, $pivotRelatedKey);
+        }
+
+        // fallback to real property or null
+        return $this->$name ?? null;
+    }
+
+    /**
+     * One-to-One relationship loader.
+     */
+    protected function hasOne($relatedClass, $foreignKey, $localKey)
+    {
+        $value = $this->$localKey;
+        $table = $relatedClass::getTableName();
+
+        $sql = "SELECT * FROM $table WHERE $foreignKey = ? LIMIT 1";
+
+        $result = self::db()->query($sql, [$value]);
+
+        if ($result && count($result) > 0) {
+            return new $relatedClass($result[0]);
+        }
+
+        return null;
+    }
+
+    /**
+     * One-to-Many relationship loader.
+     */
+    protected function hasMany($relatedClass, $foreignKey, $localKey)
+    {
+        $value = $this->$localKey;
+        $table = $relatedClass::getTableName();
+
+        $sql = "SELECT * FROM $table WHERE $foreignKey = ?";
+
+        $rows = self::db()->query($sql, [$value]);
+
+        return array_map(fn($row) => new $relatedClass($row), $rows);
+    }
+
+    /**
+     * One-to-One relationship loader.
+     */
+    protected function belongsTo($relatedClass, $foreignKey, $ownerKey)
+    {
+        $value = $this->$foreignKey;
+
+        $table = $relatedClass::getTableName();
+        $sql = "SELECT * FROM $table WHERE $ownerKey = ? LIMIT 1";
+
+        $result = self::db()->query($sql, [$value]);
+
+        if ($result && count($result) > 0) {
+            return new $relatedClass($result[0]);
+        }
+
+        return null;
+    }
+
+    /**
+     * Many-to-Many relationship loader.
+     */
+    protected function belongsToMany($relatedClass, $pivotTable, $pivotFk, $pivotRelatedKey)
+    {
+        $primaryKey    = static::getPrimaryKey();
+        $ownKeyValue   = $this->$primaryKey;
+        $relatedTable  = $relatedClass::getTableName();
+        $relatedPk     = $relatedClass::getPrimaryKey();
+
+        $sql = <<<SQL
+            SELECT r.* 
+            FROM {$relatedTable} r 
+            JOIN {$pivotTable} p ON r.{$relatedPk} = p.{$pivotRelatedKey}
+            WHERE p.{$pivotFk} = ?
+        SQL;
+
+        $rows = self::db()->query($sql, [$ownKeyValue]);
+
+        return array_map(fn($row) => new $relatedClass($row), $rows);
+    }
+
+    /**
      * Create a new record in the database.
      * 
      * Sets the primary key of the model upon successful insertion.
@@ -455,8 +560,8 @@ abstract class Model
      */
     public static function findOne(array $params): ?static
     {
-        $static::verifyingParams($params);
-        $static::defaultingParams($params);
+        static::verifyingParams($params);
+        static::defaultingParams($params);
 
         $bindings = [];
 

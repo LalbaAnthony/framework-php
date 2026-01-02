@@ -6,9 +6,6 @@ use App\Exceptions\ModelException;
 
 use App\Database\Model;
 
-/**
- * The Post model represents a record in the "post" table.
- */
 class Post extends Model
 {
     public ?int $id = null;
@@ -21,12 +18,13 @@ class Post extends Model
     public ?string $updated_at = null;
     public ?string $created_at = null;
 
-    /**
-     * A collection of Category objects associated with this post.
-     *
-     * @var Category[]
-     */
-    protected array $categories = [];
+    protected static array $belongsToMany = [
+        'categories' => [Category::class, 'post_category', 'post_id', 'category_id'],
+    ];
+
+    protected static array $belongsTo = [
+        'user' => [User::class, 'user_id', 'id'],
+    ];
 
     public static function getTableName(): string
     {
@@ -46,107 +44,5 @@ class Post extends Model
     public static function getSensitiveColumns(): array
     {
         return ['id', 'user_id', 'created_at', 'updated_at', 'published'];
-    }
-
-    /**
-     * Returns the collection of categories for this post.
-     * If not loaded yet, it lazy-loads them from the database.
-     *
-     * @return Category[]
-     * @throws ModelException
-     */
-    public function loadCategories(): array
-    {
-        if ($this->id === null) throw new ModelException("Post must be saved before loading categories.");
-
-        $sql = "SELECT c.* FROM category c 
-                INNER JOIN post_category qc ON c.id = qc.category_id
-                WHERE qc.post_id = ?";
-        $results = self::db()->query($sql, [$this->id]);
-        $this->categories = array_map(fn($row) => new Category($row), $results);
-        return $this->categories;
-    }
-
-    /**
-     * Attaches a Category to this post.
-     * Inserts a record into the pivot table (post_category).
-     *
-     * @param Category $category
-     * @return bool True if successful.
-     * @throws ModelException
-     */
-    public function attachCategory(Category $category): bool
-    {
-        if ($this->id === null) throw new ModelException("Post must be saved before attaching categories.");
-        if ($category->id === null) throw new ModelException("Category must be saved before attaching.");
-
-        // Optional: Check if the association already exists.
-        $sqlCheck = "SELECT * FROM post_category WHERE post_id = ? AND category_id = ?";
-        $existing = self::db()->query($sqlCheck, [$this->id, $category->id]);
-        if (!empty($existing)) {
-            return true; // Already attached.
-        }
-
-        $sql = "INSERT INTO post_category (post_id, category_id) VALUES (?, ?)";
-        $result = self::db()->execute($sql, [$this->id, $category->id]);
-        if ($result) {
-            // Update local collection if already loaded.
-            $this->categories[] = $category;
-        }
-        return $result;
-    }
-
-    /**
-     * Detaches a Category from this post.
-     * Deletes the record from the pivot table (post_category).
-     *
-     * @param Category $category
-     * @return bool True if successful.
-     * @throws ModelException
-     */
-    public function detachCategory(Category $category): bool
-    {
-        if ($this->id === null) throw new ModelException("Post must be saved before detaching categories.");
-        if ($category->id === null) throw new ModelException("Category must be saved before detaching.");
-
-        $sql = "DELETE FROM post_category WHERE post_id = ? AND category_id = ?";
-        $result = self::db()->execute($sql, [$this->id, $category->id]);
-
-        // Optionally update the local categories collection.
-        $this->categories = array_filter($this->categories, fn($cat) => $cat->id !== $category->id);
-        return $result;
-    }
-
-    /**
-     * Syncs the categories for this post.
-     * Removes all existing category associations and attaches the provided ones.
-     *
-     * @param Category[] $categories
-     * @return bool True if successful.
-     * @throws ModelException
-     */
-    public function syncCategories(array $categories): bool
-    {
-        if ($this->id === null) {
-            throw new ModelException("Post must be saved before syncing categories.");
-        }
-
-        // Remove all existing associations.
-        $sqlDelete = "DELETE FROM post_category WHERE post_id = ?";
-        $result = self::db()->execute($sqlDelete, [$this->id]);
-        if (!$result) {
-            return false;
-        }
-
-        // Attach new categories.
-        foreach ($categories as $category) {
-            if (!$this->attachCategory($category)) {
-                return false;
-            }
-        }
-
-        // Update local collection.
-        $this->categories = $categories;
-        return true;
     }
 }

@@ -5,6 +5,7 @@
         "slug": "mon-premier-post",
         "title": "Mon premier post",
         "content": "Ceci est mon premier post",
+        "user_id": 1,
         "published": true
     },
     {

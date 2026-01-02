@@ -40,7 +40,7 @@ final class Helpers
         $bt = debug_backtrace();
         $caller = array_shift($bt);
 
-        echo "<div style='background-color: #eee; padding: 10px; border-radius: 1rem; border: 1px solid #bbb;'>";
+        echo "<div style='background-color: #eee; padding: 10px; margin: 10px; border-radius: 1rem; border: 1px solid #bbb;'>";
         echo "<p><strong>" . $caller['file'] . ":" . $caller['line'] . "</strong></p>";
         echo "<pre>";
         foreach ($args as $arg) {
