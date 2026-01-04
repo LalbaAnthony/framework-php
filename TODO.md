@@ -12,6 +12,12 @@
 - [ ] Faire PHP doc sur classes et méthodes
 - [ ] Traiter TODO et WIP du code
 
+- [ ] Trouver nom 
+  - [ ] Le mettre partout dans le code
+  - [ ] Rajouter numéro de version dans le code en plus du site
+  - [ ] Faire auto patch dans pipe git
+  - [ ] Reclone le repo sur tout les PC
+
 - [ ] Faire proto de liste pour admin
   - [ ] Filters
 - [ ] Page Edit
