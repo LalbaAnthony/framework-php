@@ -281,7 +281,32 @@ abstract class Model
      */
     public function __call(string $name, array $arguments)
     {
-        // TODO: Implement dynamic method calls for relations     
+        if (preg_match('/^save([A-Z][a-zA-Z0-9_]*)$/', $name, $match)) { // Check if method name matches save{Relation} pattern
+            $relationName = lcfirst($match[1]);
+            $data = $arguments[0] ?? null;
+
+            if (isset(static::$hasOne[$relationName])) {
+                [$relatedClass, $foreignKey, $localKey] = static::$hasOne[$relationName];
+                return $this->saveHasOne($relatedClass, $foreignKey, $localKey, $data);
+            }
+
+            if (isset(static::$hasMany[$relationName])) {
+                [$relatedClass, $foreignKey, $localKey] = static::$hasMany[$relationName];
+                return $this->saveHasMany($relatedClass, $foreignKey, $localKey, $data);
+            }
+
+            if (isset(static::$belongsTo[$relationName])) {
+                [$relatedClass, $foreignKey, $ownerKey] = static::$belongsTo[$relationName];
+                return $this->saveBelongsTo($relatedClass, $foreignKey, $ownerKey, $data);
+            }
+
+            if (isset(static::$belongsToMany[$relationName])) {
+                [$relatedClass, $pivot, $pivotFk, $pivotRelatedKey] = static::$belongsToMany[$relationName];
+                return $this->saveBelongsToMany($relatedClass, $pivot, $pivotFk, $pivotRelatedKey, $data);
+            }
+
+            throw new ModelException("Relation '$relationName' not defined in " . static::class);
+        }
     }
 
     /**
@@ -291,22 +316,22 @@ abstract class Model
     {
         if (isset(static::$hasOne[$name])) {
             [$relatedClass, $foreignKey, $localKey] = static::$hasOne[$name];
-            return $this->hasOne($relatedClass, $foreignKey, $localKey);
+            return $this->getHasOne($relatedClass, $foreignKey, $localKey);
         }
 
         if (isset(static::$hasMany[$name])) {
             [$relatedClass, $foreignKey, $localKey] = static::$hasMany[$name];
-            return $this->hasMany($relatedClass, $foreignKey, $localKey);
+            return $this->getHasMany($relatedClass, $foreignKey, $localKey);
         }
 
         if (isset(static::$belongsTo[$name])) {
             [$relatedClass, $foreignKey, $ownerKey] = static::$belongsTo[$name];
-            return $this->belongsTo($relatedClass, $foreignKey, $ownerKey);
+            return $this->getBelongsTo($relatedClass, $foreignKey, $ownerKey);
         }
 
         if (isset(static::$belongsToMany[$name])) {
             [$relatedClass, $pivot, $pivotFk, $pivotRelatedKey] = static::$belongsToMany[$name];
-            return $this->belongsToMany($relatedClass, $pivot, $pivotFk, $pivotRelatedKey);
+            return $this->getBelongsToMany($relatedClass, $pivot, $pivotFk, $pivotRelatedKey);
         }
 
         // fallback to real property or null
@@ -316,16 +341,12 @@ abstract class Model
     /**
      * One-to-One relationship loader.
      */
-    protected function hasOne($relatedClass, $foreignKey, $localKey)
+    protected function getHasOne($relatedClass, $foreignKey, $localKey)
     {
         $value = $this->$localKey;
         $table = $relatedClass::getTableName();
 
-        $sql = <<<SQL
-            SELECT * FROM $table WHERE $foreignKey = ? LIMIT 1
-        SQL;
-
-        $result = self::db()->query($sql, [$value]);
+        $result = self::db()->query("SELECT * FROM {$table} WHERE {$foreignKey} = ? LIMIT 1", [$value]);
 
         if ($result && count($result) > 0) {
             return new $relatedClass($result[0]);
@@ -335,35 +356,97 @@ abstract class Model
     }
 
     /**
+     * One-to-One relationship setter.
+     */
+    protected function saveHasOne($relatedClass, $foreignKey, $localKey, $relatedId)
+    {
+        if (!$this->$localKey) {
+            throw new ModelException("Model must be saved before setting hasOne relation");
+        }
+
+        if ($relatedId === null) {
+            // Unset relation
+            self::db()->execute(
+                "UPDATE {$relatedClass::getTableName()} SET {$foreignKey} = NULL WHERE {$foreignKey} = ?",
+                [$this->$localKey]
+            );
+            return null;
+        }
+
+        if (!is_scalar($relatedId)) {
+            throw new ModelException("HasOne setter expects a primary key");
+        }
+
+        self::db()->execute(
+            "UPDATE {$relatedClass::getTableName()} SET {$foreignKey} = ? WHERE {$relatedClass::getPrimaryKey()} = ?",
+            [$this->$localKey, $relatedId]
+        );
+
+        return $relatedId;
+    }
+
+
+    /**
      * One-to-Many relationship loader.
      */
-    protected function hasMany($relatedClass, $foreignKey, $localKey)
+    protected function getHasMany($relatedClass, $foreignKey, $localKey)
     {
         $value = $this->$localKey;
         $table = $relatedClass::getTableName();
 
-        $sql = <<<SQL
-            SELECT * FROM $table WHERE $foreignKey = ?
-        SQL;
-
-        $rows = self::db()->query($sql, [$value]);
+        $rows = self::db()->query("SELECT * FROM {$table} WHERE {$foreignKey} = ?", [$value]);
 
         return array_map(fn($row) => new $relatedClass($row), $rows);
     }
 
     /**
+     * One-to-Many relationship setter.
+     */
+    protected function saveHasMany($relatedClass, $foreignKey, $localKey, array $relatedIds)
+    {
+        if (!$this->$localKey) {
+            throw new ModelException("Model must be saved before setting hasMany relation");
+        }
+
+        foreach ($relatedIds as $id) {
+            if (!is_scalar($id)) {
+                throw new ModelException("HasMany setter expects an array of primary keys");
+            }
+        }
+
+        // Clear previous relations
+        self::db()->execute(
+            "UPDATE {$relatedClass::getTableName()} SET {$foreignKey} = NULL WHERE {$foreignKey} = ?",
+            [$this->$localKey]
+        );
+
+        if (empty($relatedIds)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($relatedIds), '?'));
+        $params = array_merge([$this->$localKey], $relatedIds);
+
+        self::db()->execute(
+            "UPDATE {$relatedClass::getTableName()} 
+            SET {$foreignKey} = ? 
+            WHERE {$relatedClass::getPrimaryKey()} IN ($placeholders)",
+            $params
+        );
+
+        return $relatedIds;
+    }
+
+
+    /**
      * One-to-One relationship loader.
      */
-    protected function belongsTo($relatedClass, $foreignKey, $ownerKey)
+    protected function getBelongsTo($relatedClass, $foreignKey, $ownerKey)
     {
         $value = $this->$foreignKey;
         $table = $relatedClass::getTableName();
 
-        $sql = <<<SQL
-            SELECT * FROM $table WHERE $ownerKey = ? LIMIT 1
-        SQL;
-
-        $result = self::db()->query($sql, [$value]);
+        $result = self::db()->query("SELECT * FROM {$table} WHERE {$ownerKey} = ? LIMIT 1", [$value]);
 
         if ($result && count($result) > 0) {
             return new $relatedClass($result[0]);
@@ -373,26 +456,83 @@ abstract class Model
     }
 
     /**
+     * One-to-One relationship setter.
+     */
+    protected function saveBelongsTo($relatedClass, $foreignKey, $ownerKey, $relatedId)
+    {
+        if ($relatedId !== null && !is_scalar($relatedId)) {
+            throw new ModelException("BelongsTo setter expects a primary key");
+        }
+
+        $this->$foreignKey = $relatedId;
+        $this->save(false);
+
+        return $relatedId;
+    }
+
+
+    /**
      * Many-to-Many relationship loader.
      */
-    protected function belongsToMany($relatedClass, $pivotTable, $pivotFk, $pivotRelatedKey)
+    protected function getBelongsToMany($relatedClass, $pivotTable, $pivotFk, $pivotRelatedKey)
     {
         $primaryKey    = static::getPrimaryKey();
         $ownKeyValue   = $this->$primaryKey;
         $relatedTable  = $relatedClass::getTableName();
         $relatedPk     = $relatedClass::getPrimaryKey();
 
-        $sql = <<<SQL
-            SELECT r.* 
+        $rows = self::db()->query("SELECT r.* 
             FROM {$relatedTable} r 
             JOIN {$pivotTable} p ON r.{$relatedPk} = p.{$pivotRelatedKey}
-            WHERE p.{$pivotFk} = ?
-        SQL;
-
-        $rows = self::db()->query($sql, [$ownKeyValue]);
+            WHERE p.{$pivotFk} = ?", [$ownKeyValue]);
 
         return array_map(fn($row) => new $relatedClass($row), $rows);
     }
+
+    /**
+     * Many-to-Many relationship setter.
+     */
+    protected function saveBelongsToMany($relatedClass, $pivotTable, $pivotFk, $pivotRelatedKey, array $relatedIds)
+    {
+        $primaryKey = static::getPrimaryKey();
+        $ownId = $this->$primaryKey;
+
+        if (!$ownId) {
+            throw new ModelException("Model must be saved before setting belongsToMany relation");
+        }
+
+        foreach ($relatedIds as $id) {
+            if (!is_scalar($id)) {
+                throw new ModelException("BelongsToMany setter expects an array of primary keys");
+            }
+        }
+
+        // Clear pivot
+        self::db()->execute(
+            "DELETE FROM {$pivotTable} WHERE {$pivotFk} = ?",
+            [$ownId]
+        );
+
+        if (empty($relatedIds)) {
+            return [];
+        }
+
+        $sql = "INSERT INTO {$pivotTable} ({$pivotFk}, {$pivotRelatedKey}) VALUES ";
+        $values = [];
+        $params = [];
+
+        foreach ($relatedIds as $id) {
+            $values[] = "(?, ?)";
+            $params[] = $ownId;
+            $params[] = $id;
+        }
+
+        $sql .= implode(', ', $values);
+        self::db()->execute($sql, $params);
+
+        return $relatedIds;
+    }
+
 
     /**
      * Create a new record in the database.

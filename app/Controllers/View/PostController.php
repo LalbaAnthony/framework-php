@@ -79,9 +79,8 @@ class PostController extends Controller
             return;
         }
 
+        $post->saveCategories($request->body['categories'] ?? []);
         $post->save();
-
-        // TODO: save categories here
 
         $this->redirect('/posts', ['updated' => true]);
     }

@@ -17,15 +17,11 @@
 
 - [ ] Faire proto de liste pour admin
   - [ ] Filters
-- [ ] Page Edit
-  - [~] Ajouter liste des categories en multi select
-  - [ ] Faire bouton suppr dans edit
+- [ ] Faire bouton suppr dans page edit de post
 - [ ] Models
   - [ ] Trouver une solution pour les relations, deplacer contenu de detach, syncCategories dans Model et n'avoir qu'a instancer des methods abstractes dans les models enfants
-   	- [x] hasMany, belongsToMany, ...
    	- [ ] Ajouter with pour ne pas faire plusieurs requetes si veut afficher tout les categories d'une liste de post https://chatgpt.com/share/6818c1bb-7840-8008-b1b2-ec812f1e880a
    	- [ ] Ajouter categories dans retour API + arraySafe dans les relations
-   	- [ ] Ajouter save des categories dans le save du model
   - [ ] Faire search comme le trait de laravel https://github.com/nicolaslopezj/searchable
 - [ ] Seeders
   - [~] Faker

@@ -1,7 +1,8 @@
 div.pill {
+    white-space: nowrap;
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.5rem;
     border-radius: 9999px;
     color: #fff;
     font-size: 0.875rem;
