@@ -69,7 +69,7 @@ use App\View\Component;
                             $content .= '</div>';
                             return $content;
                         } else {
-                            return '<div style="color: var(--gray);">No categories</div>';
+                            return '<div style="color: var(--gray);">N/A</div>';
                         }
                     }
                 ],

@@ -12,7 +12,7 @@ use Exception;
 final class Faker
 {
     public const DATA = [
-        'email_domains' => ['example.com', 'test.com', 'demo.com', 'sample.com'],
+        'email_domains' => ['example.com', 'test.com', 'demo.com', 'sample.com', 'mail.com'],
         'passwords' => ['password', '123456', 'qwerty', 'letmein', 'welcome', 'admin123'],
         'first_names' => ['John', 'Jane', 'Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank'],
         'last_names' => ['Doe', 'Smith', 'Johnson', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore'],
@@ -75,7 +75,7 @@ final class Faker
      * @param int $end The end year.
      * @return string
      */
-    public static function date(string $format = 'Y-m-d', int $start = 1970, int $end = 2023): string
+    public static function date(string $format = 'Y-m-d', int $start = 1923, int $end = 2023): string
     {
         $timestamp = mt_rand(strtotime("$start-01-01"), strtotime("$end-12-31"));
         return date($format, $timestamp);

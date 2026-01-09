@@ -67,11 +67,12 @@ class PostController extends Controller
             "published" => "boolean",
         ]);
 
+
         $post->slug = $request->body['slug'];
         $post->title = $request->body['title'];
         $post->content = $request->body['content'];
         $post->date = $request->body['date'];
-        $post->published = $request->body['published'] ?? false;
+        $post->published = isset($request->body['published']) ? true : false;
 
         if ($validator->hasErrors()) {
             $this->view('post/detail', ['post' => $post, 'errors' => $validator->errors]);

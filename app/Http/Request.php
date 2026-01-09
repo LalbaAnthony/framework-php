@@ -42,6 +42,7 @@ class Request
             return $method;
         }
 
+        // Otherwise, return the actual HTTP method
         return $_SERVER['REQUEST_METHOD'];
     }
 

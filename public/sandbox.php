@@ -4,11 +4,13 @@ use App\Models\Post;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-$posts = Post::findAll()[0];
+$post = Post::findByPk(1);
+dump($post);
 
-foreach ($posts as $post) {
-    printLine($post->title);
-    foreach ($post->categories as $category) {
-        printLine(' - ' . $category->label);
-    }
-}
+$post->title = "Updated Title";
+$post->setCategories([2, 3]); // Assuming categories with IDs 2 and 3 exist
+$post->save();
+dump($post);
+
+$post = Post::findByPk(1);
+dump($post);

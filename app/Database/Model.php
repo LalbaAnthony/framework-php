@@ -277,6 +277,14 @@ abstract class Model
     }
 
     /**
+     * Magic caller: handle dynamic method calls for relations.
+     */
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement dynamic method calls for relations     
+    }
+
+    /**
      * Magic getter: if $name matches a declared relation, load it.
      */
     public function __get(string $name)
