@@ -32,7 +32,7 @@
   - [ ] Implement rollbacks for migrations, seeders, models save, ...
 - [ ] File system as storage
 - [ ] Routing
-  - [ ] Group routes (ex: /admin, /api, ...)
+  - [ ] Group routes (ex: /admin, /api, ...) en creant des sous tableaux incrementaux dans le tableau de routes
   - [ ] CORS
   - [ ] Refaire syst de hook pour appeler des composants dans les vues (genre header, footer, ...)
   - [ ] Faire layout/middleware par groupe de route: mettre header et footer des pages admins
